@@ -1,0 +1,37 @@
+body {
+  margin: 0; /* Remove default body margin */
+  font-family: Arial, sans-serif; /* Font family */
+}
+
+.bodyy{
+  background-color: rgb(12, 182, 125);
+}
+/* Navbar styling */
+.navbar {
+  z-index: 1030; /* Ensure navbar is on top */
+}
+
+/* Fixed Heading Below Navbar */
+.header {
+  background-color: #343a40; /* Dark background for the header */
+  margin-top: 56px; /* Space for fixed navbar */
+  z-index: 1020; /* Ensure header is below navbar */
+}
+
+/* Content area */
+.content {
+  padding: 20px; /* Padding around the content */
+  background-color: #a2b5c7; /* Light background for content area */
+  min-height: calc(100vh - 112px); /* Ensure content area takes full height minus navbar and header */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+    z-index: 1030; /* Adjust navbar padding for smaller devices */
+  }
+  .header {
+    padding: 0.5rem; /* Adjust header padding for smaller devices */
+  }
+}
