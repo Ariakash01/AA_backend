@@ -6,8 +6,10 @@ const {
     getMarksheetById,
     deleteMarksheet,
     updateMarksheet,
-    getAllMarksheets,
+    getAllMarksheets,getMarksheetss, updateMarksheetss
 } = require('../controllers/marksheetController');
+const marksheetsController = require('../controllers/marksheetController');
+
 const protect = require('../middlewares/authMiddleware');
 
 const router = express.Router();
@@ -29,6 +31,17 @@ router.put('/:id', updateMarksheet);
 
 // DELETE /api/marksheets/:id
 router.delete('/:id', deleteMarksheet);
+
+
+
+
+
+
+router.put('/:templateId/students', marksheetsController.updateStudentMarks);
+
+// Route to update multiple students' marks in a marksheet
+router.put('/app/:templateId', marksheetsController.updateMarks);
+
 
 
 

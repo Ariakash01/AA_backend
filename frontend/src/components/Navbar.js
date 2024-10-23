@@ -58,6 +58,7 @@ const NavbarComponent = ({ user, handleLogout }) => {
                                         </NavDropdown.Item>
                                     ))}
                                 </NavDropdown>
+                                <Nav.Link as={Link} to="/marks">Table</Nav.Link>
                                 <NavDropdown title="Marksheets" id="marksheets-nav-dropdown">
                                     {templates.map(template => (
                                         <NavDropdown.Item key={template._id} as={Link} to={'/marksheets'}>

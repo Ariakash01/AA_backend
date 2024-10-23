@@ -148,8 +148,8 @@ const Marksheet = () => {
                             <p>Department: {marksheet.department || 'Dummy Department'}</p>
                             <p>Test Name: {marksheet.testName || 'Dummy Test'}, Year: {marksheet.year || 'Dummy Year'}, Odd/Even: {marksheet.oddEven || 'Dummy'}</p>
                             <p>Semester: {marksheet.sem || 'Dummy Sem'}, Date: {marksheet.date ? new Date(marksheet.date).toLocaleDateString() : 'Dummy Date'}</p>
-                            <p>Roll No: {marksheet.rollNo || 'Dummy Roll No'}</p>
-                            <p>Name: {marksheet.name || 'Dummy Name'}</p>
+                            <p>Roll No: {marksheet.rollno || 'Dummy Roll No'}</p>
+                            <p>Name: {marksheet.stu_name || 'Dummy Name'}</p>
                             <p>Year & Sem: {marksheet.year}, {marksheet.sem}</p>
                         </Card.Text>
                         <BootstrapTable striped bordered hover>
@@ -170,12 +170,18 @@ const Marksheet = () => {
                                         <td>{subject.code || 'Dummy Code'}</td>
                                         <td>{subject.totalMark || 100}</td>
                                         <td>{subject.passingMark || 50}</td>
-                                        <td>{subject.scoredMark || 0}</td>
-                                        <td>{(subject.scoredMark >= subject.passingMark) ? 'Pass' : 'Fail'}</td>
+                                        <td>{subject.
+scoredMark || 0}</td>
+                                        <td>{(subject.
+scoredMark >= subject.passingMark) ? 'Pass' : 'Fail'}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </BootstrapTable>
+
+
+                        
+
                         <Button variant="primary" onClick={() => handleDownload(marksheet)}>Download Marksheet</Button>
                     </Card.Body>
                 </Card>

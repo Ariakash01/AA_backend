@@ -11,6 +11,8 @@ const subjectSchema = new mongoose.Schema({
 
 const marksheetSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    rollno: { type: Number ,default:11214004},
+    stu_name:{type:String,default:'stud'},
     templateName: { type: String },
     college: { type: String, default: 'Dr sacoe' },
     department: { type: String, default: 'IT' },
