@@ -6,6 +6,7 @@ import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 
 const NavbarComponent = ({ user, handleLogout }) => {
     const [templates, setTemplates] = useState([]);
+    const [prev_name,setPrev_name]=useState("rtr")
     const navigate = useNavigate();
 
 
@@ -50,15 +51,18 @@ const NavbarComponent = ({ user, handleLogout }) => {
                                 <Nav.Link as={Link} to="/template">Template</Nav.Link>
                                 <NavDropdown title="Marks" id="marks-nav-dropdown">
                                     {templates.map(template => (
+                                     
+                                        template.name!=prev_name?(
+                                            
                                         <NavDropdown.Item key={template._id} as={Link} to={'/marks'}>
                                             {template.templateName}
                                             <Button variant="danger" size="sm" className="ms-2" onClick={(e) => { e.preventDefault(); handleDelete(template._id); }}>
                                                 Delete
                                             </Button>
-                                        </NavDropdown.Item>
+                                        </NavDropdown.Item>):null
                                     ))}
                                 </NavDropdown>
-                                <Nav.Link as={Link} to="/marks">Table</Nav.Link>
+                              
                                 <NavDropdown title="Marksheets" id="marksheets-nav-dropdown">
                                     {templates.map(template => (
                                         <NavDropdown.Item key={template._id} as={Link} to={'/marksheets'}>

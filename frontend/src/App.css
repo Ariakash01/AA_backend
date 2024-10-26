@@ -1,14 +1,26 @@
 body {
   margin: 0; /* Remove default body margin */
   font-family: Arial, sans-serif; /* Font family */
-}
+  min-width: 100vw;
+  min-height: 100vh;
 
-.bodyy{
-  background-color: rgb(12, 182, 125);
+  background-color: #9ad0f5;
+}
+.foot{
+  
+ text-align: center;
+}
+.bod{
+  background-color: #60b9f8;
+  border-radius: 1rem;
+  padding-top: 0.3rem;
+  min-height: 100vh;
 }
 /* Navbar styling */
 .navbar {
-  z-index: 1030; /* Ensure navbar is on top */
+  z-index: 1030;
+ 
+  border-radius: 0.5rem; /* Ensure navbar is on top */
 }
 
 /* Fixed Heading Below Navbar */

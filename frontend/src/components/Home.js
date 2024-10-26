@@ -5,7 +5,6 @@ const Home = () => {
     return (
         <div>
             <h2>Welcome to Information Technology Department</h2>
-            <p>Select an option from the navigation bar.</p>
         </div>
     );
 };

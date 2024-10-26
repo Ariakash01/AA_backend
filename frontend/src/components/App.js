@@ -12,7 +12,8 @@ import Marksheet from './Marksheet';
 import MarksheetView from './MarksheetView';
 import axios from '../api/axiosInstance';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import  '../App.css'
+import Footer from './Footer';
 const App = () => {
     const [user, setUser] = useState(null);
 
@@ -39,7 +40,8 @@ const App = () => {
     return (
         <Router>
            
-            <div className="container mt-4">
+            <div className="container mt-4 bod">
+               
                 <Routes>
                     <Route path="/" element={<> <NavbarComponent user={user} handleLogout={handleLogout} /><Home /></>} />
                     <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to="/" />} />
@@ -47,7 +49,9 @@ const App = () => {
                     <Route path="/template" element={user ?<><NavbarComponent user={user} handleLogout={handleLogout} /><Common /></>  : <Navigate to="/login" />} />
                     <Route path="/marks" element={user ? <><NavbarComponent user={user} handleLogout={handleLogout} /><Table /></> : <Navigate to="/login" />} />
                     <Route path="/marksheets" element={user ?<><NavbarComponent user={user} handleLogout={handleLogout} /> <Marksheet /> </>: <Navigate to="/login" />} />
+                     
                 </Routes>
+                <Footer/>
             </div>
         </Router>
     );

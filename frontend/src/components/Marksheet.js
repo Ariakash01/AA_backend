@@ -170,10 +170,8 @@ const Marksheet = () => {
                                         <td>{subject.code || 'Dummy Code'}</td>
                                         <td>{subject.totalMark || 100}</td>
                                         <td>{subject.passingMark || 50}</td>
-                                        <td>{subject.
-scoredMark || 0}</td>
-                                        <td>{(subject.
-scoredMark >= subject.passingMark) ? 'Pass' : 'Fail'}</td>
+                                        <td>{subject.scoredMark || 0}</td>
+                                        <td>{(subject.scoredMark >= subject.passingMark) ? 'Pass' : 'Fail'}</td>
                                     </tr>
                                 ))}
                             </tbody>

@@ -139,9 +139,9 @@ exports.updateMarksheetss = async (req, res) => {
 
 
 
-exports.updateStudentMarks = async (req, res) => {
+exports.updateStudentMarkss = async (req, res) => {
     const { templateId } = req.params;  // ID of the marksheet template
-    const { name, rollno,  scoredMark, attendanceRate, toAddress, remarks } = req.body;  // Data from the request body
+    const { name, rollno, subjects,attendanceRate, toAddress, remarks } = req.body;  // Data from the request body
   
     try {
         // Find the marksheet by the template ID
@@ -170,7 +170,7 @@ exports.updateStudentMarks = async (req, res) => {
         if (remarks) {
             marksheet.remarks = remarks;
         }
-  
+        
         // Save the updated marksheet
         await marksheet.save();
         res.json({ message: 'Student marks updated successfully' });
@@ -182,48 +182,105 @@ exports.updateStudentMarks = async (req, res) => {
 
 
 
-{/*exports.updateStudentMarks = async (req, res) => {
-    const { templateId } = req.params;
-    const { name,rollno,scoredMark, attendanceRate, toAddress, remarks } = req.body;
-  
+exports.updateStudentMarkss =  async (req, res) => {
+    const { templateId } = req.params; // ID of the marksheet template
+    const { name, rollno, subjects, attendanceRate, toAddress, remarks } = req.body; // Data from the request body
+
     try {
-      const marksheet = await Marksheet.findById(templateId);
-      if (!marksheet) {
-        return res.status(404).json({ message: 'Marksheet not found' });
-      }
-  
-     
-      
-      // Update student's marks, attendance, address, and remarks
+        // Find the marksheet by the template ID
+        const marksheet = await Marksheet.findById(templateId);
+        if (!marksheet) {
+            return res.status(404).json({ message: 'Marksheet not found' });
+        }
 
-      if (name) {
-        marksheet.stu_name = name;
-      }
-      if (rollno) {
-        marksheet.rollno = rollno;
-      }
-      if (scoredMark) {
-        marksheet.scoredMark = { ...marksheet.scoredMark, ...scoredMark };
-      }
-      if (attendanceRate) {
-        marksheet.attendanceRate = attendanceRate;
-      }
-      if (toAddress) {
-        marksheet.toAddress = toAddress;
-      }
-      if (remarks) {
-        marksheet.remarks = remarks;
-      }
-  
-      await marksheet.save();
-      res.json({ message: 'Student marks updated successfully' });
+        // Update student's name and roll number if they are present in the request
+        if (name !== undefined) {
+            marksheet.stu_name = name;
+        }
+        if (rollno !== undefined) {
+            marksheet.rollno = rollno;
+        }
+
+        // Update the attendance rate, address, and remarks if they are present in the request
+        if (attendanceRate !== undefined) {
+            marksheet.attendanceRate = attendanceRate;
+        }
+        if (toAddress !== undefined) {
+            marksheet.toAddress = toAddress;
+        }
+        if (remarks !== undefined) {
+            marksheet.remarks = remarks;
+        }
+
+        // Update the subjects
+        if (Array.isArray(subjects)) {
+            subjects.forEach(({ code, scoredMark }) => {
+                const existingSubject = marksheet.subjects.find(sub => sub.code === code);
+                if (existingSubject) {
+                    // Update existing subject's scoredMark if it is provided
+                    if (scoredMark !== undefined) {
+                        existingSubject.scoredMark = scoredMark;
+                    }
+                }
+            });
+        }
+
+        // Save the updated marksheet
+        await marksheet.save();
+        res.json({ message: 'Student marks updated successfully', marksheet });
     } catch (err) {
-      res.status(500).json({ message: 'Failed to update student marks' });
+        console.error(err); // Log the error for debugging
+        res.status(500).json({ message: 'Failed to update student marks', error: err.message });
     }
-  };
+};
+
+exports.updateStudentMarks =  async (req, res) => {
+    const { templateId } = req.params;
+    const { name, rollno, attendanceRate, toAddress, remark, subjects } = req.body;
+
+    try {
+        // Find the marksheet by ID
+        const marksheet = await Marksheet.findById(templateId);
+        if (!marksheet) return res.status(404).json({ message: 'Marksheet not found' });
+
+        // Update general fields
+        if (name) marksheet.stu_name = name;
+        if (rollno) marksheet.rollno = rollno;
+        if (attendanceRate) marksheet.attendanceRate = attendanceRate;
+        if (toAddress) marksheet.toAddress = toAddress;
+        if (remark) marksheet.remarks = remark;
+
+        // Update or add subjects in the subjects array
+        if (subjects && Array.isArray(subjects)) {
+            subjects.forEach((subjectUpdate) => {
+            
+                const existingSubject = marksheet.subjects.find(sub => sub.code == subjectUpdate.code);
+
+                if (existingSubject) {
+                    // Update existing subject score
+                    existingSubject.scoredMark = subjectUpdate.scoredMark;
+                } else {
+                    // Add new subject if it doesn’t exist)
+                    marksheet.subjects.push(subjectUpdate);
+                }
+            });
+        }
+
+        // Save updated marksheet
+        await marksheet.save();
+        res.status(200).json({ message: 'Marksheet updated successfully', marksheet });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to update marksheet' });
+    }
+};
 
 
-  */}
+
+    
+
+
+  
 
 
 

@@ -7,7 +7,7 @@ const subjectSchema = new mongoose.Schema({
     totalMark: { type: Number, default: 100 },
     passingMark: { type: Number, default: 50 },
     scoredMark: { type: Number,  default:0 },
-}, { _id: false });
+}, );
 
 const marksheetSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
