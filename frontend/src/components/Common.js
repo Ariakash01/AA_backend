@@ -5,8 +5,8 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 const Common = () => {
     const [formData, setFormData] = useState({
         templateName: '',
-        college: 'Dr sacoe',
-        department: 'IT',
+        college: 'Dr. Sivanthi Aditanar College of Engineering , Tiruchendur',
+        department: 'Information Technology',
         testName: 'Periodical Test 1',
         year: '',
         oddEven: '',
@@ -18,11 +18,11 @@ const Common = () => {
         passingMark: 50,
         fromDate: '',
         toDate: '',
-        remarks: 'Work hard',
+        remarks: 'Work Hard. Study well and can do betterr',
         advisorName: '',
         hodName: '',
-        fromAddress: 'The Principal, Dr SACOE',
-        noOfStudents: '',
+        fromAddress: 'The Principal Dr. Sivanthi Aditanar College of Engineering, Tirunelveli Road, Tiruchendur - 628 215',
+        noOfStudents:'',
     });
 
     const handleChange = (e) => {
@@ -159,7 +159,7 @@ const Common = () => {
                     </Col>
                     <Col md={4}>
                         <Form.Group className="mb-3">
-                            <Form.Label>Sem and Year</Form.Label>
+                            <Form.Label>Year and Sem</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="sem"
@@ -174,7 +174,7 @@ const Common = () => {
                 <Row>
                     <Col md={6}>
                         <Form.Group className="mb-3">
-                            <Form.Label>Class Sem</Form.Label>
+                            <Form.Label>Class & Sem</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="classSem"
@@ -231,7 +231,7 @@ const Common = () => {
                         </Col>
                     </Row>
                 ))}
-                <Button variant="secondary" onClick={addSubject} className="mb-3">Add Subject</Button>
+                <Button variant="primary" onClick={addSubject} className="mb-3">Add Subject</Button>
 
                 <Row>
                     <Col md={6}>
@@ -290,7 +290,7 @@ const Common = () => {
                             <Form.Control
                                 type="text"
                                 name="remarks"
-                                value={formData.remarks}
+                                value={'Work Hard. Study well and can do better'}
                                 onChange={handleChange}
                             />
                         </Form.Group>
@@ -340,7 +340,7 @@ const Common = () => {
                             <Form.Control
                                 type="text"
                                 name="fromAddress"
-                                value={formData.fromAddress}
+                                value={'The Principal Dr. Sivanthi Aditanar College of Engineering, Tirunelveli Road, Tiruchendur - 628 215'}
                                 onChange={handleChange}
                             />
                         </Form.Group>

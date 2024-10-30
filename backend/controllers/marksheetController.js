@@ -30,26 +30,25 @@ exports.getMarksheets = async (req, res) => {
     }
 };
 
-// Get a single marksheet by ID
-exports.getMarksheetById = async (req, res) => {
-    const { id } = req.params;
+
+exports.marksheets = async (req, res) => {
+    const userId = req.user._id;
+    const { templateName } = req.params;
     try {
-        const marksheet = await Marksheet.findOne({ _id: id, userId: req.user._id });
-        if (marksheet) {
-            res.json(marksheet);
-        } else {
-            res.status(404).json({ message: 'Marksheet not found' });
-        }
+        const marksheets = await Marksheet.find({ userId,templateName });
+        res.json(marksheets);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
+// Get a single marksheet by ID
+
 // Delete a marksheet template
 exports.deleteMarksheet = async (req, res) => {
-    const { id } = req.params;
+    const { _id } = req.params;
     try {
-        const marksheet = await Marksheet.findOneAndDelete({ _id: id, userId: req.user._id });
+        const marksheet = await Marksheet.findOneAndDelete({ _id: _id, userId: req.user._id });
         if (marksheet) {
             res.json({ message: 'Marksheet deleted successfully' });
         } else {
@@ -60,6 +59,27 @@ exports.deleteMarksheet = async (req, res) => {
     }
 };
 
+exports.deleteMarksheets = async (req, res) => {
+console.log("hello")
+
+    const { templateName } = req.query;
+    // Check if templateName is provided
+    if (!templateName) {
+        return res.status(400).json({ message: 'Template name is required' });
+    }
+
+    try {
+        const result = await Marksheet.deleteMany({templateName} );
+        if (result.deletedCount > 0) {
+            return res.status(200).json({ message: 'Marksheets deleted successfully' });
+        } else {
+            return res.status(404).json({ message: 'Template not found' });
+        }
+    } catch (error) {
+        console.error('Error deleting marksheets:', error);
+        return res.status(500).json({ message: 'Failed to delete marksheets', error: error.message });
+    }
+};
 // Update a marksheet template
 exports.updateMarksheet = async (req, res) => {
     const { id } = req.params;
@@ -81,7 +101,120 @@ exports.updateMarksheet = async (req, res) => {
 };
 
 
-exports.getAllMarksheets = async (req, res) => {
+
+
+
+
+
+
+exports.updateStudentMarks =  async (req, res) => {
+    const { templateId } = req.params;
+    const { stu_name, rollno, attendanceRate, toAddress, remarks, subjects } = req.body;
+    let new_sum_total_mark=0;
+    let new_sum_scored_mark=0;
+    try {
+        // Find the marksheet by ID
+        const marksheet = await Marksheet.findById(templateId);
+        if (!marksheet) return res.status(404).json({ message: 'Marksheet not found' });
+
+        // Update general fields
+        if (stu_name) marksheet.stu_name = stu_name;
+        if (rollno) marksheet.rollno = rollno;
+        if (attendanceRate) marksheet.attendanceRate = attendanceRate;
+        if (toAddress) marksheet.toAddress = toAddress;
+        if (remarks) marksheet.remarks = remarks;
+
+        // Update or add subjects in the subjects array
+       
+        
+   
+        if (subjects && Array.isArray(subjects)) {
+          
+          
+
+            subjects.forEach((subjectUpdate) => {
+                if(subjectUpdate.scoredMark<50){
+                    marksheet.status="Fail";
+                    return
+                }
+               
+                else{
+                    marksheet.status="Pass";
+                }
+            })
+
+            subjects.forEach((subjectUpdate)=> {
+            
+                const existingSubject = marksheet.subjects.find(sub => sub.code == subjectUpdate.code);
+
+
+                if (existingSubject) {
+                    // Update existing subject score
+                 
+                    existingSubject.scoredMark = subjectUpdate.scoredMark;
+                      new_sum_total_mark+= existingSubject.totalMark;
+                   new_sum_scored_mark+= existingSubject.scoredMark;
+                } else {
+                    // Add new subject if it doesn’t exist)
+                    marksheet.subjects.push(subjectUpdate);
+                }
+            }
+
+          
+        );
+    
+        marksheet.sum_total_mark=new_sum_total_mark
+        marksheet.sum_scored_mark=new_sum_scored_mark
+        }
+
+
+new_sum_total_mark=0
+new_sum_scored_mark=0
+        // Save updated marksheet
+        await marksheet.save();
+
+        try {
+            // Step 1: Find all marksheets with "pass" status
+            const passingMarksheets = await Marksheet.find({userId:req.user._id,status:'Pass'});
+            
+            // Step 2: Calculate total scores and sort in descending order
+            passingMarksheets.sort((a, b) => {
+                console.log("Ranks updated successfully.");
+                const totalA = a.sum_scored_mark
+                const totalB = b.sum_scored_mark
+                return totalB - totalA; // Higher scores first
+            });
+    
+            // Step 3: Assign ranks
+            for (let i = 0; i < passingMarksheets.length; i++) {
+                passingMarksheets[i].rank = i + 1; // Rank starts from 1
+                await passingMarksheets[i].save(); // Save each rank update
+            }
+            console.log("Ranks updated successfully.");
+        } catch (error) {
+            console.error("Error updating ranks:", error);
+        }
+
+        res.status(200).json({ message: 'Marksheet updated successfully', marksheet });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to update marksheet' });
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+{/*
+
+    exports.getAllMarksheets = async (req, res) => {
     try {
         const marksheets = await Marksheet.find(); // Assuming you're using MongoDB
         res.status(200).json(marksheets);
@@ -89,7 +222,6 @@ exports.getAllMarksheets = async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch marksheets', error });
     }
 };
-
 
 
 
@@ -234,57 +366,108 @@ exports.updateStudentMarkss =  async (req, res) => {
     }
 };
 
-exports.updateStudentMarks =  async (req, res) => {
-    const { templateId } = req.params;
-    const { name, rollno, attendanceRate, toAddress, remark, subjects } = req.body;
 
+
+
+exports.updatealll =async (req, res) => {
     try {
-        // Find the marksheet by ID
-        const marksheet = await Marksheet.findById(templateId);
-        if (!marksheet) return res.status(404).json({ message: 'Marksheet not found' });
+        const { marksheets } = req.body;
+console.log("hello")
+        const updatePromises = marksheets.map(async (data) => {
+            const { _id, stu_name, rollno, attendanceRate, toAddress, remarks, subjects } = data;
+            return await Marksheet.findByIdAndUpdate(
+                _id,
+                {
+                    stu_name,
+                    rollno,
+                    attendanceRate,
+                    toAddress,
+                    remarks,
+                    subjects,
+                },
+                { new: true }
+            );
+        });
 
-        // Update general fields
-        if (name) marksheet.stu_name = name;
-        if (rollno) marksheet.rollno = rollno;
-        if (attendanceRate) marksheet.attendanceRate = attendanceRate;
-        if (toAddress) marksheet.toAddress = toAddress;
-        if (remark) marksheet.remarks = remark;
-
-        // Update or add subjects in the subjects array
-        if (subjects && Array.isArray(subjects)) {
-            subjects.forEach((subjectUpdate) => {
-            
-                const existingSubject = marksheet.subjects.find(sub => sub.code == subjectUpdate.code);
-
-                if (existingSubject) {
-                    // Update existing subject score
-                    existingSubject.scoredMark = subjectUpdate.scoredMark;
-                } else {
-                    // Add new subject if it doesn’t exist)
-                    marksheet.subjects.push(subjectUpdate);
-                }
-            });
-        }
-
-        // Save updated marksheet
-        await marksheet.save();
-        res.status(200).json({ message: 'Marksheet updated successfully', marksheet });
+        const updatedMarksheets = await Promise.all(updatePromises);
+        res.json({ message: 'Marksheets updated successfully', updatedMarksheets });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Failed to update marksheet' });
+        console.error('Failed to update marksheets:', error);
+        res.status(500).json({ message: 'Failed to update marksheets' });
     }
 };
 
 
 
-    
-
-
-  
 
 
 
-  exports.updateMarks = async (req, res) => {
+
+exports.updateAllMarksheets = async (req, res) => {
+    const { marksheets } = req.body;
+
+    if (!Array.isArray(marksheets)) {
+        return res.status(400).json({ message: 'Invalid data format. Expecting an array of marksheets.' });
+    }
+
+    try {
+        const updatePromises = marksheets.map(sheet => 
+            Marksheet.findByIdAndUpdate(sheet._id, sheet)
+        );
+
+        const updatedMarksheets = await Promise.all(updatePromises);
+        res.status(200).json({ message: 'All marksheets updated successfully', updatedMarksheets });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update marksheets', error });
+    }
+};
+
+exports.updateRanks = async () => {
+    try {
+        // Step 1: Find all marksheets with "pass" status
+        const passingMarksheets = await Marksheet.findById(req.user._id);
+
+        
+        // Step 2: Calculate total scores and sort in descending order
+        passingMarksheets.sort((a, b) => {
+            console.log("Ranks updated successfully.");
+            const totalA = a.sum_scored_mark
+            const totalB = b.sum_scored_mark
+            return totalB - totalA; // Higher scores first
+        });
+
+        // Step 3: Assign ranks
+        for (let i = 0; i < passingMarksheets.length; i++) {
+            passingMarksheets[i].rank = i + 1; // Rank starts from 1
+            await passingMarksheets[i].save(); // Save each rank update
+        }
+        console.log("Ranks updated successfully.");
+    } catch (error) {
+        console.error("Error updating ranks:", error);
+    }
+};
+
+
+
+exports.getMarksheetById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const marksheet = await Marksheet.findOne({ _id: id, userId: req.user._id });
+        if (marksheet) {
+            res.json(marksheet);
+        } else {
+            res.status(404).json({ message: 'Marksheet not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+
+
+exports.updateMarks = async (req, res) => {
   const { templateId } = req.params;
   const { students } = req.body;
 
@@ -320,3 +503,10 @@ exports.updateStudentMarks =  async (req, res) => {
     res.status(500).json({ message: 'Failed to update marks' });
   }
 };
+
+
+*/}
+
+  
+
+

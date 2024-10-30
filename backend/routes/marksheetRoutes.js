@@ -5,8 +5,13 @@ const {
     getMarksheets,
     getMarksheetById,
     deleteMarksheet,
+    deleteMarksheets,
     updateMarksheet,
-    getAllMarksheets,getMarksheetss, updateMarksheetss
+    marksheets,
+    updateAllMarksheets,
+    updatealll,
+    updateRanks,
+    getAllMarksheets,getMarksheetss, updateMarksheetss,getMarksheetsByTemplateName,getGroupedMarksheetsByUser
 } = require('../controllers/marksheetController');
 const marksheetsController = require('../controllers/marksheetController');
 
@@ -14,35 +19,37 @@ const protect = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
-// All routes below are protected
+
 router.use(protect);
 
-// GET /api/marksheets
 router.get('/', getMarksheets);
 
-// GET /api/marksheets/:id
-router.get('/:id', getMarksheetById);
+router.get('/marksheet/:templateName', marksheets);
 
-// POST /api/marksheets
 router.post('/', createMarksheet);
-
-// PUT /api/marksheets/:id
-router.put('/:id', updateMarksheet);
-
-// DELETE /api/marksheets/:id
-router.delete('/:id', deleteMarksheet);
-
-
-
-
-
 
 router.put('/:templateId/students', marksheetsController.updateStudentMarks);
 
-// Route to update multiple students' marks in a marksheet
+router.delete(`/:_id`, deleteMarksheet);
+
+router.delete('/mark/mar', marksheetsController.deleteMarksheets);
+
+
+
+
+
+
+
+{/* 
+    // GET /api/marksheets/:id
+router.get('/:id', getMarksheetById);
+    router.put('/:id', updateMarksheet);
 router.put('/app/:templateId', marksheetsController.updateMarks);
 
+router.put('updateAll', updateAllMarksheets);
+router.post('/update_ranks',marksheetsController.updateRanks);
 
 
-
+router.put('/updateAll', updatealll)
+*/}
 module.exports = router;

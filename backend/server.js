@@ -5,7 +5,8 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const marksheetRoutes = require('./routes/marksheetRoutes');
-
+const imageRoutes = require('./routes/imageRoutes');
+const path = require('path');
 dotenv.config();
 
 // Connect to database
@@ -14,10 +15,12 @@ connectDB();
 const app = express();
 
 // Middleware
+app.use(express.json());
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes
+app.use('/api', imageRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/marksheets', marksheetRoutes);
 

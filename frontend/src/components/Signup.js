@@ -9,7 +9,8 @@ const Signup = ({ setUser }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-
+    const [college, setCollege] = useState('')
+    const [dept, setDept] = useState('');
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Signup = ({ setUser }) => {
         }
 
         try {
-            const res = await axios.post('/auth/signup', { name, email, password, confirmPassword });
+            const res = await axios.post('/auth/signup', { name, email,college,dept, password, confirmPassword });
             localStorage.setItem('token', res.data.token);
             setUser(res.data);
             navigate('/');
@@ -59,7 +60,26 @@ const Signup = ({ setUser }) => {
                         required
                     />
                 </Form.Group>
-
+                <Form.Group controlId="formName" className="mb-3">
+                    <Form.Label>college</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter your College"
+                        value={college}
+                        onChange={(e) => setCollege(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group controlId="formName" className="mb-3">
+                    <Form.Label>Department</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter your Department"
+                        value={dept}
+                        onChange={(e) => setDept(e.target.value)}
+                        required
+                    />
+                </Form.Group>
                 <Form.Group controlId="formBasicPassword" className="mb-3">
                     <Form.Label>Password</Form.Label>
                     <Form.Control

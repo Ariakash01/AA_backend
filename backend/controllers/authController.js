@@ -12,7 +12,7 @@ const generateToken = (id) => {
 
 // Signup User
 exports.signupUser = async (req, res) => {
-    const { name, email, password, confirmPassword } = req.body;
+    const { name, email,college, password, dept,confirmPassword } = req.body;
 
     if (password !== confirmPassword) {
         return res.status(400).json({ message: 'Passwords do not match' });
@@ -24,13 +24,15 @@ exports.signupUser = async (req, res) => {
         return res.status(400).json({ message: 'User already exists' });
     }
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name, email,college,dept, password });
 
     if (user) {
         res.status(201).json({
             _id: user._id,
             name: user.name,
             email: user.email,
+            college:user.college,
+            dept:user.dept,
             token: generateToken(user._id),
         });
     } else {

@@ -1,7 +1,471 @@
 
 import React, { useState, useEffect } from 'react';
+import axios from '../api/axiosInstance';
+import { Table, Form, Button, Container, Alert } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import '../App.css';
+
+const TableComponent = () => {
+    const [marksheets, setMarksheets] = useState([]);
+    const [formInput, setFormInput] = useState([]);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const { t_nm } = useParams();
+
+    useEffect(() => {
+        const fetchMarksheets = async () => {
+            try {
+                const res = await axios.get(`/marksheets/marksheet/${t_nm}`);
+                if (res.data && Array.isArray(res.data)) {
+                    setMarksheets(res.data);
+                    const initialFormInput = res.data.map(item => ({
+                        _id: item._id,
+                        stu_name: item.stu_name || '',
+                        rollno: item.rollno || '',
+                        attendanceRate: item.attendanceRate || '',
+                        toAddress: item.toAddress || '',
+                        remarks: item.remarks || 'Work Hard. Study well and can do better',
+                        subjects: item.subjects.map(subject => ({
+                            code: subject.code,
+                            scoredMark: subject.scoredMark || ''
+                        }))
+                    }));
+                    setFormInput(initialFormInput);
+                } else {
+                    setError('Invalid data format received from the server');
+                }
+            } catch (err) {
+                setError(err.response?.data?.message || 'Failed to fetch marksheets');
+            }
+        };
+        fetchMarksheets();
+    }, [t_nm]);
+
+    const handleInputChange = (templateId, field, value) => {
+        setFormInput(prevInput =>
+            prevInput.map(input =>
+                input._id === templateId
+                    ? { ...input, [field]: value }
+                    : input
+            )
+        );
+    };
+
+    const handleSubjectChange = (templateId, code, field, value) => {
+        setFormInput(prevInput =>
+            prevInput.map(input => 
+                input._id === templateId
+                    ? {
+                        ...input,
+                        subjects: input.subjects.map(subject =>
+                            subject.code === code
+                                ? { ...subject, [field]: value }
+                                : subject
+                        )
+                    }
+                    : input
+            )
+        );
+    };
+
+    const handleDelete = async (marksheetData) => {
+        const { _id } = marksheetData;
+        try {
+            await axios.delete(`/marksheets/${_id}`);
+            setMarksheets(marksheets.filter(template => template._id !== _id));
+            setSuccess('Template deleted successfully');
+            setError('');
+        } catch (error) {
+            setError('Error deleting template');
+        }
+    };
+
+    const handleSubmitStudent = async (marksheetData) => {
+        const { _id, stu_name, rollno, attendanceRate, toAddress, remarks, subjects } = marksheetData;
+        
+        try {
+            await axios.put(`/marksheets/${_id}/students`, {
+                stu_name,
+                rollno,
+                attendanceRate,
+                toAddress,
+                remarks,
+                subjects
+            });
+            setSuccess('Student marks updated successfully');
+            setError('');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to update student');
+            setSuccess('');
+        }
+    };
+
+    const handleUpdateAll = async () => {
+        try {
+            await Promise.all(formInput.map(marksheet => handleSubmitStudent(marksheet)));
+            setSuccess('All marksheets updated successfully');
+            setError('');
+        } catch (err) {
+            setError('Failed to update all marksheets');
+            setSuccess('');
+        }
+    };
+
+    return (
+        <Container>
+            <h2 className="my-4">Update Marks</h2>
+            <div className='upd_all'>
+
+<Button variant="primary"  onClick={handleUpdateAll}>
+    Update All
+</Button>
+</div>
+            {error && <Alert variant="danger">{error}</Alert>}
+            {success && <Alert variant="success">{success}</Alert>}
+            {marksheets.length === 0 ? (
+                <p>No records found.</p>
+            ) : (
+                marksheets.map(marksheet => (
+                    <div key={marksheet._id} className=" container ">
+                        <h4>{marksheet.templateName}</h4>
+                        <Table striped bordered hover responsive className="tablle">
+                            <thead>
+                                <tr>
+                                    <th>Roll_Number</th>
+                                    <th>Student_Name</th>
+                                    {marksheet.subjects.map(subject => (
+                                        <th key={subject.code}>{subject.name} ({subject.code})</th>
+                                    ))}
+                                    <th>Attendance_Rate</th>
+                                    <th>To_Address_For_A_Student</th>
+                                    <th>Remarks_For_A_Student</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <Form.Control
+                                            type="text"
+                                            value={formInput.find(input => input._id === marksheet._id)?.rollno || ''}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'rollno', e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Form.Control
+                                            type="text"
+                                            value={formInput.find(input => input._id === marksheet._id)?.stu_name || ''}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'stu_name', e.target.value)}
+                                        />
+                                    </td>
+                                    {marksheet.subjects.map(subject => (
+                                        <td key={subject.code}>
+                                            <Form.Control
+                                                type="number"
+                                                value={formInput.find(input => input._id === marksheet._id)?.subjects.find(sub => sub.code === subject.code)?.scoredMark || ''}
+                                                onChange={(e) => handleSubjectChange(marksheet._id, subject.code, 'scoredMark', e.target.value)}
+                                            />
+                                        </td>
+                                    ))}
+                                    <td>
+                                        <Form.Control
+                                            type="number"
+                                            value={formInput.find(input => input._id === marksheet._id)?.attendanceRate || ''}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'attendanceRate', e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Form.Control
+                                            as="textarea"
+                                            rows={4}
+                                            value={formInput.find(input => input._id === marksheet._id)?.toAddress || ''}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'toAddress', e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Form.Control
+                                            as="textarea"
+                                            rows={4}
+                                            value={formInput.find(input => input._id === marksheet._id)?.remarks || ''}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'remarks', e.target.value)}
+                                        />
+                                    </td>
+                                    <td className='upd_del'>
+                                        <Button
+                                            variant="success"
+                                            onClick={() => handleSubmitStudent(formInput.find(input => input._id === marksheet._id))}
+                                        >
+                                            Update
+                                        </Button>
+                                        <Button className='upd_del' variant="danger" className='del pr-5' onClick={() => handleDelete(formInput.find(input => input._id === marksheet._id))}>
+                                            Delete
+                                        </Button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </div>
+                ))
+            )}
+
+            <div className='upd_all'>
+
+            <Button variant="primary"  onClick={handleUpdateAll}>
+                Update All
+            </Button>
+            </div>
+           
+        </Container>
+    );
+};
+
+export default TableComponent;
+
+
+
+
+
+
+
+{/*
+import React, { useState, useEffect } from 'react';
+import axios from '../api/axiosInstance';
+import { Table, Form, Button, Container, Alert } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import '../App.css'
+const TableComponent = () => {
+    const [marksheets, setMarksheets] = useState([]);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [formInput, setFormInput] = useState({});
+    const { t_nm } = useParams();
+
+    useEffect(() => {
+        const fetchMarksheets = async () => {
+            try {
+                const res = await axios.get(`/marksheets/marksheet/${t_nm}`);
+                if (res.data && Array.isArray(res.data)) {
+                    setMarksheets(res.data);
+                    
+                    // Initialize formInput with data from marksheets
+                    const initialFormInput = res.data.reduce((acc, item) => {
+                        acc[item._id] = {
+                            stu_name: item.stu_name || '',  // Ensure name is set
+                            rollno: item.rollno || '',
+                            attendanceRate: item.attendanceRate || '',
+                            toAddress: item.toAddress || '',
+                            remarks: item.remarks || '',  // Ensure remark is set
+                            subjects: item.subjects.reduce((subAcc, subject) => {
+                                subAcc[subject.code] = { scoredMark: subject.scoredMark || '' };
+                                return subAcc;
+                            }, {}),
+                        };
+                        return acc;
+                    }, {});
+                    setFormInput(initialFormInput);
+                } else {
+                    setError('Invalid data format received from the server');
+                }
+            } catch (err) {
+                setError(err.response?.data?.message || 'Failed to fetch marksheets');
+            }
+        };
+        fetchMarksheets();
+    }, [t_nm]);
+
+    const handleInputChange = (templateId, field, value) => {
+        setFormInput(prevInput => ({
+            ...prevInput,
+            [templateId]: {
+                ...prevInput[templateId],
+                [field]: value,
+            },
+        }));
+    };
+
+    const handleSubjectChange = (templateId, code, field, value) => {
+        setFormInput(prevInput => ({
+            ...prevInput,
+            [templateId]: {
+                ...prevInput[templateId],
+                subjects: {
+                    ...prevInput[templateId]?.subjects,
+                    [code]: {
+                        ...prevInput[templateId]?.subjects?.[code],
+                        [field]: value,
+                    },
+                },
+            },
+        }));
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`/marksheets/${id}`);
+            setMarksheets(marksheets.filter(template => template._id !== id));
+        } catch (error) {
+            console.error('Error deleting template:', error);
+        }
+    };
+
+    const handleSubmitStudent = async (templateId) => {
+        const { stu_name, rollno, attendanceRate, toAddress, remarks, subjects } = formInput[templateId] || {};
+        const subjectsArray = Object.entries(subjects || {}).map(([code, subjectData]) => ({
+            code,
+            scoredMark: subjectData.scoredMark,
+        }));
+
+        try {
+            await axios.put(`/marksheets/${templateId}/students`, {
+                stu_name,
+                rollno,
+                attendanceRate,
+                toAddress,
+                remarks,
+                subjects: subjectsArray,
+            });
+            setSuccess('Student marks updated successfully');
+            setError('');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to update student');
+            setSuccess('');
+        }
+    };
+
+    const handleUpdateAll = async () => {
+        const modifiedMarksheets = Object.entries(formInput).map(([templateId, data]) => {
+            const subjectsArray = Object.entries(data.subjects || {}).map(([code, subjectData]) => ({
+                code,
+                scoredMark: subjectData.scoredMark,
+            }));
+            return {
+                _id: templateId,
+                stu_name: data.stu_name,
+                rollno: data.rollno,
+                attendanceRate: data.attendanceRate,
+                toAddress: data.toAddress,
+                remarks: data.remarks,
+                subjects: subjectsArray,
+            };
+        });
+
+        try {
+            const response = await axios.put(`/marksheets/updateAll`, { marksheets: modifiedMarksheets });
+            setSuccess('All modified marksheets updated successfully');
+            setError('');
+            console.log(response.data.updatedMarksheets);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to update all marksheets');
+            setSuccess('');
+        }
+    };
+
+    return (
+        <Container>
+            <h2 className="my-4">Update Marks</h2>
+            {error && <Alert variant="danger">{error}</Alert>}
+            {success && <Alert variant="success">{success}</Alert>}
+            {marksheets.length === 0 ? (
+                <p>No records found.</p>
+            ) : (
+                marksheets.map(marksheet => (
+                    <div key={marksheet._id} className="mb-4 containeer">
+                        <h4>{marksheet.templateName}</h4>
+                        <Table  striped bordered hover responsive className="tablee">
+                            <thead>
+                                <tr>
+                                    <th classname=" detail">Roll_Number</th>
+                                    <th classname=" detail">Student_Name</th>
+                                    {marksheet.subjects.map(subject => (
+                                        <th key={subject.code}>{subject.name} ({subject.code})</th>
+                                    ))}
+                                    <th>Attendance Rate</th>
+                                    <th>To_Address_For_A_Student</th>
+                                    <th>Remarks_For_A_Student</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <Form.Control
+                                            type="text"
+                                            value={formInput[marksheet._id]?.rollno || ''}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'rollno', e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Form.Control className='ato'
+                                            type="text"
+                                            value={formInput[marksheet._id]?.stu_name || ''}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'stu_name', e.target.value)}
+                                        />
+                                    </td>
+                                    {marksheet.subjects.map(subject => (
+                                        <td key={subject.code}>
+                                            <Form.Control
+                                                type="number"
+                                                value={formInput[marksheet._id]?.subjects?.[subject.code]?.scoredMark || ''}
+                                                onChange={(e) => handleSubjectChange(marksheet._id, subject.code, 'scoredMark', e.target.value)}
+                                            />
+                                        </td>
+                                    ))}
+                                    <td>
+                                        <Form.Control
+                                            type="number"
+                                            value={formInput[marksheet._id]?.attendanceRate || ''}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'attendanceRate', e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Form.Control
+                                            as="textarea"                                           
+                                            rows={4} 
+                                            value={formInput[marksheet._id]?.toAddress || ''}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'toAddress', e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Form.Control
+                                            as="textarea"
+                                            rows={4}
+                                            value={formInput[marksheet._id]?.remarks || 'Work Hard. Study well and can do better'}
+                                            onChange={(e) => handleInputChange(marksheet._id, 'remarks', e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Button
+                                            variant="secondary"
+                                            onClick={() => handleSubmitStudent(marksheet._id)}
+                                        >
+                                            Update
+                                        </Button>
+                                        <Button variant="danger" className='del' onClick={(e) => { e.preventDefault(); handleDelete(marksheet._id); }}>
+                                            Delete
+                                        </Button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </div>
+                ))
+            )}
+            <Button variant="primary" onClick={handleUpdateAll}>
+                Update All
+            </Button>
+        </Container>
+    );
+};
+
+export default TableComponent;
+
+
+
+
+import React, { useState, useEffect } from 'react';
 import axios from '../api/axiosInstance'; // Ensure this is the correct Axios instance
 import { Table, Form, Button, Container, Alert } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
 const TableComponent = () => {
     const [marksheets, setMarksheets] = useState([]);
@@ -9,11 +473,12 @@ const TableComponent = () => {
     const [success, setSuccess] = useState('');
     const [formInput, setFormInput] = useState({}); // For handling user inputs
 
+    const { t_nm} = useParams();
     // Fetch all marksheets on component mount
     useEffect(() => {
         const fetchMarksheets = async () => {
             try {
-                const res = await axios.get('/marksheets');
+                const res = await axios.get(`/marksheets/marksheet/${t_nm}`);
                 if (res.data && Array.isArray(res.data)) {
                     setMarksheets(res.data);
                 } else {
@@ -24,7 +489,7 @@ const TableComponent = () => {
             }
         };
         fetchMarksheets();
-    }, []);
+    }, [t_nm]);
 
     // Handle changes for each field (marks, attendance, etc.) for a single student
     const handleInputChange = (templateId, field, value) => {
@@ -53,6 +518,16 @@ const TableComponent = () => {
         }));
     };
 
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`/marksheets/${id}`);
+            setMarksheets(marksheets.filter(template => template._id !== id));
+        } catch (error) {
+            console.error('Error deleting template:', error);
+        }
+    };
+
     // Handle submission for a single student
     const handleSubmitStudent = async (templateId) => {
         const { name, rollno, attendanceRate, toAddress, remark, subjects } = formInput[templateId] || {};
@@ -64,6 +539,7 @@ const TableComponent = () => {
         }));
         console.log(formInput)
       console.log(subjectsArray)
+
         try {
             await axios.put(`/marksheets/${templateId}/students`, {
                 name,
@@ -80,6 +556,12 @@ const TableComponent = () => {
             setSuccess('');
         }
     };
+
+
+
+   
+
+
 
     return (
         <Container>
@@ -160,8 +642,11 @@ const TableComponent = () => {
                                             variant="secondary"
                                             onClick={() => handleSubmitStudent(marksheet._id)}
                                         >
-                                            Update Student
+                                            Update
                                         </Button>
+                                        <Button variant="danger del"  onClick={(e) => { e.preventDefault(); handleDelete(marksheet._id); }}>
+                                                Delete
+                                            </Button>
                                     </td>
                                   
                                 </tr>
@@ -170,6 +655,7 @@ const TableComponent = () => {
                     </div>
                 ))
             )}
+               
         </Container>
     );
 };
@@ -182,7 +668,7 @@ export default TableComponent;
 
 
 
-{/*
+
 import React, { useState, useEffect } from 'react';
 import axios from '../api/axiosInstance';  // Ensure this is the correct Axios instance
 import { Table, Form, Button, Container, Alert } from 'react-bootstrap';

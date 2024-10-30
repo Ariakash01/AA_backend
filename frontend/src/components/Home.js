@@ -1,10 +1,11 @@
 // frontend/src/components/Home.js
 import React from 'react';
 
-const Home = () => {
+const Home = ({user}) => {
     return (
         <div>
-            <h2>Welcome to Information Technology Department</h2>
+            <h2 >{user.college}</h2>
+            <img src={user.imagePath}></img>
         </div>
     );
 };

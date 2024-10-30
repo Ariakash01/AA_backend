@@ -7,7 +7,7 @@ import { Form, Button, Container, Alert } from 'react-bootstrap';
 const Login = ({ setUser }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+ 
     const [error, setError] = useState('');
 
     const navigate = useNavigate();

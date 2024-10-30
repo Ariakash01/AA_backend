@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const subjectSchema = new mongoose.Schema({
     name: { type: String },
-    code: { type: Number },
+    code: { type: String },
     totalMark: { type: Number, default: 100 },
     passingMark: { type: Number, default: 50 },
     scoredMark: { type: Number,  default:0 },
@@ -24,14 +24,18 @@ const marksheetSchema = new mongoose.Schema({
     classSem: { type: String},
     subjects: [subjectSchema],
     attendanceRate: { type: Number },
-    fromDate: { type: Date },
-    toDate: { type: Date },
-    remarks: { type: String, default: 'Work hard' },
+    fromDate: { type: Date , default: Date.now},
+    toDate: { type: Date , default: Date.now},
+    remarks: { type: String, default: 'Work Hard. Study well and can do better' },
     advisorName: { type: String },
     hodName: { type: String },
-    fromAddress: { type: String, default: 'The Principal, Dr SACOE' },
-    toAddress: { type: String, default: 'The student ' },
+    fromAddress: { type: String, default: 'The Principal Dr. Sivanthi Aditanar College of Engineering, Tirunelveli Road, Tiruchendur -628 215' },
+    toAddress: { type: String, default: 'Empty' },
     noOfStudents: { type: Number },
+    sum_total_mark:{ type: Number,  default:0 },
+    sum_scored_mark:{ type: Number ,  default:0},
+    status:{type:String,default:'Pass'},
+    rank:{type:Number,default:0}
 }, { timestamps: true });
 
 const Marksheet = mongoose.model('Marksheet', marksheetSchema);
