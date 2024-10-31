@@ -9,10 +9,15 @@ body {
 
 }
 #root{
+  margin: 0;
+  padding: 0;
   background-color: #a4caec;
+  min-height: 100vh;
 }
 
-
+.cnte{
+  text-align: center;
+}
 .navv{
   background-color:rgb(152, 234, 255);
   border-radius: 0.5rem;
@@ -199,8 +204,12 @@ font-weight: 700;
   margin-top: 0.2rem;
 }
 .nav_item:hover {
-  color: rgb(252, 175, 33);
+  color: rgb(255, 177, 32);
 
+}
+.bor_rad{
+border-radius: 1rem; 
+ overflow: hidden;
 }
 
 .ss:focus{
@@ -213,7 +222,7 @@ font-weight: 700;
   background-color: #66baf1;
   border-radius: 1rem;
   padding-top: 0.3rem;
-  min-height: 100vh;
+  min-height: 91.5vh;
 }
 .mam{
   display: flex;
@@ -413,7 +422,7 @@ padding: 0;
   max-width: 20%;
   overflow: hidden;
   text-overflow: ellipsis;
-
+  margin-left: 0.4rem
 ;}
 
 .wel:hover {

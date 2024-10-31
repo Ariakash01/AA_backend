@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 const User = require('../models/User');
-
+const fs = require('fs');
 // Set up multer for image storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -21,10 +21,26 @@ router.post('/upload/:id',  upload.single('image'), async (req, res) => {
 
     const{id}=req.params
  
- const data = await User.findById(id) ;
-data.imagePath=`http://localhost:5000/uploads/${req.file.filename}`;
+ const user = await User.findById(id) ;
 
-    await data.save();
+
+ if (user) {
+   
+fs.unlink(`./uploads/${user.imageName}`, async (err) => {
+    if (err) {
+        console.error('Error deleting image file:', err.message);
+        return res.status(500).json({ message: 'Error deleting image file' });
+    }
+});
+
+ }
+
+ 
+ user.imagePath=`http://localhost:5000/uploads/${req.file.filename}`;
+ user.imageName=`${req.file.filename}`;
+ 
+ 
+     await user.save();
 
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });

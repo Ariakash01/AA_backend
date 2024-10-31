@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from '../api/axiosInstance';
-
+import { Form, Button, Container, Alert } from 'react-bootstrap';
+import "../App.css";
 const Image_upd = ({ user }) => {
     const [image, setImage] = useState(null);
     const [uploadedImageUrl, setUploadedImageUrl] = useState("");
@@ -33,15 +34,29 @@ const Image_upd = ({ user }) => {
     return (
         <div>
             <h2>Upload Image</h2>
-            <form onSubmit={handleImageUpload}>
-                <input type="file" onChange={handleImageChange} />
-                <button type="submit">Upload</button>
-            </form>
+            
 
-            {uploadedImageUrl && (
+            <Form onSubmit={handleImageUpload}>
+            <Form.Group controlId="formBasicPassword" className="mb-3">
+                    <Form.Label>Image</Form.Label>
+                    <Form.Control
+                        type="file"
+                      
+                        onChange={handleImageChange}
+                        required
+                    />
+
+<Button variant="primary" type="submit" className='mt-2'>
+                      upload
+                 </Button>
+                </Form.Group>
+</Form>
+
+
+            {user.imagePath && (
                 <div>
-                    <h3>Uploaded Image:</h3>
-                    <img src={uploadedImageUrl} alt="Uploaded" style={{ width: '200px', height: '200px' }} />
+                    <h3 className="bor_rad">Current Image:</h3>
+                    <img className="bor_rad" src={user.imagePath} alt="Uploaded" style={{ width: '200px', height: '200px' }} />
                 </div>
             )}
         </div>

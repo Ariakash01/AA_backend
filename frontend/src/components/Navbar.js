@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from '../api/axiosInstance';
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import  '../App.css'
-
+import logoo from '../logoo.png'
 const NavbarComponent = ({ user, handleLogout }) => {
     const [templates, setTemplates] = useState([]);
     const [name,setName]=useState([])
@@ -60,6 +60,7 @@ const NavbarComponent = ({ user, handleLogout }) => {
     return (
         <Navbar bg="light" expand="lg" className='navbarr'>
             <Container>
+            <img src={user.imagePath||logoo} width={50} height={50} className='mr-2' ></img>
                 <Navbar.Brand as={Link} to="/" className='wel'>{user.dept}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" className='menu'/>
                 <Navbar.Collapse id="basic-navbar-nav">

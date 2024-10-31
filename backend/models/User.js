@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
     college: { type: String, required: true },
     dept: { type: String, required: true },
     password: { type: String, required: true },
-    imagePath:{ type: String }
+    imagePath:{ type: String },
+    imageName:{ type: String }
 }, { timestamps: true });
 
 // Method to match password

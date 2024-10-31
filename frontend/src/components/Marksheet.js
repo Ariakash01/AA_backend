@@ -8,7 +8,7 @@ import { Card, Button, Container, Table as BootstrapTable, Alert } from 'react-b
 import html2pdf from 'html2pdf.js';
 import '../App.css'
 import logoo from '../logoo.png'
-const Marksheet = () => {
+const Marksheet = ({user}) => {
     const [marksheets, setMarksheets] = useState([]);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -102,7 +102,7 @@ const Marksheet = () => {
 
             <Button variant="success" className="mb-3 ml-3" onClick={handleDownloadAll}>Download All as PDF</Button>
           </div>
-        <Container ref={pdfRef} >
+        <Container ref={pdfRef} id="all_down" >
             
             {
             marksheets.map(marksheet => (
@@ -120,7 +120,7 @@ const Marksheet = () => {
                       
                         <Card.Text>
                             <div className='logo'>
-                            <img src={logoo} width={85} height={85}></img>
+                            <img src={user.imagePath||logoo} width={85} height={85}></img>
                             <div className='right'>
                            
                             <h6 className='centre clg'> {marksheet.college || 'Dummy College'}</h6>
