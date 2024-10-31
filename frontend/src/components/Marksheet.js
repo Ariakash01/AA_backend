@@ -96,18 +96,19 @@ const Marksheet = ({user}) => {
 
 <h4 className="my-4">{t_nm} Marksheets</h4>
 
-
+{!isDownloading && (
          <div className='btnn'>
           {/*  <Button variant="primary" className="mb-3  " onClick={ handleUpdateRanks }>Rank</Button>  */} 
 
             <Button variant="success" className="mb-3 ml-3" onClick={handleDownloadAll}>Download All as PDF</Button>
           </div>
+)}
         <Container ref={pdfRef} id="all_down" >
             
             {
             marksheets.map(marksheet => (
                 <div className='cont_ner'>
-                <Card key={marksheet._id} id={`marksheet-${marksheet._id}`} className="mb-4">
+                <Card key={marksheet._id} id={`marksheet-${marksheet._id}`} className="mb-4 overr">
                 {!isDownloading && (
                 <div className='btnn'>
                   <Button variant="primary" className="mb-1 btn" onClick={() => handleDownloadSingle(marksheet)}>Download Marksheet</Button>

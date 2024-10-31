@@ -36,7 +36,7 @@ fs.unlink(`./uploads/${user.imageName}`, async (err) => {
  }
 
  
- user.imagePath=`http://localhost:5000/uploads/${req.file.filename}`;
+ user.imagePath=`${req.protocol}://${req.headers.host}/uploads/${req.file.filename}`;
  user.imageName=`${req.file.filename}`;
  
  

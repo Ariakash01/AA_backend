@@ -28,6 +28,7 @@ body {
   color: #01b3ef;
 
 }
+
 .nav{
   background-color:rgb(152, 234, 255);
   border-radius: 0.5rem;
@@ -88,7 +89,10 @@ gap: 0;
    font-size: small;
 }
 
-
+.overr{
+  width: 1000px;
+  
+}
 .lf_part_var{
   display: inline-block;
 min-width: 17%;
@@ -316,6 +320,7 @@ width: 63%;
     border: 8px solid;
     padding: 0;
     margin: 5%;
+   
     
 }
 
@@ -357,7 +362,7 @@ width: 63%;
 }
 
 .scroll{
-  height: max-content;
+  height:6rem;
   overflow-y: scroll;
 
 
@@ -368,19 +373,15 @@ width: 63%;
 margin: 0;
 padding: 0;
 }
-.upd_all button{
-  margin: 0;
-  width: 10%;
-  border: none;
-  padding: 0.6rem;
-  margin-right: 0.7rem;
 
-}
 
 .cont_ner{
   margin: 0;
   padding: 0;
   height: 1069.5px;
+  max-width: 1000px;
+  overflow: scroll;
+ 
 }
 .scroll:hover{
   text-decoration: #ffa807;
