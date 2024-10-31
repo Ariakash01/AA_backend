@@ -4,10 +4,6 @@ import axios from '../api/axiosInstance';
 import { Table, Form, Button, Container, Alert } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import '../App.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
 
 const TableComponent = () => {
     const [marksheets, setMarksheets] = useState([]);
