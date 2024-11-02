@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from '../api/axiosInstance';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
+
 import "../App.css";
 const Image_upd = ({ user }) => {
     const [image, setImage] = useState(null);
@@ -20,7 +21,7 @@ const Image_upd = ({ user }) => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             const filename = res.data.filename;
-            setUploadedImageUrl(`http://localhost:5000/uploads/${filename}`);
+            setUploadedImageUrl(`http://localhost:5000//uploads/${filename}`);
 
            
             console.log('Image uploaded successfully');
@@ -45,19 +46,20 @@ const Image_upd = ({ user }) => {
                         onChange={handleImageChange}
                         required
                     />
-
+ {user &&
 <Button variant="primary" type="submit" className='mt-2'>
                       upload
                  </Button>
+}
                 </Form.Group>
 </Form>
 
 
-            {user.imagePath && (
-                <div>
-                    <h3 className="bor_rad">Current Image:</h3>
-                    <img className="bor_rad" src={user.imagePath} alt="Uploaded" style={{ width: '200px', height: '200px' }} />
-                </div>
+            {user && (
+                 <div>
+                 <h3 className="bor_rad">Current Image:</h3>
+                 <img className="bor_rad" src={user.imagePath} alt="Uploaded" style={{ width: '200px', height: '200px' }} />
+             </div>
             )}
         </div>
     );

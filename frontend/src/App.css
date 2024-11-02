@@ -22,11 +22,12 @@ body {
   background-color:rgb(152, 234, 255);
   border-radius: 0.5rem;
   padding: 0.2rem;
+  
 }
 
 .navvv{
   color: #01b3ef;
-
+   
 }
 
 .nav{
@@ -89,10 +90,7 @@ gap: 0;
    font-size: small;
 }
 
-.overr{
-  width: 1000px;
-  
-}
+
 .lf_part_var{
   display: inline-block;
 min-width: 17%;
@@ -315,14 +313,81 @@ width: 63%;
   font-weight: 700;
  
 }
+.password-container {
+  position: relative;
+  width: 200px;
+}
+.img_move{
+  margin-right: 1rem;
+  border-radius: 0.4rem;
 
+}
+.navvv{
+  display: flex;
+  border-radius: 0.5rem;
+margin-top: 0.4rem;
+margin-bottom: 0.3rem;
+}
+.nav_flex{
+
+
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+
+margin-bottom: 0.3rem;
+
+padding: 0.4rem;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  height: max-content;
+}
+.ctre{
+  text-align: center;
+  margin: 0;
+}
+.bo{
+  border-radius: 0.5rem;
+}
+.navv_flex{
+  height: max-content;
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+.navvv_flex{
+  height: max-content;
+  border-radius: 0.4rem;
+  margin-right: 0.5rem;
+  background-color: #54a9f8;
+  padding: 0.4rem;
+  text-decoration: none;
+  color:rgb(255, 255, 255);
+}
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.cont_ner{
+ margin-left: 13%;
+  height: 1069.5px;
+ max-width: 800px;
+ 
+}
 .bord{
     border: 8px solid;
     padding: 0;
     margin: 5%;
-   
-    
+    width: 700px;
+ 
 }
+.overr{
+  overflow: scroll;
+}
+
 
 /* Navbar styling */
 
@@ -373,16 +438,15 @@ width: 63%;
 margin: 0;
 padding: 0;
 }
-
-
-.cont_ner{
-  margin: 0;
-  padding: 0;
-  height: 1069.5px;
-  max-width: 1000px;
-  overflow: scroll;
- 
+.dec{
+  text-decoration: none;
+  color: #eef1f3;
 }
+.ma{
+  margin-right: 1rem;
+}
+
+
 .scroll:hover{
   text-decoration: #ffa807;
 }
@@ -426,29 +490,34 @@ padding: 0;
   margin-left: 0.4rem
 ;}
 
-.wel:hover {
-  overflow: visible;
-}
 
+.tablle{
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
 
 }
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .navbar {
-   
-    padding: 0.5rem 1rem;
-    z-index: 1030; /* Adjust navbar padding for smaller devices */
-  }
 
 
-  .navv{
-    background-color: #f1c676;
+
+  .nav_flex{
+
+
+    background-color: #ffffff;
     border-radius: 0.5rem;
- margin-top: 0.4rem;
- margin-bottom: 0.3rem;
-    border: 1px solid;
   
+  margin-bottom: 0.3rem;
+  
+  padding: 0.4rem;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    height: max-content;
   }
+
+
   .header {
     padding: 0.5rem; /* Adjust header padding for smaller devices */
   }
@@ -457,21 +526,28 @@ padding: 0;
 
 
 @media (max-width: 991px) {
-  .navbar {
-   
-    padding: 0.5rem 1rem;
-    z-index: 1030; /* Adjust navbar padding for smaller devices */
-  }
+  .nav_flex{
 
 
-  .navv{
-    background-color: #f1c676;
+    background-color: #ffffff;
     border-radius: 0.5rem;
- margin-top: 0.4rem;
- margin-bottom: 0.3rem;
-    border: 1px solid;
   
+  margin-bottom: 0.3rem;
+  
+  padding: 0.4rem;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    height: max-content;
   }
+ 
+  .img_move{
+    margin-right: 1rem;
+    border-radius: 0.4rem;
+  margin-top: 0.4rem;
+  }
+
+
   .header {
     padding: 0.5rem; /* Adjust header padding for smaller devices */
   }
@@ -483,18 +559,14 @@ padding: 0;
     padding: 0.5rem 1rem;
     z-index: 1030; /* Adjust navbar padding for smaller devices */
   }
-.wel{
-  border: 1px solid;
-  margin-right: 5rem;
 
-}
 .navbarr{
-  border: 1px solid;
   padding: 0;
 }
 .menu,.menu:focus,.menu:active{
-  width: 2rem;
-  height: 3rem;
+  width: 3rem;
+  padding: 0;
+  height: 2.5rem;
   border: none;
   outline: none;
 }
@@ -504,7 +576,6 @@ padding: 0;
     border-radius: 0.5rem;
  margin-top: 0.4rem;
  margin-bottom: 0.3rem;
-    border: 1px solid;
   
   }
   .header {
@@ -513,3 +584,13 @@ padding: 0;
 }
 
 
+
+@media (max-width: 390px) {
+  .navv{
+    background-color:rgb(152, 234, 255);
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    margin: 0;
+    
+  }
+}

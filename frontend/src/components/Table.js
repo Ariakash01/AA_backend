@@ -5,7 +5,7 @@ import { Table, Form, Button, Container, Alert } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import '../App.css';
 
-const TableComponent = () => {
+const TableComponent = ({user}) => {
     const [marksheets, setMarksheets] = useState([]);
     const [formInput, setFormInput] = useState([]);
     const [error, setError] = useState('');
@@ -119,20 +119,26 @@ const TableComponent = () => {
     return (
         <Container>
             <h2 className="my-4">Update Marks</h2>
+            <h4 className="my-4 ctre">{t_nm}</h4>
             <div className='upd_all'>
-
-<Button variant="primary"  onClick={handleUpdateAll}>
+{user &&
+<Button variant="primary" className='mb-2 ' onClick={handleUpdateAll}>
     Update All
 </Button>
+}
 </div>
             {error && <Alert variant="danger">{error}</Alert>}
             {success && <Alert variant="success">{success}</Alert>}
+
+
+
+            
             {marksheets.length === 0 ? (
                 <p>No records found.</p>
             ) : (
                 marksheets.map(marksheet => (
-                    <div key={marksheet._id} className=" container ">
-                        <h4>{marksheet.templateName}</h4>
+                    <div key={marksheet._id} className=" container bo">
+                     
                         <Table striped bordered hover responsive className="tablle">
                             <thead>
                                 <tr>
@@ -196,6 +202,8 @@ const TableComponent = () => {
                                         />
                                     </td>
                                     <td className='upd_del'>
+                                    {user &&
+                                    <>
                                         <Button
                                             variant="success"
                                             onClick={() => handleSubmitStudent(formInput.find(input => input._id === marksheet._id))}
@@ -205,6 +213,8 @@ const TableComponent = () => {
                                         <Button className='upd_del' variant="danger" className='del pr-5' onClick={() => handleDelete(formInput.find(input => input._id === marksheet._id))}>
                                             Delete
                                         </Button>
+                                        </>
+}
                                     </td>
                                 </tr>
                             </tbody>
@@ -214,10 +224,11 @@ const TableComponent = () => {
             )}
 
             <div className='upd_all'>
-
+            {user &&
             <Button variant="primary"  onClick={handleUpdateAll}>
                 Update All
             </Button>
+}
             </div>
            
         </Container>

@@ -1,4 +1,4 @@
-// frontend/src/components/MarksheetView.js
+
 import React, { useEffect, useState } from 'react';
 import axios from '../api/axiosInstance';
 import { useParams } from 'react-router-dom';
@@ -28,7 +28,7 @@ const MarksheetView = () => {
 
         const doc = new jsPDF();
 
-        // Add content to PDF as per requirements
+       
         doc.setFontSize(18);
         doc.text('Marksheet', 105, 20, null, null, 'center');
         doc.setFontSize(12);
@@ -40,7 +40,7 @@ const MarksheetView = () => {
         doc.text(`Name: ${marksheet.name || 'Dummy Name'}`, 14, 80);
         doc.text(`Year & Sem: ${marksheet.year}, ${marksheet.sem}`, 14, 90);
 
-        // Subjects Table
+       
         const subjects = marksheet.subjects.map(subject => ({
             subject: subject.name || 'Dummy Subject',
             code: subject.code || 'Dummy Code',
@@ -56,10 +56,10 @@ const MarksheetView = () => {
             startY: 100,
         });
 
-        // Summations and Additional Info
+       
         const sumTotalMarks = subjects.reduce((sum, sub) => sum + (sub.totalMark || 0), 0);
         const sumScoredMarks = subjects.reduce((sum, sub) => sum + (sub.scoredMark || 0), 0);
-        const rank = 1; // Implement rank calculation based on your logic
+        const rank = 1; 
 
         doc.text(`Total Marks: ${sumTotalMarks}`, 14, doc.lastAutoTable.finalY + 10);
         doc.text(`Scored Marks: ${sumScoredMarks}`, 14, doc.lastAutoTable.finalY + 20);

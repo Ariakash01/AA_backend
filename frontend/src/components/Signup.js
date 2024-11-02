@@ -1,17 +1,22 @@
+import { IoEyeOutline } from "react-icons/io5";
+import { FaRegEyeSlash } from "react-icons/fa"
 // frontend/src/components/Signup.js
 import React, { useState } from 'react';
 import axios from '../api/axiosInstance';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
+import '../App.css';
 
 const Signup = ({ setUser }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [college, setCollege] = useState('')
-    const [dept, setDept] = useState('');
+    const [college, setCollege] = useState('Dr. Sivanthi Aditanar College of Engineering');
+    const [dept, setDept] = useState('Information Technology');
     const [error, setError] = useState('');
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
     const navigate = useNavigate();
 
@@ -25,13 +30,20 @@ const Signup = ({ setUser }) => {
         }
 
         try {
-            const res = await axios.post('/auth/signup', { name, email,college,dept, password, confirmPassword });
+            const res = await axios.post('/auth/signup', { name, email, college, dept, password, confirmPassword });
             localStorage.setItem('token', res.data.token);
-            setUser(res.data);
             navigate('/');
         } catch (err) {
             setError(err.response?.data?.message || 'Signup failed');
         }
+    };
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setConfirmPasswordVisible(!confirmPasswordVisible);
     };
 
     return (
@@ -60,8 +72,9 @@ const Signup = ({ setUser }) => {
                         required
                     />
                 </Form.Group>
-                <Form.Group controlId="formName" className="mb-3">
-                    <Form.Label>college</Form.Label>
+                
+                <Form.Group controlId="formCollege" className="mb-3">
+                    <Form.Label>College</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Enter your College"
@@ -70,7 +83,8 @@ const Signup = ({ setUser }) => {
                         required
                     />
                 </Form.Group>
-                <Form.Group controlId="formName" className="mb-3">
+
+                <Form.Group controlId="formDept" className="mb-3">
                     <Form.Label>Department</Form.Label>
                     <Form.Control
                         type="text"
@@ -80,32 +94,63 @@ const Signup = ({ setUser }) => {
                         required
                     />
                 </Form.Group>
-                <Form.Group controlId="formBasicPassword" className="mb-3">
+
+                <Form.Group controlId="formBasicPassword" className="mb-3" style={{ position: 'relative' }}>
                     <Form.Label>Password</Form.Label>
                     <Form.Control
-                        type="password"
+                        type={passwordVisible ? "text" : "password"}
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+                    <span
+                        onClick={togglePasswordVisibility}
+                        style={{
+                            position: 'absolute',
+                            top: '70%',
+                            right: '10px',
+                            transform: 'translateY(-50%)',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        {passwordVisible ? <IoEyeOutline />: <FaRegEyeSlash /> }
+                    </span>
                 </Form.Group>
 
-                <Form.Group controlId="formConfirmPassword" className="mb-3">
+                <Form.Group controlId="formConfirmPassword" className="mb-3" style={{ position: 'relative' }}>
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control
-                        type="password"
+                        type={confirmPasswordVisible ? "text" : "password"}
                         placeholder="Confirm Password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
+                    <span
+                        onClick={toggleConfirmPasswordVisibility}
+                        style={{
+                            position: 'absolute',
+                            top: '70%',
+                            right: '10px',
+                            transform: 'translateY(-50%)',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        {confirmPasswordVisible ?  <IoEyeOutline />: <FaRegEyeSlash /> }
+                    </span>
                 </Form.Group>
 
                 <Button variant="primary" type="submit">
                     Sign Up
                 </Button>
             </Form>
+            <span className='ma'>Already Have An Account</span>
+            <span>
+                <Button variant="primary" className='ml-3'>
+                    <Link to={'/login'} className='dec'>Login</Link>
+                </Button>
+            </span>
         </Container>
     );
 };

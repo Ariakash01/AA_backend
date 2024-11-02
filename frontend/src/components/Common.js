@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from '../api/axiosInstance';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
-const Common = () => {
+const Common = ({user}) => {
     const [formData, setFormData] = useState({
         templateName: '',
         college: 'Dr. Sivanthi Aditanar College of Engineering , Tiruchendur',
@@ -53,14 +53,14 @@ const Common = () => {
         const { noOfStudents, ...dataToSend } = formData;
     
         try {
-            // Create multiple copies of the form data based on the number of students
+          
             for (let i = 0; i < parseInt(noOfStudents); i++) {
                 const studentData = {
                     ...dataToSend,
-                    studentNumber: i + 1, // You can add a unique student identifier if needed
+                    studentNumber: i + 1, 
                 };
     
-                // Send form data for each student
+             
                 await axios.post('/marksheets', studentData, {
                     headers: { 'Content-Type': 'application/json' }
                 });
@@ -198,7 +198,7 @@ const Common = () => {
                     </Col>
                 </Row>
 
-                {/* Subjects Section */}
+                
                 <h4>Subjects</h4>
                 {formData.subjects.map((subject, index) => (
                     <Row key={index} className="mb-3">
@@ -346,8 +346,11 @@ const Common = () => {
                         </Form.Group>
                     </Col>
                 </Row>
+{
 
+user && 
                 <Button variant="primary" type="submit">Create Template</Button>
+}
             </Form>
         </Container>
     );
