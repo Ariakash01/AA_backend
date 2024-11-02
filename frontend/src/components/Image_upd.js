@@ -21,7 +21,7 @@ const Image_upd = ({ user }) => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             const filename = res.data.filename;
-            setUploadedImageUrl(`http://localhost:5000//uploads/${filename}`);
+            setUploadedImageUrl(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/uploads/${filename}`);
 
            
             console.log('Image uploaded successfully');

@@ -468,18 +468,18 @@ padding: 0;
 }
 
 
-/* Fixed Heading Below Navbar */
+
 .header {
-  background-color: #343a40; /* Dark background for the header */
-  margin-top: 56px; /* Space for fixed navbar */
-  z-index: 1020; /* Ensure header is below navbar */
+  background-color: #343a40; 
+  margin-top: 56px; 
+  z-index: 1020; 
 }
 
-/* Content area */
+
 .content {
-  padding: 20px; /* Padding around the content */
-  background-color: #a2b5c7; /* Light background for content area */
-  min-height: calc(100vh - 112px); /* Ensure content area takes full height minus navbar and header */
+  padding: 20px;
+  background-color: #a2b5c7;
+  min-height: calc(100vh - 112px); 
 }
 
 .wel{
