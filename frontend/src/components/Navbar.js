@@ -71,9 +71,30 @@ const NavbarComponent = () => {
             }
         };
         fetchTemplates();
-    }, [user]);
+    }, []);
 
+    const fetchTemplates = async () => {
+        if (user) {
+            try {
+                const res = await axios.get('/marksheets');
+                setTemplates(res.data);
 
+                const uniqueNames = new Set();
+
+             
+                res.data.forEach(marksheet => uniqueNames.add(marksheet.templateName));
+                
+          
+                const uniqueNameArray = Array.from(uniqueNames);
+                setName(uniqueNameArray)
+                
+                console.log(uniqueNameArray); 
+                
+            } catch (error) {
+                console.error('Error fetching templates:', error);
+            }
+        }
+    };
    
 
     const handleDelete = async (template) => {
@@ -107,7 +128,7 @@ const NavbarComponent = () => {
            >
                                 <Nav.Link   as={Link} to="/">Home</Nav.Link>
                                 <Nav.Link as={Link} to="/template">Template</Nav.Link>
-                                <NavDropdown title="Update" id="marks-nav-dropdown" >
+                                <NavDropdown title="Update" id="marks-nav-dropdown" onClick={fetchTemplates}>
                                     <div className='scroll'>
                                     {name.map(template => (
                                    
@@ -132,7 +153,7 @@ const NavbarComponent = () => {
                                     </div>
                                 </NavDropdown>
                               
-                                <NavDropdown title="Marksheets" id="marksheets-nav-dropdown">
+                                <NavDropdown title="Marksheets" id="marksheets-nav-dropdown" onClick={fetchTemplates}>
                                 <div className='scroll'>
                                     {name.map(template => (
                                          <p className="ss"> 
