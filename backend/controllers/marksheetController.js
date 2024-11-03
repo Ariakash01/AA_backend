@@ -79,24 +79,6 @@ console.log("hello")
     }
 };
 
-exports.updateMarksheet = async (req, res) => {
-    const { id } = req.params;
-    const data = req.body;
-    try {
-        const marksheet = await Marksheet.findOneAndUpdate(
-            { _id: id, userId: req.user._id },
-            data,
-            { new: true }
-        );
-        if (marksheet) {
-            res.json(marksheet);
-        } else {
-            res.status(404).json({ message: 'Marksheet not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
 
 
 
@@ -172,8 +154,13 @@ new_sum_scored_mark=0
 
         try {
             
-            const passingMarksheets = await Marksheet.find({userId:req.user._id,status:'Pass'});
-            
+            const passingMarksheets = await Marksheet.find({userId:req.user._id,status:'Pass',testName:marksheet.testName});
+
+
+
+          {/*  
+            const passingMarksheets= passingMarksheetss.filter(sheet=>sheet.status==='Pass')
+*/} 
          
             passingMarksheets.sort((a, b) => {
                 console.log("Ranks updated successfully.");
@@ -210,6 +197,30 @@ new_sum_scored_mark=0
 
 
 {/*
+
+
+
+
+
+    exports.updateMarksheet = async (req, res) => {
+    const { id } = req.params;
+    const data = req.body;
+    try {
+        const marksheet = await Marksheet.findOneAndUpdate(
+            { _id: id, userId: req.user._id },
+            data,
+            { new: true }
+        );
+        if (marksheet) {
+            res.json(marksheet);
+        } else {
+            res.status(404).json({ message: 'Marksheet not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
     exports.getAllMarksheets = async (req, res) => {
     try {
