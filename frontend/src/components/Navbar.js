@@ -126,9 +126,9 @@ const NavbarComponent = () => {
                             <Nav  className=" me-auto my-2 my-lg-0 navv"
             
            >
-                                <Nav.Link   as={Link} to="/">Home</Nav.Link>
-                                <Nav.Link as={Link} to="/template">Template</Nav.Link>
-                                <NavDropdown title="Update" id="marks-nav-dropdown" onClick={fetchTemplates}>
+                                <Nav.Link   as={Link} to="/" className='mmove'>Home</Nav.Link>
+                                <Nav.Link as={Link} to="/template" className='mmove'>Template</Nav.Link>
+                                <NavDropdown title="Update" id="marks-nav-dropdown" onClick={fetchTemplates} className='mmove'>
                                     <div className='scroll'>
                                     {name.map(template => (
                                    
@@ -153,7 +153,7 @@ const NavbarComponent = () => {
                                     </div>
                                 </NavDropdown>
                               
-                                <NavDropdown title="Marksheets" id="marksheets-nav-dropdown" onClick={fetchTemplates}>
+                                <NavDropdown title="Marksheets" id="marksheets-nav-dropdown" onClick={fetchTemplates} className='mmove'>
                                 <div className='scroll'>
                                     {name.map(template => (
                                          <p className="ss"> 
@@ -169,7 +169,7 @@ const NavbarComponent = () => {
                                     ))}
                                     </div>
                                 </NavDropdown>
-                                <Nav.Link   as={Link} to="/images_update">Image_Update</Nav.Link>
+                                <Nav.Link   as={Link} to="/images_update" className='mmove'>Image_Update</Nav.Link>
 
 
                             </Nav>

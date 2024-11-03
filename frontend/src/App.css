@@ -1,5 +1,5 @@
 
-@media  (max-width:1800px) and (min-width:200px){
+@media  (max-width:1800px) {
 body {
   margin: 0; /* Remove default body margin */
   font-family: Arial, sans-serif; /* Font family */
@@ -19,9 +19,9 @@ body {
   text-align: center;
 }
 .navv{
+  margin-right:20px;
   background-color:rgb(152, 234, 255);
   border-radius: 0.5rem;
-  padding: 0.2rem;
   
 }
 
@@ -40,6 +40,7 @@ body {
 .padd{
   padding-left: 1.5rem;
 }
+
 .foot{
   position: relative;
 
@@ -118,7 +119,7 @@ padding: 0;
 padding: 0;
 border-bottom: 1px solid;
 width: max-content;
-margin-left: 28%;
+margin-left: 15%;
 text-align: center;
   
 }
@@ -247,24 +248,35 @@ border-radius: 1rem;
   font-weight: 700;
 }
 
-
-.addr{
+.side{
+  margin-left: 5rem;
+}
+.adr{
   display: flex;
-
+border: 1px soid;
+gap: 0;
+width: 100%;
  
+}
+.mve{
+
 }
 .addre{
   font-size: small;
   font-weight: 700;
   margin-left: 0.6rem;
-}
-.address{
-  display: flex;
-margin-left: 10%;
-  flex-direction: column;
-  word-wrap: wrap;
  
-  width: 25%;
+}
+.address,.mve{
+
+  display: flex;
+  flex-direction: column;
+ max-height: 90px;
+width: 250px;
+
+}
+.bbor{
+  border: 1px soid;
 }
 .btnn{
   display: flex;
@@ -282,16 +294,16 @@ margin-left: 10%;
  
 
 }
-
-
 .stamps h6{
-  text-align: center;
+  text-wrap: nowrap;
 }
+
+
 .stamp{
   border: 1px solid;
-width: 63%;
-  height: 70%;
-  margin-left: 1.5rem;
+  height: 80px;
+  width: 80px;
+ 
 }
 
 .para_tam:first-letter{
@@ -386,6 +398,7 @@ padding: 0.4rem;
 }
 .overr{
   overflow: scroll;
+  overflow-y: scroll;
 }
 
 
@@ -428,7 +441,8 @@ padding: 0.4rem;
 
 .scroll{
   height:6rem;
-  overflow-y: scroll;
+  width: 10rem;
+  overflow: scroll;
 
 
 }
@@ -487,8 +501,7 @@ padding: 0;
   max-width: 20%;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: 0.4rem
-;}
+  margin-left: 0.4rem;}
 
 
 .tablle{
@@ -497,6 +510,22 @@ padding: 0;
 }
 
 }
+
+
+
+@media  (max-width:1800px) and (min-width:992px){
+
+.navv{
+  height: 3rem;
+  font-size: large;
+  padding-top: 0.2rem;
+}
+}
+
+
+
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
 
@@ -533,14 +562,34 @@ padding: 0;
     border-radius: 0.5rem;
   
   margin-bottom: 0.3rem;
-  
+
   padding: 0.4rem;
     width: 100%;
     display: flex;
     justify-content: end;
     height: max-content;
   }
+
+
+  .addr{
+    display: flex;
+  border: 1px soid;
+  gap: 0;
+  width: 100%;
+   
+  }
+  .address{
+    border: 1px soid;
+    display: flex;
+    flex-direction: column;
+    word-wrap: wrap;
+   max-width: 40%;
+  
+  }
  
+.ss,.scroll,.mmove{
+  margin-left: 1rem;
+}
   .img_move{
     margin-right: 1rem;
     border-radius: 0.4rem;
@@ -572,7 +621,6 @@ padding: 0;
 }
 
   .navv{
-    background-color: #f1c676;
     border-radius: 0.5rem;
  margin-top: 0.4rem;
  margin-bottom: 0.3rem;
@@ -589,7 +637,6 @@ padding: 0;
   .navv{
     background-color:rgb(152, 234, 255);
     border-radius: 0.5rem;
-    padding: 0.2rem;
     margin: 0;
     
   }

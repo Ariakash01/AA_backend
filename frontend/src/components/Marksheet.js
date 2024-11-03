@@ -232,23 +232,23 @@ const Marksheet = ({user}) => {
                     </Card.Body>
 
                     </div>
-                    <div className='addr'>
-                        <div className='address'>
+                    <div className='adr side'>
+                        <div className='adress bbor'>
                           <h6>
 From                          </h6>
-                        <p className='addre'>
+                        <p className='addre mve'>
                               {marksheet.fromAddress}
                           </p>
                         </div>
-                        <div className='address'>
+                        <div className='adress bbor'>
                           <h6>
                             To
                           </h6>
-                          <p className='addre'>
+                          <p className='addre mve'>
                             {marksheet.toAddress}
                             </p>
                         </div>
-                        <div className='stamps'>
+                        <div className='adress stamps'>
                             <h6>
                                 STAMP
                             </h6>
