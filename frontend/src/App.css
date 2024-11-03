@@ -441,8 +441,7 @@ padding: 0.4rem;
 
 .scroll{
   height:6rem;
-  width: 10rem;
-  overflow: scroll;
+  overflow-y: scroll;
 
 
 }
