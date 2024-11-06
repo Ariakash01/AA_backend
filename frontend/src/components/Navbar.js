@@ -115,7 +115,7 @@ const NavbarComponent = () => {
             <Container>
             {user && (
                         <>
-            <img src={user.imagePath||logoo} width={50} height={50} className='mr-2' ></img>
+            <img src={user.imagePath||logoo} width={50} height={50} className='mr-2 im_br' ></img>
                 <Navbar.Brand as={Link} to="/" className='wel'>{user.dept}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" className='menu'/>
                 </>

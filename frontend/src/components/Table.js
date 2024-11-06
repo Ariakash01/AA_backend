@@ -201,6 +201,7 @@ const TableComponent = ({user}) => {
                                             onChange={(e) => handleInputChange(marksheet._id, 'remarks', e.target.value)}
                                         />
                                     </td>
+                                  
                                     <td className='upd_del'>
                                     {user &&
                                     <>

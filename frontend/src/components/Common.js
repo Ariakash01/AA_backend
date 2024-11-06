@@ -18,7 +18,8 @@ const Common = ({user}) => {
         passingMark: 50,
         fromDate: '',
         toDate: '',
-        remarks: 'Work Hard. Study well and can do betterr',
+        remarks: 'Work Hard. Study well and can do better',
+        total_class:'',
         advisorName: '',
         hodName: '',
         fromAddress: 'The Principal Dr. Sivanthi Aditanar College of Engineering, Tirunelveli Road, Tiruchendur - 628 215',
@@ -295,6 +296,21 @@ const Common = ({user}) => {
                             />
                         </Form.Group>
                     </Col>
+
+                    <Col md={6}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Total CLass</Form.Label>
+                
+                                        <Form.Control
+                                             type="number"
+                                             name="total_class"
+                                             value={formData.total_class}
+                                             onChange={handleChange}
+                                        />
+                                
+                                </Form.Group>
+                                </Col>
+
                 </Row>
 
                 <Row>

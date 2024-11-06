@@ -118,7 +118,7 @@ const Marksheet = ({user}) => {
                       
                         <Card.Text>
                             <div className='logo'>
-                            <img src={user.imagePath||logoo} width={85} height={85}></img>
+                            <img src={user.imagePath||logoo} width={50} height={50}></img>
                             <div className='right'>
                            
                             <h6 className='centre clg'> {marksheet.college || 'Dummy College'}</h6>
@@ -141,7 +141,7 @@ const Marksheet = ({user}) => {
                                </div>
                                <div className='lf_part_varr'>
                             <span className='lf_part_var medi_only'>Class & Sem </span>
-                               <span className='lf_part medi_only'>: {marksheet.year}, {marksheet.sem}</span>
+                               <span className='lf_part medi_only'>: {marksheet.sem}</span>
                                </div>
                         </Card.Text>
                         <table  bordered className='bdr tbl'>
