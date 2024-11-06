@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from '../api/axiosInstance';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Spinner } from 'react-bootstrap';
+import '../App.css'; // Add a new CSS file for styling
 
-const Common = ({user}) => {
+const Common = ({ user }) => {
     const [formData, setFormData] = useState({
         templateName: '',
         college: 'Dr. Sivanthi Aditanar College of Engineering , Tiruchendur',
@@ -19,12 +20,14 @@ const Common = ({user}) => {
         fromDate: '',
         toDate: '',
         remarks: 'Work Hard. Study well and can do better',
-        total_class:'',
+        total_class: '',
         advisorName: '',
         hodName: '',
         fromAddress: 'The Principal Dr. Sivanthi Aditanar College of Engineering, Tirunelveli Road, Tiruchendur - 628 215',
-        noOfStudents:'',
+        noOfStudents: '',
     });
+
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,33 +53,39 @@ const Common = ({user}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
         const { noOfStudents, ...dataToSend } = formData;
-    
+
+        setLoading(true);
+
         try {
-          
             for (let i = 0; i < parseInt(noOfStudents); i++) {
                 const studentData = {
                     ...dataToSend,
-                    studentNumber: i + 1, 
+                    studentNumber: i + 1,
                 };
-    
-             
+
                 await axios.post('/marksheets', studentData, {
                     headers: { 'Content-Type': 'application/json' }
                 });
             }
-    
+            setLoading(false);
             alert(`${noOfStudents} templates created successfully`);
         } catch (error) {
             console.error('Error creating template:', error);
             alert(error.response?.data?.message || 'Failed to create template');
+        } finally {
+            setLoading(false);
         }
     };
-    
 
     return (
-        <Container>
+        <Container className={loading ? 'loading' : ''}>
+            {loading && (
+                <div className="overlay">
+                    <Spinner animation="border"  id='sspp' />
+                </div>
+            )}
+
             <h2 className="my-4">Create Template</h2>
             <Form onSubmit={handleSubmit}>
                 <Row>
@@ -199,7 +208,6 @@ const Common = ({user}) => {
                     </Col>
                 </Row>
 
-                
                 <h4>Subjects</h4>
                 {formData.subjects.map((subject, index) => (
                     <Row key={index} className="mb-3">
@@ -291,26 +299,22 @@ const Common = ({user}) => {
                             <Form.Control
                                 type="text"
                                 name="remarks"
-                                value={'Work Hard. Study well and can do better'}
+                                value={formData.remarks}
                                 onChange={handleChange}
                             />
                         </Form.Group>
                     </Col>
-
                     <Col md={6}>
                         <Form.Group className="mb-3">
-                            <Form.Label>Total CLass</Form.Label>
-                
-                                        <Form.Control
-                                             type="number"
-                                             name="total_class"
-                                             value={formData.total_class}
-                                             onChange={handleChange}
-                                        />
-                                
-                                </Form.Group>
-                                </Col>
-
+                            <Form.Label>Total Classes</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="total_class"
+                                value={formData.total_class}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                    </Col>
                 </Row>
 
                 <Row>
@@ -341,32 +345,30 @@ const Common = ({user}) => {
                 <Row>
                     <Col md={6}>
                         <Form.Group className="mb-3">
-                            <Form.Label>No. of Students</Form.Label>
+                            <Form.Label>From Address</Form.Label>
                             <Form.Control
-                                type="number"
-                                name="noOfStudents"
-                                value={formData.noOfStudents}
+                                type="text"
+                                name="fromAddress"
+                                value={formData.fromAddress}
                                 onChange={handleChange}
                             />
                         </Form.Group>
                     </Col>
                     <Col md={6}>
                         <Form.Group className="mb-3">
-                            <Form.Label>From Address</Form.Label>
+                            <Form.Label>Number of Students</Form.Label>
                             <Form.Control
-                                type="text"
-                                name="fromAddress"
-                                value={'The Principal Dr. Sivanthi Aditanar College of Engineering, Tirunelveli Road, Tiruchendur - 628 215'}
+                                type="number"
+                                name="noOfStudents"
+                                value={formData.noOfStudents}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                     </Col>
                 </Row>
-{
 
-user && 
-                <Button variant="primary" type="submit">Create Template</Button>
-}
+                <Button variant="primary" type="submit" disabled={loading}>Create Template</Button>
             </Form>
         </Container>
     );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from '../api/axiosInstance';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Card, Button, Container, Table as BootstrapTable, Alert } from 'react-bootstrap';
+import { Card, Button, Container, Table as BootstrapTable, Spinner,Alert } from 'react-bootstrap';
 import html2pdf from 'html2pdf.js';
 import '../App.css'
 import logoo from '../logoo.png'
@@ -12,7 +12,7 @@ const Marksheet = ({user}) => {
     const { t_nm } = useParams();
     const [isDownloading, setIsDownloading] = useState(false);
     const pdfRef = useRef(null); 
-
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchMarksheets = async () => {
             try {
@@ -52,6 +52,8 @@ const Marksheet = ({user}) => {
     */} 
 
     const handleDownloadAll = () => {
+
+        setLoading(true);
         setIsDownloading(true);
         const element = pdfRef.current;
         const options = {
@@ -61,11 +63,14 @@ const Marksheet = ({user}) => {
             margin: [20, 10],
         };
         html2pdf().set(options).from(element).save().then(() => {
+            setLoading(false);
             setIsDownloading(false); 
+         
         });
     };
 
     const handleDownloadSingle = (marksheet) => {
+        setLoading(true);
         setIsDownloading(true);
         const element = document.getElementById(`marksheet-${marksheet._id}`);
         const options = {
@@ -75,6 +80,7 @@ const Marksheet = ({user}) => {
             margin: [20, 10],
         };
         html2pdf().set(options).from(element).save().then(() => {
+            setLoading(false);
             setIsDownloading(false); 
         });
     };
@@ -89,7 +95,12 @@ const Marksheet = ({user}) => {
     }
 
     return (
-        <div>
+        <div className={loading ? 'loading' : ''}>
+             {loading && (
+                <div className="overlay">
+                    <Spinner animation="border"  id='sspp' />
+                </div>
+            )}
 <h2 className="my-4">Marksheets</h2>
 <h4 className="my-4 ctre">{t_nm}</h4>
 
