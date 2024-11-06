@@ -14,6 +14,8 @@ import axios from '../api/axiosInstance';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import  '../App.css'
 import Footer from './Footer';
+import GenTemplate from './GenTemplate';
+import Student from './Student';
 const App = () => {
     const [user, setUser] = useState(null);
     useEffect(() => {
@@ -52,7 +54,8 @@ const App = () => {
                     <Route path="/marks/:t_nm" element={ <><NavbarComponent user={user} handleLogout={handleLogout} /><Table user={user}/></>} />
                     <Route path="/marksheets/:t_nm" element={<><NavbarComponent user={user} handleLogout={handleLogout} /> <Marksheet user={user}/> </>} />
                     <Route path="/images_update" element={<><NavbarComponent user={user} handleLogout={handleLogout} /><Image_upd user={user}/></>} />
-
+                    <Route path="/GenTemplate" element={<><NavbarComponent user={user} handleLogout={handleLogout} /><GenTemplate user={user}/></>} />
+                    <Route path="/student/temp_name" element={<><NavbarComponent user={user} handleLogout={handleLogout} /><Student user={user}/></>} />
                     
                 </Routes>
              

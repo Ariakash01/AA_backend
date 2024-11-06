@@ -127,6 +127,7 @@ const NavbarComponent = () => {
             
            >
                                 <Nav.Link   as={Link} to="/" className='mmove'>Home</Nav.Link>
+                                <Nav.Link   as={Link} to="/GenTemplate" className='mmove'>Create Stud</Nav.Link>
                                 <Nav.Link as={Link} to="/template" className='mmove'>Template</Nav.Link>
                                 <NavDropdown title="Update" id="marks-nav-dropdown" onClick={fetchTemplates} className='mmove'>
                                     <div className='scroll'>
@@ -169,9 +170,9 @@ const NavbarComponent = () => {
                                     ))}
                                     </div>
                                 </NavDropdown>
+
                                 <Nav.Link   as={Link} to="/images_update" className='mmove'>Image_Update</Nav.Link>
-
-
+                            
                             </Nav>
                             <Nav className="ms-auto  nav">
                                 <Navbar.Text className="me-3 ml-3">
