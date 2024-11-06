@@ -92,6 +92,8 @@ exports.updateStudentMarks =  async (req, res) => {
     const { stu_name, rollno, attendanceRate, toAddress, remarks, subjects } = req.body;
     let new_sum_total_mark=0;
     let new_sum_scored_mark=0;
+    let count=0;
+    let pf_c=0;
     try {
        
         const marksheet = await Marksheet.findById(templateId);
@@ -99,7 +101,7 @@ exports.updateStudentMarks =  async (req, res) => {
 
         if (stu_name) marksheet.stu_name = stu_name;
         if (rollno) marksheet.rollno = rollno;
-        if (attendanceRate) marksheet.attendanceRate = attendanceRate;
+        if (attendanceRate) marksheet.attendanceRate = (attendanceRate/marksheet.total_class)*100;
         if (toAddress) marksheet.toAddress = toAddress;
         if (remarks) marksheet.remarks = remarks;
 
@@ -113,14 +115,28 @@ exports.updateStudentMarks =  async (req, res) => {
 
             subjects.forEach((subjectUpdate) => {
                 if(subjectUpdate.scoredMark<50){
-                    marksheet.status="Fail";
-                    return
+                  pf_c=pf_c-1;
+                
                 }
                
                 else{
-                    marksheet.status="Pass";
+                    pf_c=pf_c+1; 
                 }
+                count=count+1;
             })
+
+            if(pf_c<count){
+                marksheet.status="Fail";
+                
+            }
+           
+            else{
+                marksheet.status="Pass";
+            }
+
+          count=0;
+          pf_c=0;
+
 
             subjects.forEach((subjectUpdate)=> {
             

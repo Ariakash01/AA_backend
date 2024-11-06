@@ -35,6 +35,7 @@ const marksheetSchema = new mongoose.Schema({
     sum_total_mark:{ type: Number,  default:0 },
     sum_scored_mark:{ type: Number ,  default:0},
     status:{type:String,default:'Fail'},
+    total_class: { type: Number },
     rank:{type:Number,default:0}
 }, { timestamps: true });
 
