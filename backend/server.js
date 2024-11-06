@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const marksheetRoutes = require('./routes/marksheetRoutes');
 const imageRoutes = require('./routes/imageRoutes');
+const studentRouter = require('./routes/studentRouter');
 const path = require('path');
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api', imageRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/marksheets', marksheetRoutes);
+app.use('/api/students', studentRouter);
 
 app.get('/', (req, res) => {
     res.send('MERN Stack Application');
