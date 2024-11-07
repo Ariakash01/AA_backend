@@ -9,16 +9,18 @@ router.post('/create-students/:user', async (req, res) => {
     
       for (let i = 0; i < num_students; i++) {
 
-        const rollno = start_roll_no + i;
+        const rollno = parseInt(start_roll_no) + parseInt(i);
         // Bulk insert only new students into DB
-        await Studenttt.create({
+     const ress=  await Studenttt.create({
           userId:user,
           // Placeholder address
           rollno,
           temp_name
     });
+  
  
   }
+  res.json(ress);
       }  catch (error) {
       console.error('Error creating students:', error);
       res.status(500).json({ message: 'Error creating students', error: error.message });
@@ -97,17 +99,18 @@ router.get('/stu_by_template/:temp_name/:user', async (req, res) => {
     }
   });
 
-  router.delete('/studs', async (req, res) =>{
+  router.delete('/studs/:user', async (req, res) =>{
     console.log("hello")
     
         const { templateName } = req.query;
+        const {user} =req.params
        
         if (!templateName) {
             return res.status(400).json({ message: 'Template name is required' });
         }
     
         try {
-            const result = await Studenttt.deleteMany({temp_name:templateName} );
+            const result = await Studenttt.deleteMany({temp_name:templateName,userId:user} );
             if (result.deletedCount > 0) {
                 return res.status(200).json({ message: 'Marksheets deleted successfully' });
             } else {
