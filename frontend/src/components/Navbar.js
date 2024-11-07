@@ -1,8 +1,4 @@
 
-
-
-
-
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../api/axiosInstance';
@@ -34,6 +30,8 @@ const NavbarComponent = () => {
 
     const [templates, setTemplates] = useState([]);
     const [name,setName]=useState([])
+    const [studs, setStudents] = useState([]);
+    const [temp_name,setStu_Temp_Name]=useState([])
     const navigate = useNavigate();
 
 
@@ -96,13 +94,45 @@ const NavbarComponent = () => {
         }
     };
    
+    const fetchStud = async () => {
+        if (user) {
+            try {
+                const res = await axios.get(`/students/stu/${user._id}`);
+                setStudents(res.data);
 
+                const uniqueNames = new Set();
+
+             
+                res.data.forEach(student => uniqueNames.add(student.temp_name));
+                
+          
+                const uniqueNameArray = Array.from(uniqueNames);
+                setStu_Temp_Name(uniqueNameArray)
+                
+                console.log(uniqueNameArray); 
+                
+            } catch (error) {
+                console.error('Error fetching templates:', error);
+            }
+        }
+    };
     const handleDelete = async (template) => {
         try {
             console.log(`11${template}`)
             await axios.delete(`/marksheets/mark/mar?templateName=${encodeURIComponent(template)}`);
             console.log(template)
             setTemplates(templates.filter(templatee => templatee.templateName !== template));
+        } catch (error) {
+            console.error('Error deleting template:', error);
+        }
+    };
+
+    const handleDelete_student = async (template) => {
+        try {
+            console.log(`${template}`)
+            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/studs?templateName=${encodeURIComponent(template)}`);
+            console.log(template)
+            setStudents(studs.filter(templatee => templatee.temp_name !== template));
         } catch (error) {
             console.error('Error deleting template:', error);
         }
@@ -170,6 +200,28 @@ const NavbarComponent = () => {
                                     ))}
                                     </div>
                                 </NavDropdown>
+
+
+
+
+
+                                <NavDropdown title="Students" id="marksheets-nav-dropdown" onClick={fetchStud} className='mmove'>
+                                <div className='scroll'>
+                                    {temp_name.map(temp_name => (
+                                         <p className="ss"> 
+                                        <NavDropdown.Item key={temp_name} as={Link} to={`/students/${temp_name}`} className="nav_item">
+                                        <span className="nav_item"> {temp_name}</span>
+                                         
+                                            <Button variant="danger" size="sm" className="ms-2" onClick={(e) => { e.preventDefault(); handleDelete_student(temp_name); }}>
+                                                Delete
+                                            </Button>
+                                            <NavDropdown.Divider/>
+                                        </NavDropdown.Item>
+                                        </p>
+                                    ))}
+                                    </div>
+                                </NavDropdown>
+
 
                                 <Nav.Link   as={Link} to="/images_update" className='mmove'>Image_Update</Nav.Link>
                             

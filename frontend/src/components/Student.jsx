@@ -3,15 +3,15 @@ import axios from 'axios';
 import { Button, Table, Form } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
-const Student = () => {
+const Student = ({user}) => {
   const { temp_name } = useParams();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
-
+ 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await axios.get(`/students/${temp_name}`);
+        const res = await axios.get(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/stu_by_template/${temp_name}/${user._id}`);
         setStudents(res.data);
       } catch (error) {
         console.error('Error fetching students:', error);
@@ -20,15 +20,15 @@ const Student = () => {
       }
     };
     fetchStudents();
-  }, [temp_name]);
+  }, [temp_name, user._id]);
 
-  const handleUpdate = async (id, name, address) => {
+  const handleUpdate = async (id, updatedData) => {
     try {
-      await axios.put(`/api/students/update-student/${id}`, { name, address });
+      console.log("send");
+      await axios.put(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/update-student/${id}`, updatedData);
+      console.log("received");
       setStudents((prev) =>
-        prev.map((student) =>
-          student._id === id ? { ...student, name, address } : student
-        )
+        prev.map((student) => (student._id === id ? { ...student, ...updatedData } : student))
       );
     } catch (error) {
       console.error('Error updating student:', error);
@@ -37,36 +37,28 @@ const Student = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/students/delete-student/${id}`);
+      await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/delete-student/${id}`);
       setStudents((prev) => prev.filter((student) => student._id !== id));
     } catch (error) {
       console.error('Error deleting student:', error);
     }
   };
 
-  const handleUpdateAll = async (name, address) => {
+  const handleUpdateAll = async (updatedData) => {
     try {
-      await axios.put(`/api/students/update-all-students/${temp_name}`, {
-        name,
-        address,
-      });
-      setStudents((prev) =>
-        prev.map((student) => ({ ...student, name, address }))
-      );
+      await axios.put(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/update-all-students/${temp_name}`, updatedData);
+      setStudents((prev) => prev.map((student) => ({ ...student, ...updatedData })));
     } catch (error) {
       console.error('Error updating all students:', error);
     }
   };
-
+ 
   return (
+
+    <>{students&&
     <div>
-      <h2>Student List for Template: {temp_name}</h2>
-      <Button
-        variant="secondary"
-        onClick={() => handleUpdateAll('Updated Name', 'Updated Address')}
-      >
-        Update All
-      </Button>
+      <h2>Students List {temp_name}</h2>
+     
 
       <Table striped bordered hover className="mt-4">
         <thead>
@@ -81,13 +73,21 @@ const Student = () => {
           {!loading ? (
             students.map((student) => (
               <tr key={student._id}>
-                <td>{student.rollno}</td>
+                <td>
+                  <Form.Control
+                    type="text"
+                    defaultValue={student.rollno}
+                    onBlur={(e) =>
+                      handleUpdate(student._id, { rollno: e.target.value, name: student.name, address: student.address })
+                    }
+                  />
+                </td>
                 <td>
                   <Form.Control
                     type="text"
                     defaultValue={student.name}
                     onBlur={(e) =>
-                      handleUpdate(student._id, e.target.value, student.address)
+                      handleUpdate(student._id, { rollno: student.rollno, name: e.target.value, address: student.address })
                     }
                   />
                 </td>
@@ -96,7 +96,7 @@ const Student = () => {
                     type="text"
                     defaultValue={student.address}
                     onBlur={(e) =>
-                      handleUpdate(student._id, student.name, e.target.value)
+                      handleUpdate(student._id, { rollno: student.rollno, name: student.name, address: e.target.value })
                     }
                   />
                 </td>
@@ -115,7 +115,7 @@ const Student = () => {
         </tbody>
       </Table>
     </div>
-  );
+}</>);
 };
 
 export default Student;
