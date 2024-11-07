@@ -1,33 +1,42 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Form, Container } from 'react-bootstrap';
+import { Button, Form, Container, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-const GenTemplate = ({user}) => {
+const GenTemplate = ({ user }) => {
   const [temp_name, setTempName] = useState('');
-  const [start_roll_no, setStartRollNo] = useState();
-  const [num_students, setNumStudents] = useState();
+  const [start_roll_no, setStartRollNo] = useState('');
+  const [num_students, setNumStudents] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading state to true
     try {
-      const res = await axios.post(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/create-students/${user._id}`, {
-        
+      await axios.post(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/create-students/${user._id}`, {
         temp_name,
         start_roll_no,
         num_students,
       });
-     
-      console.log("dsfskjdhf")
     
+      alert('Class created successfully');
+      console.log("Class and students created successfully");
     } catch (error) {
       console.error('Error creating students:', error);
+    } finally {
+      setLoading(false); // Set loading state back to false
     }
   };
 
   return (
-    <Container>
+    <Container className={loading ? 'loading' : ''}>
+      {loading && (
+        <div className="overlay">
+          <Spinner animation="border" />
+        </div>
+      )}
       <h2>Create Class</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="temp_name">
@@ -37,7 +46,7 @@ const GenTemplate = ({user}) => {
             value={temp_name}
             onChange={(e) => setTempName(e.target.value)}
             required
-            placeholder='Final Year'
+            placeholder="Final Year"
           />
         </Form.Group>
 
@@ -46,9 +55,9 @@ const GenTemplate = ({user}) => {
           <Form.Control
             type="number"
             value={start_roll_no}
-            onChange={(e) => setStartRollNo(Number(e.target.value))}
+            onChange={(e) => setStartRollNo(e.target.value)}
             required
-            placeholder='11214001'
+            placeholder="11214001"
           />
         </Form.Group>
 
@@ -57,14 +66,14 @@ const GenTemplate = ({user}) => {
           <Form.Control
             type="number"
             value={num_students}
-            onChange={(e) => setNumStudents(Number(e.target.value))}
+            onChange={(e) => setNumStudents(e.target.value)}
             required
-            placeholder='30'
+            placeholder="30"
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="mt-3">
-          Create Students
+        <Button variant="primary" type="submit" disabled={loading} className="mt-3">
+          {loading ? 'Creating...' : 'Create Students'}
         </Button>
       </Form>
     </Container>

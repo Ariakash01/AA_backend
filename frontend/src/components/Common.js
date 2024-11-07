@@ -95,6 +95,8 @@ const Common = ({ user }) => {
                     headers: { 'Content-Type': 'application/json' }
                 });
             }
+
+            setLoading(false);
             alert(`${students.length} marksheets created successfully for class ${className}`);
         } catch (error) {
             console.error('Error creating template:', error);

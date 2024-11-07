@@ -40,7 +40,9 @@ body {
 .padd{
   padding-left: 1.5rem;
 }
-
+#stu_table{
+   border-radius: 0.5rem;
+}
 .foot{
   position: relative;
 

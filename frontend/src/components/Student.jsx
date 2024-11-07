@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Table, Form } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-
+import '../App.css'
 const Student = ({user}) => {
   const { temp_name } = useParams();
   const [students, setStudents] = useState([]);
@@ -20,7 +20,7 @@ const Student = ({user}) => {
       }
     };
     fetchStudents();
-  }, [temp_name, user._id]);
+  }, [temp_name, user]);
 
   const handleUpdate = async (id, updatedData) => {
     try {
@@ -60,13 +60,13 @@ const Student = ({user}) => {
       <h2>Students List {temp_name}</h2>
      
 
-      <Table striped bordered hover className="mt-4">
+      <Table striped bordered hover responsive className="mt-4" >
         <thead>
           <tr>
-            <th>Roll No</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Actions</th>
+            <th>Roll_Number</th>
+            <th>Studen_Name</th>
+            <th>Student_Address</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -93,7 +93,8 @@ const Student = ({user}) => {
                 </td>
                 <td>
                   <Form.Control
-                    type="text"
+                     as="textarea"
+                     rows={4}
                     defaultValue={student.address}
                     onBlur={(e) =>
                       handleUpdate(student._id, { rollno: student.rollno, name: student.name, address: e.target.value })

@@ -130,7 +130,7 @@ const NavbarComponent = () => {
     const handleDelete_student = async (template) => {
         try {
             console.log(`${template}`)
-            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/studs?templateName=${encodeURIComponent(template)}`);
+            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
             console.log(template)
             setStudents(studs.filter(templatee => templatee.temp_name !== template));
         } catch (error) {
@@ -145,7 +145,7 @@ const NavbarComponent = () => {
             <Container>
             {user && (
                         <>
-            <img src={user.imagePath||logoo} width={50} height={50} className='mr-2 im_br' ></img>
+            <img src={user.imagePath || logoo} width={50} height={50} className='mr-2 im_br' ></img>
                 <Navbar.Brand as={Link} to="/" className='wel'>{user.dept}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" className='menu'/>
                 </>
