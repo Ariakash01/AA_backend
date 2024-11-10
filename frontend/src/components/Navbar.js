@@ -141,25 +141,24 @@ const NavbarComponent = () => {
     return (
         <>
         {user &&
-        <Navbar bg="light" expand="lg" className='navbarr'>
-            <Container>
+        <Navbar  expand="lg" className='navbarr' >
+        <Container className='dis_nav'>
+
             {user && (
-                        <>
+                        <Nav.Link   as={Link} to="/" className='nav_borrr'>
             <img src={user.imagePath || logoo} width={50} height={50} className='mr-2 im_br' ></img>
-                <Navbar.Brand as={Link} to="/" className='wel'>{user.dept}</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" className='menu'/>
-                </>
+                </Nav.Link>
                 )}
+                                <Navbar.Toggle aria-controls="basic-navbar-nav" className='menu'/>
+
                 <Navbar.Collapse id="basic-navbar-nav">
                     {user && (
                         <>
-                            <Nav  className=" me-auto my-2 my-lg-0 navv"
-            
-           >
-                                <Nav.Link   as={Link} to="/" className='mmove'>Home</Nav.Link>
-                                <Nav.Link   as={Link} to="/GenTemplate" className='mmove'>Create Stud</Nav.Link>
-                                <Nav.Link as={Link} to="/template" className='mmove'>Template</Nav.Link>
-                                <NavDropdown title="Update" id="marks-nav-dropdown" onClick={fetchTemplates} className='mmove'>
+                            <Nav  className=" me-auto my-2 my-lg-0 navv" >
+                                <Nav.Link   as={Link} to="/" className='mmove' id="na">Home</Nav.Link>
+                                <Nav.Link   as={Link} to="/GenTemplate" className='mmove' id="na">Create Stud</Nav.Link>
+                                <Nav.Link as={Link} to="/template" className='mmove' id="na">Template</Nav.Link>
+                                <NavDropdown title="Update" id="marks-nav-dropdown na1" onClick={fetchTemplates} className='mmove na'>
                                     <div className='scroll'>
                                     {name.map(template => (
                                    
@@ -184,7 +183,7 @@ const NavbarComponent = () => {
                                     </div>
                                 </NavDropdown>
                               
-                                <NavDropdown title="Marksheets" id="marksheets-nav-dropdown" onClick={fetchTemplates} className='mmove'>
+                                <NavDropdown title="Marksheets" id="marksheets-nav-dropdown na"  onClick={fetchTemplates} className='mmove na'>
                                 <div className='scroll'>
                                     {name.map(template => (
                                          <p className="ss"> 
@@ -205,7 +204,7 @@ const NavbarComponent = () => {
 
 
 
-                                <NavDropdown title="Students" id="marksheets-nav-dropdown" onClick={fetchStud} className='mmove'>
+                                <NavDropdown title="Students" id="marksheets-nav-dropdown na"  onClick={fetchStud} className='mmove na'>
                                 <div className='scroll'>
                                     {temp_name.map(temp_name => (
                                          <p className="ss"> 
@@ -223,7 +222,7 @@ const NavbarComponent = () => {
                                 </NavDropdown>
 
 
-                                <Nav.Link   as={Link} to="/images_update" className='mmove'>Image_Update</Nav.Link>
+                                <Nav.Link   as={Link} to="/images_update" className='mmove' id="na">Image_Update</Nav.Link>
                             
                             </Nav>
                             <Nav className="ms-auto  nav">

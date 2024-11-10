@@ -5,7 +5,7 @@ import { Table, Form, Button, Container, Alert } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import '../App.css';
 
-const TableComponent = ({user}) => {
+const TableComponent = ({ user }) => {
     const [marksheets, setMarksheets] = useState([]);
     const [formInput, setFormInput] = useState([]);
     const [error, setError] = useState('');
@@ -68,6 +68,18 @@ const TableComponent = ({user}) => {
         );
     };
 
+    const handleUpdateOnBlur = async (templateId) => {
+        const updatedData = formInput.find(input => input._id === templateId);
+
+        try {
+            await axios.put(`/marksheets/${templateId}/students`, updatedData);
+            setError('');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to update data');
+            setSuccess('');
+        }
+    };
+
     const handleDelete = async (marksheetData) => {
         const { _id } = marksheetData;
         try {
@@ -80,65 +92,18 @@ const TableComponent = ({user}) => {
         }
     };
 
-    const handleSubmitStudent = async (marksheetData) => {
-        const { _id, stu_name, rollno, attendanceRate, toAddress, remarks, subjects } = marksheetData;
-        
-        try {
-            await axios.put(`/marksheets/${_id}/students`, {
-                stu_name,
-                rollno,
-                attendanceRate,
-                toAddress,
-                remarks,
-                subjects
-            });
-            setSuccess('Student marks updated successfully');
-            setError('');
-        } catch (err) {
-            setError(err.response?.data?.message || 'Failed to update student');
-            setSuccess('');
-        }
-    };
-
-    const handleUpdateAll = async () => {
-        try {
-            await Promise.all(formInput.map(marksheet => handleSubmitStudent(marksheet)));
-            setSuccess('All marksheets updated successfully');
-            setError('');
-        } catch (err) {
-            setError('Failed to update all marksheets');
-            setSuccess('');
-        }
-    };
-
-
-
-
-
-
     return (
         <Container>
             <h2 className="my-4">Update Marks</h2>
             <h4 className="my-4 ctre">{t_nm}</h4>
-            <div className='upd_all'>
-{user &&
-<Button variant="primary" className='mb-2 ' onClick={handleUpdateAll}>
-    Update All
-</Button>
-}
-</div>
             {error && <Alert variant="danger">{error}</Alert>}
             {success && <Alert variant="success">{success}</Alert>}
 
-
-
-            
             {marksheets.length === 0 ? (
                 <p>No records found.</p>
             ) : (
                 marksheets.map(marksheet => (
                     <div key={marksheet._id} className=" container bo">
-                     
                         <Table striped bordered hover responsive className="tablle">
                             <thead>
                                 <tr>
@@ -160,6 +125,7 @@ const TableComponent = ({user}) => {
                                             type="text"
                                             value={formInput.find(input => input._id === marksheet._id)?.rollno || ''}
                                             onChange={(e) => handleInputChange(marksheet._id, 'rollno', e.target.value)}
+                                            onBlur={() => handleUpdateOnBlur(marksheet._id)}
                                         />
                                     </td>
                                     <td>
@@ -167,6 +133,7 @@ const TableComponent = ({user}) => {
                                             type="text"
                                             value={formInput.find(input => input._id === marksheet._id)?.stu_name || ''}
                                             onChange={(e) => handleInputChange(marksheet._id, 'stu_name', e.target.value)}
+                                            onBlur={() => handleUpdateOnBlur(marksheet._id)}
                                         />
                                     </td>
                                     {marksheet.subjects.map(subject => (
@@ -175,6 +142,7 @@ const TableComponent = ({user}) => {
                                                 type="number"
                                                 value={formInput.find(input => input._id === marksheet._id)?.subjects.find(sub => sub.code === subject.code)?.scoredMark || ''}
                                                 onChange={(e) => handleSubjectChange(marksheet._id, subject.code, 'scoredMark', e.target.value)}
+                                                onBlur={() => handleUpdateOnBlur(marksheet._id)}
                                             />
                                         </td>
                                     ))}
@@ -183,6 +151,7 @@ const TableComponent = ({user}) => {
                                             type="number"
                                             value={formInput.find(input => input._id === marksheet._id)?.attendanceRate || ''}
                                             onChange={(e) => handleInputChange(marksheet._id, 'attendanceRate', e.target.value)}
+                                            onBlur={() => handleUpdateOnBlur(marksheet._id)}
                                         />
                                     </td>
                                     <td>
@@ -191,6 +160,7 @@ const TableComponent = ({user}) => {
                                             rows={4}
                                             value={formInput.find(input => input._id === marksheet._id)?.toAddress || ''}
                                             onChange={(e) => handleInputChange(marksheet._id, 'toAddress', e.target.value)}
+                                            onBlur={() => handleUpdateOnBlur(marksheet._id)}
                                         />
                                     </td>
                                     <td>
@@ -199,23 +169,20 @@ const TableComponent = ({user}) => {
                                             rows={4}
                                             value={formInput.find(input => input._id === marksheet._id)?.remarks || ''}
                                             onChange={(e) => handleInputChange(marksheet._id, 'remarks', e.target.value)}
+                                            onBlur={() => handleUpdateOnBlur(marksheet._id)}
                                         />
                                     </td>
-                                  
                                     <td className='upd_del'>
-                                    {user &&
-                                    <>
-                                        <Button
-                                            variant="success"
-                                            onClick={() => handleSubmitStudent(formInput.find(input => input._id === marksheet._id))}
-                                        >
-                                            Update
-                                        </Button>
-                                        <Button className='upd_del' variant="danger" className='del pr-5' onClick={() => handleDelete(formInput.find(input => input._id === marksheet._id))}>
-                                            Delete
-                                        </Button>
-                                        </>
-}
+                                        {user &&
+                                            <>
+                                                <Button
+                                                    variant="danger"
+                                                    onClick={() => handleDelete(formInput.find(input => input._id === marksheet._id))}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </>
+                                        }
                                     </td>
                                 </tr>
                             </tbody>
@@ -223,23 +190,11 @@ const TableComponent = ({user}) => {
                     </div>
                 ))
             )}
-
-            <div className='upd_all'>
-            {user &&
-            <Button variant="primary"  onClick={handleUpdateAll}>
-                Update All
-            </Button>
-}
-            </div>
-           
         </Container>
     );
 };
 
 export default TableComponent;
-
-
-
 
 
 

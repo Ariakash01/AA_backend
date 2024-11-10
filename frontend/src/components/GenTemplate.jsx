@@ -46,7 +46,7 @@ const GenTemplate = ({ user }) => {
             value={temp_name}
             onChange={(e) => setTempName(e.target.value)}
             required
-            placeholder="Final Year"
+           
           />
         </Form.Group>
 
@@ -57,7 +57,7 @@ const GenTemplate = ({ user }) => {
             value={start_roll_no}
             onChange={(e) => setStartRollNo(e.target.value)}
             required
-            placeholder="11214001"
+            
           />
         </Form.Group>
 
@@ -68,10 +68,9 @@ const GenTemplate = ({ user }) => {
             value={num_students}
             onChange={(e) => setNumStudents(e.target.value)}
             required
-            placeholder="30"
+           
           />
         </Form.Group>
-
         <Button variant="primary" type="submit" disabled={loading} className="mt-3">
           {loading ? 'Creating...' : 'Create Students'}
         </Button>

@@ -60,7 +60,7 @@ const Student = ({user}) => {
       <h2>Students List {temp_name}</h2>
      
 
-      <Table striped bordered hover responsive className="mt-4" >
+      <Table striped bordered hover responsive className="mt-4 tt" variant="success" >
         <thead>
           <tr>
             <th>Roll_Number</th>

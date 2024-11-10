@@ -1,4 +1,6 @@
 
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;500;600&display=swap');
 @media  (max-width:1800px) {
 body {
   margin: 0; /* Remove default body margin */
@@ -8,30 +10,68 @@ body {
 
 
 }
+
+
+.bod{
+  background-color: #4db5ff;
+  
+  border-radius: 1rem;
+  padding-top: 0.3rem;
+  min-height: 91.5vh;
+}
+
+
 #root{
+  font-family: 'Poppins', sans-serif;
+  background: hsl(240, 29%, 17%);
+
+  line-height:1.7;
   margin: 0;
   padding: 0;
-  background-color: #a4caec;
-  min-height: 100vh;
+  background-color: #2c2c6c;
+    min-height: 100vh;
 }
 
 .cnte{
   text-align: center;
 }
 .navv{
+  display: flex;
+  gap: 0.5rem;
+
   margin-right:20px;
-  background-color:rgb(152, 234, 255);
   border-radius: 0.5rem;
-  
+  color: #e29f23;
+ 
+}
+#na{
+  background-color: #ffffff;
+  border: 2px solid #fff;
 }
 
-.navvv{
-  color: #01b3ef;
-   
+.dis_nav{
+  display: flex;
+  gap: 2%;
+  
+}
+#na:hover{
+  background-color: rgba(77,181,255,0.4);
+}
+.mmove:hover{
+  background-color: rgba(77,181,255,0.4);
+}
+
+.mmove{
+   color: #fff;
+   border: 2px solid;
+   border-radius: 0.5rem;
+   background-color: #ffffff;
 }
 
 .nav{
-  background-color:rgb(152, 234, 255);
+
+
+  background-color:rgb(255, 255, 255);
   border-radius: 0.5rem;
   padding: 0.3rem ;
   
@@ -66,8 +106,15 @@ gap: 0;
  gap: 20%;
 
 }
+
+
+.nav_borrr{
+  background-color: #343a40;
+  border-radius:50%;
+}
 .im_br{
- border-radius: 0.5rem;
+  border-radius:50%;
+  overflow: hidden;
 }
 .logo{
   display: flex;
@@ -225,12 +272,7 @@ border-radius: 1rem;
 .ss::after{
   background-color: #f7f7f7;
 }
-.bod{
-  background-color: #66baf1;
-  border-radius: 1rem;
-  padding-top: 0.3rem;
-  min-height: 91.5vh;
-}
+
 .mam{
   display: flex;
  
@@ -291,6 +333,17 @@ width: 250px;
  text-align: end;
   width:max-content;
 }
+.karla-tamil-inclined-regular {
+  font-family: "Karla Tamil Inclined", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.karla-tamil-inclined-bold {
+  font-family: "Karla Tamil Inclined", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
 
 
 
@@ -301,7 +354,7 @@ width: 250px;
 .para_tam{
   font-family: 'Courier New', Courier, monospace;
   font-size: small;
-  font-weight: 1000;
+  font-weight: 700;
 }
 .sign{
   margin-top: 4%;
@@ -419,14 +472,14 @@ padding: 0.4rem;
 }
 #all_down{
 
-  max-width: 700px;
+  max-width: 800px;
   padding: 0;
 } 
 
 .cont_ner{                  
    
   height: 1069.5px;
- max-width: 700px;
+ max-width: 800px;
 
  margin: 0;
 }
@@ -434,7 +487,7 @@ padding: 0.4rem;
     border: 8px solid;
     padding: 0;
     margin: 5%;
-    width: 600px;
+    width: 700px;
  
 }
 .overr{
@@ -550,17 +603,21 @@ padding: 0;
   overflow: hidden;
 }
 
+
+
+
+
+
+
+
+
 }
 
 
 
 @media  (max-width:1800px) and (min-width:992px){
 
-.navv{
-  height: 3rem;
-  font-size: large;
-  padding-top: 0.2rem;
-}
+
 }
 
 
@@ -659,6 +716,7 @@ padding: 0;
   height: 2.5rem;
   border: none;
   outline: none;
+  
 }
 
   .navv{

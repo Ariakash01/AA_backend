@@ -115,7 +115,7 @@ const Common = ({ user }) => {
             )}
 
             <h2 className="my-4">Create Template</h2>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} variant="success">
                 <Row>
                     <Col md={6}>
                         <Form.Group className="mb-3">
