@@ -104,7 +104,7 @@ const TableComponent = ({ user }) => {
             ) : (
                 marksheets.map(marksheet => (
                     <div key={marksheet._id} className=" container bo">
-                        <Table striped bordered hover responsive className="tablle">
+                        <Table striped bordered hover responsive className="tablle" variant="primary">
                             <thead>
                                 <tr>
                                     <th>Roll_Number</th>

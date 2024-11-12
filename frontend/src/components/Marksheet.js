@@ -5,6 +5,8 @@ import { Card, Button, Container, Table as BootstrapTable, Spinner,Alert } from 
 import html2pdf from 'html2pdf.js';
 import '../App.css'
 import logoo from '../logoo.png'
+import Tamil from '../AAAA.png'
+
 const Marksheet = ({user}) => {
     const [marksheets, setMarksheets] = useState([]);
     const [error, setError] = useState('');
@@ -98,7 +100,7 @@ const Marksheet = ({user}) => {
         <div className={loading ? 'loading' : ''}>
              {loading && (
                 <div className="overlay">
-                    <Spinner animation="border"  id='sspp' />
+                    <Spinner animation="border" id='sspp' />
                 </div>
             )}
 <h2 className="my-4">Marksheets</h2>
@@ -129,7 +131,7 @@ const Marksheet = ({user}) => {
                       
                         <Card.Text>
                             <div className='logo'>
-                            <img src={user.imagePath||logoo} width={50} height={50}></img>
+                            <img src={user.imagePath||logoo} width={50} height={50} className='logo_img'></img>
                             <div className='right'>
                            
                             <h6 className='centre clg'> {marksheet.college || 'Dummy College'}</h6>
@@ -230,14 +232,9 @@ const Marksheet = ({user}) => {
                   </div>
 
                 <p className='para_tam'>
-                என்னுடைய மகன்/மகள் வகுப்பு தேர்ச்சியை அறிந்து கொண்டேன். அடுத்த தேர்வில் நல்ல முறையில் தேர்ச்சி பெற அறிவுரை கூறுகிறேன். இத்துடன் இந்த தேர்ச்சி அறிக்கையை திருப்பி அனுப்புகிறேன்.
+                    <img src={Tamil}></img>
                 </p>
-                <p className='para_tam'>
-                என்னுடைய மகன்/மகள் வகுப்பு தேர்வுகள் அனைத்திலும் சேர்த்து குறைந்தபட்சம் 10% மதிப்பெண்களும் வருகை விழுக்காடு 75% பெற்றால் தான் பல்கலைக்கழக தேர்விற்கு அனுமதிக்கப்படுவார்கள் என்பதையும் நான் அறிவேன்.
-                </p>
-                <p className='sign'>
-                பெற்றோர் கையொப்பம்
-                </p>
+               
 
                        
                     </Card.Body>
