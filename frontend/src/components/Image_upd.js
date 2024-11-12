@@ -3,9 +3,17 @@ import axios from '../api/axiosInstance';
 import { Form, Button } from 'react-bootstrap';
 
 import "../App.css";
-const Image_upd = ({ user }) => {
+const Image_upd = ({ user,fetchUser }) => {
     const [image, setImage] = useState(null);
     const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+
+
+
+
+
+
+
+    
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);

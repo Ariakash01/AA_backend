@@ -35,6 +35,20 @@ const App = () => {
         fetchUser();
     }, []);
 
+
+    const fetchUser = async () => {
+          
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const res = await axios.get('/auth/me'); 
+                setUser(res.data);
+                console.log(res.data)
+            } catch (error) {
+                console.error('Failed to fetch user:', error);
+            }
+        }
+    };
     const handleLogout = () => {
         localStorage.removeItem('token');
         setUser(null);
@@ -50,12 +64,12 @@ const App = () => {
                     <Route path="/" element={<> <NavbarComponent user={user} handleLogout={handleLogout} /><Home user={user}/></>} />
                     <Route path="/login" element={ <Login  />} />
                     <Route path="/signup" element={<Signup />}  />
-                    <Route path="/template" element={<><NavbarComponent user={user} handleLogout={handleLogout} /><Common user={user}/></>} />
-                    <Route path="/marks/:t_nm" element={ <><NavbarComponent user={user} handleLogout={handleLogout} /><Table user={user}/></>} />
-                    <Route path="/marksheets/:t_nm" element={<><NavbarComponent user={user} handleLogout={handleLogout} /> <Marksheet user={user}/> </>} />
-                    <Route path="/images_update" element={<><NavbarComponent user={user} handleLogout={handleLogout} /><Image_upd user={user}/></>} />
-                    <Route path="/GenTemplate" element={<><NavbarComponent user={user} handleLogout={handleLogout} /><GenTemplate user={user}/></>} />
-                    <Route path="/students/:temp_name" element={<><NavbarComponent user={user} handleLogout={handleLogout} /><Student user={user}/></>} />
+                    <Route path="/template" element={<><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Common user={user}/></>} />
+                    <Route path="/marks/:t_nm" element={ <><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Table user={user}/></>} />
+                    <Route path="/marksheets/:t_nm" element={<><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/> <Marksheet user={user}/> </>} />
+                    <Route path="/images_update" element={<><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Image_upd user={user}/></>} />
+                    <Route path="/GenTemplate" element={<><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><GenTemplate user={user}/></>} />
+                    <Route path="/students/:temp_name" element={<><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Student user={user}/></>} />
                     
                 </Routes>
              

@@ -157,7 +157,26 @@ const NavbarComponent = () => {
                             <Nav  className=" me-auto my-2 my-lg-0 navv" >
                                 <Nav.Link   as={Link} to="/" className='mmove' id="na">Home</Nav.Link>
                                 <Nav.Link   as={Link} to="/GenTemplate" className='mmove' id="na">Create Stud</Nav.Link>
+                              
                                 <Nav.Link as={Link} to="/template" className='mmove' id="na">Template</Nav.Link>
+
+                                <NavDropdown title="Students" id="marksheets-nav-dropdown na"  onClick={fetchStud} className='mmove na'>
+                                <div className='scroll'>
+                                    {temp_name.map(temp_name => (
+                                         <p className="ss"> 
+                                        <NavDropdown.Item key={temp_name} as={Link} to={`/students/${temp_name}`} className="nav_item">
+                                        <span className="nav_item"> {temp_name}</span>
+                                         
+                                            <Button variant="danger" size="sm" className="ms-2" onClick={(e) => { e.preventDefault(); handleDelete_student(temp_name); }}>
+                                                Delete
+                                            </Button>
+                                            <NavDropdown.Divider/>
+                                        </NavDropdown.Item>
+                                        </p>
+                                    ))}
+                                    </div>
+                                </NavDropdown>
+
                                 <NavDropdown title="Update" id="marks-nav-dropdown na1" onClick={fetchTemplates} className='mmove na'>
                                     <div className='scroll'>
                                     {name.map(template => (
@@ -204,22 +223,7 @@ const NavbarComponent = () => {
 
 
 
-                                <NavDropdown title="Students" id="marksheets-nav-dropdown na"  onClick={fetchStud} className='mmove na'>
-                                <div className='scroll'>
-                                    {temp_name.map(temp_name => (
-                                         <p className="ss"> 
-                                        <NavDropdown.Item key={temp_name} as={Link} to={`/students/${temp_name}`} className="nav_item">
-                                        <span className="nav_item"> {temp_name}</span>
-                                         
-                                            <Button variant="danger" size="sm" className="ms-2" onClick={(e) => { e.preventDefault(); handleDelete_student(temp_name); }}>
-                                                Delete
-                                            </Button>
-                                            <NavDropdown.Divider/>
-                                        </NavDropdown.Item>
-                                        </p>
-                                    ))}
-                                    </div>
-                                </NavDropdown>
+                              
 
 
                                 <Nav.Link   as={Link} to="/images_update" className='mmove' id="na">Image_Update</Nav.Link>
