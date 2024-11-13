@@ -160,7 +160,7 @@ const NavbarComponent = () => {
                               
                                 <Nav.Link as={Link} to="/template" className='mmove' id="na">Template</Nav.Link>
 
-                                <NavDropdown title="Students" id="marksheets-nav-dropdown na"  onClick={fetchStud} className='mmove na'>
+                                <NavDropdown title="Class" id="marksheets-nav-dropdown na"  onClick={fetchStud} className='mmove na'>
                                 <div className='scroll'>
                                     {temp_name.map(temp_name => (
                                          <p className="ss"> 
