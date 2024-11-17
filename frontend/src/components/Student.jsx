@@ -8,10 +8,22 @@ const Student = ({user}) => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
  
+
+
+
+
+  
+
+
+
+
+
+
+
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await axios.get(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/stu_by_template/${temp_name}/${user._id}`);
+        const res = await axios.get(`http://localhost:8000/api/students/stu_by_template/${temp_name}/${user._id}`);
         setStudents(res.data);
       } catch (error) {
         console.error('Error fetching students:', error);
@@ -25,7 +37,7 @@ const Student = ({user}) => {
   const handleUpdate = async (id, updatedData) => {
     try {
       console.log("send");
-      await axios.put(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/update-student/${id}`, updatedData);
+      await axios.put(`http://localhost:8000/api/students/update-student/${id}`, updatedData);
       console.log("received");
       setStudents((prev) =>
         prev.map((student) => (student._id === id ? { ...student, ...updatedData } : student))
@@ -37,7 +49,7 @@ const Student = ({user}) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/delete-student/${id}`);
+      await axios.delete(`http://localhost:8000/api/students/delete-student/${id}`);
       setStudents((prev) => prev.filter((student) => student._id !== id));
     } catch (error) {
       console.error('Error deleting student:', error);
@@ -46,7 +58,7 @@ const Student = ({user}) => {
 
   const handleUpdateAll = async (updatedData) => {
     try {
-      await axios.put(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/update-all-students/${temp_name}`, updatedData);
+      await axios.put(`http://localhost:8000/api/students/update-all-students/${temp_name}`, updatedData);
       setStudents((prev) => prev.map((student) => ({ ...student, ...updatedData })));
     } catch (error) {
       console.error('Error updating all students:', error);
@@ -57,8 +69,11 @@ const Student = ({user}) => {
 
     <>{students&&
     <div>
-      <h2>Students List {temp_name}</h2>
+      <h2 >Students List</h2>
+      <h4 className="my-4 ctre"> {temp_name}</h4>
+
      
+      <p className="my-4 ctre">{students.length} Students Found</p>
 
       <Table striped bordered hover responsive className="mt-4 tt" variant="primary" >
         <thead>

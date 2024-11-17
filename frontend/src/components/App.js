@@ -18,6 +18,7 @@ import GenTemplate from './GenTemplate';
 import Student from './Student';
 const App = () => {
     const [user, setUser] = useState(null);
+    
     useEffect(() => {
         const fetchUser = async () => {
           
@@ -61,7 +62,7 @@ const App = () => {
                
                 <Routes>
 
-                    <Route path="/" element={<> <NavbarComponent user={user} handleLogout={handleLogout} /><Home user={user}/></>} />
+                    <Route path="/" element={<> <NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Home user={user}/></>} />
                     <Route path="/login" element={ <Login  />} />
                     <Route path="/signup" element={<Signup />}  />
                     <Route path="/template" element={<><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Common user={user}/></>} />

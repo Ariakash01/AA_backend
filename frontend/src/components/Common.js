@@ -91,7 +91,7 @@ const Common = ({ user }) => {
                     rollno: student.rollno,
                 };
 
-                await axios.post('/marksheets', studentData, {
+                await axios.post(`/marksheets/${user._id}`, studentData, {
                     headers: { 'Content-Type': 'application/json' }
                 });
             }
@@ -117,18 +117,67 @@ const Common = ({ user }) => {
             <h2 className="my-4">Create Template</h2>
             <Form onSubmit={handleSubmit} variant="success">
                 <Row>
-                    <Col md={6}>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Template Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="templateName"
-                                value={formData.templateName}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                    </Col>
+                <Col md={6}>
+<Form.Group className="mb-3">
+    <Form.Label>Template Name</Form.Label>
+    <Form.Select
+        name="templateName"
+        value={formData.templateName}
+        onChange={handleChange}
+        required
+    >
+        <option value="Select">Select Test</option>
+        <option value="Periodical Test 1 Batch 1">Periodical Test 1 Batch 1</option>
+        <option value="Periodical Test 1 Batch 2">Periodical Test 1 Batch 2</option>
+        <option value="Periodical Test 1 Batch 3">Periodical Test 1 Batch 3</option>
+        <option value="Periodical Test 1 Batch 4">Periodical Test 1 Batch 4</option>
+        <option value="Periodical Test 2 Batch 1">Periodical Test 2 Batch 1</option>
+        <option value="Periodical Test 2 Batch 2">Periodical Test 2 Batch 2</option>
+        <option value="Periodical Test 2 Batch 3">Periodical Test 2 Batch 3</option>
+        <option value="Periodical Test 2 Batch 4">Periodical Test 2 Batch 4</option>
+        <option value="Periodical Test 3 Batch 1">Periodical Test 3 Batch 1</option>
+        <option value="Periodical Test 3 Batch 2">Periodical Test 3 Batch 2</option>
+        <option value="Periodical Test 3 Batch 3">Periodical Test 3 Batch 3</option>
+        <option value="Periodical Test 3 Batch 4">Periodical Test 3 Batch 4</option>
+        <option value="Semester 1 Batch 1">Semester 1 Batch 1</option>
+        <option value="Semester 1 Batch 2">Semester 1 Batch 2</option>
+        <option value="Semester 1 Batch 3">Semester 1 Batch 3</option>
+        <option value="Semester 1 Batch 4">Semester 1 Batch 4</option>
+        <option value="Semester 2 Batch 1">Semester 2 Batch 1</option>
+        <option value="Semester 2 Batch 2">Semester 2 Batch 2</option>
+        <option value="Semester 2 Batch 3">Semester 2 Batch 3</option>
+        <option value="Semester 2 Batch 4">Semester 2 Batch 4</option>
+        <option value="Semester 3 Batch 1">Semester 3 Batch 1</option>
+        <option value="Semester 3 Batch 2">Semester 3 Batch 2</option>
+        <option value="Semester 3 Batch 3">Semester 3 Batch 3</option>
+        <option value="Semester 3 Batch 4">Semester 3 Batch 4</option>
+        <option value="Semester 4 Batch 1">Semester 4 Batch 1</option>
+        <option value="Semester 4 Batch 2">Semester 4 Batch 2</option>
+        <option value="Semester 4 Batch 3">Semester 4 Batch 3</option>
+        <option value="Semester 4 Batch 4">Semester 4 Batch 4</option>
+        <option value="Semester 5 Batch 1">Semester 5 Batch 1</option>
+        <option value="Semester 5 Batch 2">Semester 5 Batch 2</option>
+        <option value="Semester 5 Batch 3">Semester 5 Batch 3</option>
+        <option value="Semester 5 Batch 4">Semester 5 Batch 4</option>
+        <option value="Semester 6 Batch 1">Semester 6 Batch 1</option>
+        <option value="Semester 6 Batch 2">Semester 6 Batch 2</option>
+        <option value="Semester 6 Batch 3">Semester 6 Batch 3</option>
+        <option value="Semester 6 Batch 4">Semester 6 Batch 4</option>
+        <option value="Semester 7 Batch 1">Semester 7 Batch 1</option>
+        <option value="Semester 7 Batch 2">Semester 7 Batch 2</option>
+        <option value="Semester 7 Batch 3">Semester 7 Batch 3</option>
+        <option value="Semester 7 Batch 4">Semester 7 Batch 4</option>
+        <option value="Semester 8 Batch 1">Semester 8 Batch 1</option>
+        <option value="Semester 8 Batch 2">Semester 8 Batch 2</option>
+        <option value="Semester 8 Batch 3">Semester 8 Batch 3</option>
+        <option value="Semester 8 Batch 4">Semester 8 Batch 4</option>
+ 
+       
+        
+       
+    </Form.Select>
+</Form.Group>
+</Col>
                     <Col md={6}>
                         <Form.Group className="mb-3">
                             <Form.Label>College</Form.Label>
@@ -144,32 +193,59 @@ const Common = ({ user }) => {
 
                 {/* Other form fields here... */}
                 <Row>
-<Col md={6}>
+                <Col md={6}>
     <Form.Group className="mb-3">
         <Form.Label>Department</Form.Label>
-        <Form.Control
-            type="text"
+        <Form.Select
             name="department"
             value={formData.department}
             onChange={handleChange}
-        />
+            required
+        >
+            <option value="Select">Select Department</option>
+            <option value="Information Technology">Information Technology</option>
+            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+            <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+            <option value="Master of Business Administration">Master of Business Administration</option>
+        </Form.Select>
     </Form.Group>
 </Col>
+
 <Col md={6}>
-    <Form.Group className="mb-3">
-        <Form.Label>Test Name</Form.Label>
-        <Form.Control
-            type="text"
-            name="testName"
-            value={formData.testName}
-            onChange={handleChange}
-        />
-    </Form.Group>
+<Form.Group className="mb-3">
+    <Form.Label>Test Name</Form.Label>
+    <Form.Select
+        name="testName"
+        value={formData.testName}
+        onChange={handleChange}
+        required
+    >
+        <option value="Select">Select Test</option>
+        <option value="Periodical Test 1">Periodical Test 1</option>
+        <option value="Periodical Test 2">Periodical Test 2</option>
+        <option value="Periodical Test 3">Periodical Test 3</option>
+        <option value="Semester 1">Semester 1</option>
+        <option value="Semester 2">Semester 2</option>
+        <option value="Semester 3">Semester 3</option>
+        <option value="Semester 4">Semester 4</option>
+        <option value="Semester 5">Semester 5</option>
+        <option value="Semester 6">Semester 6</option>
+        <option value="Semester 7">Semester 7</option>
+        <option value="Semester 8">Semester 8</option>
+        
+       
+        
+       
+    </Form.Select>
+</Form.Group>
 </Col>
 </Row>
 
 <Row>
-<Col md={4}>
+<Col md={6}>
     <Form.Group className="mb-3">
         <Form.Label>Year</Form.Label>
         <Form.Control
@@ -181,7 +257,7 @@ const Common = ({ user }) => {
         />
     </Form.Group>
 </Col>
-<Col md={4}>
+<Col md={6}>
     <Form.Group className="mb-3">
         <Form.Label>Odd or Even</Form.Label>
         <Form.Select
@@ -196,18 +272,7 @@ const Common = ({ user }) => {
         </Form.Select>
     </Form.Group>
 </Col>
-<Col md={4}>
-    <Form.Group className="mb-3">
-        <Form.Label>Year and Sem</Form.Label>
-        <Form.Control
-            type="text"
-            name="sem"
-            value={formData.sem}
-            onChange={handleChange}
-            required
-        />
-    </Form.Group>
-</Col>
+
 </Row>
 
 <Row>
@@ -232,6 +297,7 @@ const Common = ({ user }) => {
             value={formData.date}
             onChange={handleChange}
             required
+         // Makes the entire field clickable
         />
     </Form.Group>
 </Col>
@@ -408,7 +474,12 @@ const Common = ({ user }) => {
     );
 };
 
-export default Common;
+export default Common;  
+
+
+
+
+
 
 
 

@@ -5,20 +5,20 @@ import axios from '../api/axiosInstance';
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import  '../App.css'
 import logoo from '../logoo.png'
-const NavbarComponent = () => {
+const NavbarComponent = ({userr}) => {
 
+    const [user, setUser] = useState(userr);
 
-
-    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const fetchUser = async () => {
+          
             const token = localStorage.getItem('token');
             if (token) {
                 try {
                     const res = await axios.get('/auth/me'); 
                     setUser(res.data);
-                    console.log("From nav"+res.data)
+                    console.log(res.data)
                 } catch (error) {
                     console.error('Failed to fetch user:', error);
                 }
@@ -35,21 +35,19 @@ const NavbarComponent = () => {
     const navigate = useNavigate();
 
 
+    
 
-
-  
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login')
         setUser(null);
-       
+        localStorage.removeItem('token');
+        navigate('/login');
     };
  
     useEffect(() => {
         const fetchTemplates = async () => {
             if (user) {
                 try {
-                    const res = await axios.get('/marksheets');
+                    const res = await axios.get(`/marksheets/${user._id}`);
                     setTemplates(res.data);
 
                     const uniqueNames = new Set();
@@ -74,7 +72,7 @@ const NavbarComponent = () => {
     const fetchTemplates = async () => {
         if (user) {
             try {
-                const res = await axios.get('/marksheets');
+                const res = await axios.get(`/marksheets/${user._id}`);
                 setTemplates(res.data);
 
                 const uniqueNames = new Set();
@@ -119,7 +117,7 @@ const NavbarComponent = () => {
     const handleDelete = async (template) => {
         try {
             console.log(`11${template}`)
-            await axios.delete(`/marksheets/mark/mar?templateName=${encodeURIComponent(template)}`);
+            await axios.delete(`/marksheets/mark/${user._id}/mar?templateName=${encodeURIComponent(template)}`);
             console.log(template)
             setTemplates(templates.filter(templatee => templatee.templateName !== template));
         } catch (error) {
@@ -130,7 +128,7 @@ const NavbarComponent = () => {
     const handleDelete_student = async (template) => {
         try {
             console.log(`${template}`)
-            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
+            await axios.delete(`http://localhost:8000/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
             console.log(template)
             setStudents(studs.filter(templatee => templatee.temp_name !== template));
         } catch (error) {
@@ -146,7 +144,7 @@ const NavbarComponent = () => {
 
             {user && (
                         <Nav.Link   as={Link} to="/" className='nav_borrr'>
-            <img src={user.imagePath || logoo} width={50} height={50} className='mr-2 im_br' ></img>
+            <img src={ logoo} width={50} height={50} className='mr-2 im_br' ></img>
                 </Nav.Link>
                 )}
                                 <Navbar.Toggle aria-controls="basic-navbar-nav" className='menu'/>
@@ -156,7 +154,7 @@ const NavbarComponent = () => {
                         <>
                             <Nav  className=" me-auto my-2 my-lg-0 navv" >
                                 <Nav.Link   as={Link} to="/" className='mmove' id="na">Home</Nav.Link>
-                                <Nav.Link   as={Link} to="/GenTemplate" className='mmove' id="na">Create Stud</Nav.Link>
+                                <Nav.Link   as={Link} to="/GenTemplate" className='mmove' id="na">Create Class</Nav.Link>
                               
                                 <Nav.Link as={Link} to="/template" className='mmove' id="na">Template</Nav.Link>
 
@@ -224,10 +222,12 @@ const NavbarComponent = () => {
 
 
                               
-
+                            {/*         For image all fn realated to image upload and get a image are work very well ,simply remove comment if want these
 
                                 <Nav.Link   as={Link} to="/images_update" className='mmove' id="na">Image_Update</Nav.Link>
-                            
+                            */}
+
+
                             </Nav>
                             <Nav className="ms-auto  nav">
                                 <Navbar.Text className="me-3 ml-3">
