@@ -1,6 +1,54 @@
 const express = require('express');
 const Studenttt = require('../models/StudentModel');
 const router = express.Router();
+
+
+
+router.post('/create-students/:user', async (req, res) => {
+  const { user } = req.params;
+
+  try {
+    const { temp_name, start_roll_no, num_students, students } = req.body;
+
+    if (students) {
+      // Handle bulk entry from Excel
+      const newStudents = students.map((student) => ({
+        userId: user,
+        rollno: student.RollNumber,
+        temp_name,
+        name: student.StudentName,
+        address: student.Address || '', // Default address if missing
+      }));
+      const response = await Studenttt.insertMany(newStudents);
+      res.json(response);
+    } else {
+      // Handle manual entry
+      const newStudents = [];
+      for (let i = 0; i < num_students; i++) {
+        const rollno = parseInt(start_roll_no) + i;
+        const student = new Studenttt({
+          userId: user,
+          rollno,
+          temp_name,
+          // Placeholder for manual entry if needed
+        });
+        newStudents.push(student);
+      }
+      const response = await Studenttt.insertMany(newStudents);
+      res.json(response);
+    }
+  } catch (error) {
+    console.error('Error creating students:', error);
+    res.status(500).json({ message: 'Error creating students', error: error.message });
+  }
+});
+
+
+
+
+
+/*
+
 router.post('/create-students/:user', async (req, res) => {
   const {user} =req.params;
     try {
@@ -28,7 +76,7 @@ router.post('/create-students/:user', async (req, res) => {
   });
   
 
-
+*/
 
 
 router.get('/stu/:userId',async(req,res)=>{

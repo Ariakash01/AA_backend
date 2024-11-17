@@ -3,7 +3,7 @@ const Marksheet = require('../models/Marksheet');
 
 
 exports.createMarksheet = async (req, res) => {
-    const userId = req.user._id;
+    const {userId} = req.params;
     const data = req.body;
 
     const marksheet = new Marksheet({
@@ -21,9 +21,9 @@ exports.createMarksheet = async (req, res) => {
 
 
 exports.getMarksheets = async (req, res) => {
-    const userId = req.user._id;
+    const {user }= req.params;
     try {
-        const marksheets = await Marksheet.find({ userId });
+        const marksheets = await Marksheet.find({ userId:user });
         res.json(marksheets);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -32,10 +32,10 @@ exports.getMarksheets = async (req, res) => {
 
 
 exports.marksheets = async (req, res) => {
-    const userId = req.user._id;
-    const { templateName } = req.params;
+  
+    const { templateName ,user} = req.params;
     try {
-        const marksheets = await Marksheet.find({ userId,templateName });
+        const marksheets = await Marksheet.find({ userId:user,templateName });
         res.json(marksheets);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -46,7 +46,43 @@ exports.marksheets = async (req, res) => {
 exports.deleteMarksheet = async (req, res) => {
     const { _id } = req.params;
     try {
+
+        const marksheett = await Marksheet.find({ _id: _id, userId: req.user._id });
+
         const marksheet = await Marksheet.findOneAndDelete({ _id: _id, userId: req.user._id });
+
+
+
+
+        try {
+            
+            const passingMarksheets = await Marksheet.find({userId:req.user._id,status:'Pass',testName:marksheett.testName});
+
+
+
+          {/*  
+            const passingMarksheets= passingMarksheetss.filter(sheet=>sheet.status==='Pass')
+*/} 
+         
+            passingMarksheets.sort((a, b) => {
+                console.log("Ranks updated successfully.");
+                const totalA = a.sum_scored_mark
+                const totalB = b.sum_scored_mark
+                return totalB - totalA; 
+            });
+    
+           
+            for (let i = 0; i < passingMarksheets.length; i++) {
+                passingMarksheets[i].rank = i + 1; 
+                await passingMarksheets[i].save(); 
+            }
+            console.log("Ranks updated successfully.");
+        } catch (error) {
+            console.error("Error updating ranks:", error);
+        }
+
+
+
         if (marksheet) {
             res.json({ message: 'Marksheet deleted successfully' });
         } else {
@@ -59,20 +95,27 @@ exports.deleteMarksheet = async (req, res) => {
 
 exports.deleteMarksheets = async (req, res) => {
 console.log("hello")
-
-    const { templateName } = req.query;
+    const { templateName,user } = req.query;
    
     if (!templateName) {
         return res.status(400).json({ message: 'Template name is required' });
     }
 
     try {
-        const result = await Marksheet.deleteMany({templateName} );
+        const result = await Marksheet.deleteMany({userId:user,templateName} );
+
+
+        
         if (result.deletedCount > 0) {
             return res.status(200).json({ message: 'Marksheets deleted successfully' });
         } else {
             return res.status(404).json({ message: 'Template not found' });
         }
+
+
+
+
+
     } catch (error) {
         console.error('Error deleting marksheets:', error);
         return res.status(500).json({ message: 'Failed to delete marksheets', error: error.message });
@@ -101,8 +144,11 @@ exports.updateStudentMarks =  async (req, res) => {
 
         if (stu_name) marksheet.stu_name = stu_name;
         if (rollno) marksheet.rollno = rollno;
-        if (attendanceRate) marksheet.attendanceRate = (attendanceRate/marksheet.total_class)*100;
-        if (toAddress) marksheet.toAddress = toAddress;
+        if (attendanceRate) {
+            marksheet.attendanceRate=attendanceRate;
+            marksheet.attendance = ((attendanceRate / marksheet.total_class) * 100).toFixed(2);
+        }    
+            if (toAddress) marksheet.toAddress = toAddress;
         if (remarks) marksheet.remarks = remarks;
 
       

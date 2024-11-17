@@ -24,6 +24,8 @@ const marksheetSchema = new mongoose.Schema({
     classSem: { type: String},
     subjects: [subjectSchema],
     attendanceRate: { type: Number },
+    attendance: { type: Number },
+
     fromDate: { type: Date , default: Date.now},
     toDate: { type: Date , default: Date.now},
     remarks: { type: String, default: 'Work Hard. Study well and can do better' },
