@@ -24,7 +24,6 @@ const Common = ({ user }) => {
         advisorName: '',
         hodName: '',
         fromAddress: 'The Principal Dr. Sivanthi Aditanar College of Engineering, Tirunelveli Road, Tiruchendur - 628 215',
-        class: '', // Changed field name to 'class'
     });
 
     const [loading, setLoading] = useState(false);
@@ -44,6 +43,7 @@ const Common = ({ user }) => {
                 res.data.forEach(student => uniqueNames.add(student.temp_name));
                 
                 setStuTempNames(Array.from(uniqueNames));
+                console.log(Array.from(uniqueNames))
             } catch (error) {
                 console.error('Error fetching templates:', error);
             }
@@ -118,15 +118,23 @@ const Common = ({ user }) => {
             <Form onSubmit={handleSubmit} variant="success">
                 <Row>
                 <Col md={6}>
-<Form.Group className="mb-3">
-    <Form.Label>Template Name</Form.Label>
+
+
+<Form.Group className="mb-3" onClick={fetchStud}>
+    <Form.Label>Class Name</Form.Label>
     <Form.Select
         name="templateName"
         value={formData.templateName}
         onChange={handleChange}
         required
     >
-        <option value="Select">Select Test</option>
+
+
+<option value="">Select Class</option>
+                                {stuTempNames.map((name, index) => (
+                                    <option key={index} value={name}>{name}</option>
+                                ))}
+       {/* <option value="Select">Select Test</option>
         <option value="Periodical Test 1 Batch 1">Periodical Test 1 Batch 1</option>
         <option value="Periodical Test 1 Batch 2">Periodical Test 1 Batch 2</option>
         <option value="Periodical Test 1 Batch 3">Periodical Test 1 Batch 3</option>
@@ -173,7 +181,7 @@ const Common = ({ user }) => {
         <option value="Semester 8 Batch 4">Semester 8 Batch 4</option>
  
        
-        
+        */}
        
     </Form.Select>
 </Form.Group>
@@ -202,7 +210,7 @@ const Common = ({ user }) => {
             onChange={handleChange}
             required
         >
-            <option value="Select">Select Department</option>
+            <option value="">Select Department</option>
             <option value="Information Technology">Information Technology</option>
             <option value="Computer Science and Engineering">Computer Science and Engineering</option>
             <option value="Mechanical Engineering">Mechanical Engineering</option>
@@ -223,7 +231,7 @@ const Common = ({ user }) => {
         onChange={handleChange}
         required
     >
-        <option value="Select">Select Test</option>
+        <option value="">Select Test</option>
         <option value="Periodical Test 1">Periodical Test 1</option>
         <option value="Periodical Test 2">Periodical Test 2</option>
         <option value="Periodical Test 3">Periodical Test 3</option>
@@ -449,22 +457,7 @@ const Common = ({ user }) => {
         />
     </Form.Group>
 </Col>
-<Col md={6}>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Select Class</Form.Label>
-                            <Form.Select
-                                name="class"
-                                value={formData.class}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Select Class</option>
-                                {stuTempNames.map((name, index) => (
-                                    <option key={index} value={name}>{name}</option>
-                                ))}
-                            </Form.Select>
-                        </Form.Group>
-                    </Col>
+
 </Row>
                 
 
