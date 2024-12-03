@@ -95,8 +95,9 @@ exports.deleteMarksheet = async (req, res) => {
 
 exports.deleteMarksheets = async (req, res) => {
 console.log("hello")
-    const { templateName,user } = req.query;
-   
+    const {templateName } = req.query;
+
+    const {user } =req.params   
     if (!templateName) {
         return res.status(400).json({ message: 'Template name is required' });
     }
