@@ -2,10 +2,12 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api',
 });
 
-// Add a request interceptor to include the token -->  https://ariakashs-marksheet-management-backend-5yy1.onrender.com
+/*Add a request interceptor to include the token -->  https://ariakashs-marksheet-management-backend-5yy1.onrender.com
+
+http://localhost:8000 */
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');

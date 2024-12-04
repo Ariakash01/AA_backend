@@ -128,7 +128,7 @@ const NavbarComponent = ({userr}) => {
     const handleDelete_student = async (template) => {
         try {
             console.log(`${template}`)
-            await axios.delete(`http://localhost:8000/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
+            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
             console.log(template)
             setStudents(studs.filter(templatee => templatee.temp_name !== template));
         } catch (error) {
