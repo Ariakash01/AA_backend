@@ -3,12 +3,12 @@ const Marksheet = require('../models/Marksheet');
 
 
 exports.createMarksheet = async (req, res) => {
-    const {userId} = req.params;
+    const {user} = req.params;
     const data = req.body;
 
     const marksheet = new Marksheet({
         ...data,
-        userId,
+        userId:user,
     });
 
     try {
@@ -21,9 +21,12 @@ exports.createMarksheet = async (req, res) => {
 
 
 exports.getMarksheets = async (req, res) => {
-    const {user }= req.params;
+    const userr = req.params.userr;
+    console.log(userr)
     try {
-        const marksheets = await Marksheet.find({ userId:user });
+
+        const marksheets = await Marksheet.find({ userId: userr});
+
         res.json(marksheets);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -35,6 +38,8 @@ exports.marksheets = async (req, res) => {
   
     const { templateName ,user} = req.params;
     try {
+        
+
         const marksheets = await Marksheet.find({ userId:user,templateName });
         res.json(marksheets);
     } catch (error) {

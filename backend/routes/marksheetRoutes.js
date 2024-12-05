@@ -1,9 +1,7 @@
 
 const express = require('express');
 const Marksheet = require('../models/Marksheet');
-const puppeteer = require('puppeteer');
-const path = require('path');
-const fs = require('fs');
+
 const {
     createMarksheet,
     getMarksheets,
@@ -24,7 +22,7 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get('/:user', getMarksheets);
+router.get('/ms/:userr', getMarksheets);
 
 router.get('/marksheet/:templateName/:user', marksheets);
 
