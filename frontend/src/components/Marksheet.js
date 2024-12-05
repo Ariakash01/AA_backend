@@ -18,6 +18,8 @@ const Marksheet = ({user}) => {
     const [isDownloading, setIsDownloading] = useState(false);
     const pdfRef = useRef(null); 
     const [loading, setLoading] = useState(false);
+  
+    const chunkSize = 30; // Maximum marksheets per PDF
     useEffect(() => {
         const fetchMarksheets = async () => {
             try {
@@ -29,6 +31,11 @@ const Marksheet = ({user}) => {
         };
         fetchMarksheets();
     }, [t_nm]);
+
+
+
+   
+
 
 
     {/*      For rank buttonku
@@ -56,6 +63,142 @@ const Marksheet = ({user}) => {
     }, []);
    */}
 
+
+   const handleDownloadAll = async () => {
+    setIsDownloading(true);
+    setLoading(true);
+
+    try {
+        const element = pdfRef.current;
+
+        // Hide buttons from the PDF
+        const buttons = element.querySelectorAll('.exclude-from-pdf');
+        buttons.forEach((button) => (button.style.display = 'none'));
+
+        // Hide the element from user view while still keeping it in the DOM
+   // Remove from the layout flow
+        element.style.zIndex = '-1'; // Ensure it's not interactive
+
+        // Estimate the total height of the content
+        const contentHeight = element.scrollHeight;
+        const pageHeight = 1108; // Approximate A4 page height in pixels (96 DPI)
+        const maxPages = 29;
+        const maxHeight = pageHeight * maxPages;
+
+        // Determine the number of chunks needed
+        const totalChunks = Math.ceil(contentHeight / maxHeight);
+
+        for (let i = 0; i < totalChunks; i++) {
+            // Create a temporary container for the chunk
+            const chunkContainer = document.createElement('div');
+            chunkContainer.style.height = `${maxHeight}px`;
+            chunkContainer.style.overflow = 'hidden';
+
+            // Clone and offset content for the current chunk
+            const clonedElement = element.cloneNode(true);
+            clonedElement.style.top = `-${i * maxHeight}px`; // Offset for chunk
+            clonedElement.style.height = `${contentHeight}px`; // Maintain full height for calculations
+            clonedElement.style.overflow = 'hidden';
+            chunkContainer.appendChild(clonedElement);
+
+            // Append the chunk container to the DOM (hidden from view)
+            document.body.appendChild(chunkContainer);
+
+            // Generate PDF for the current chunk
+            const options = {
+                filename: `Marksheets_Part_${i + 1}.pdf`,
+                jsPDF: { unit: 'pt', format: 'a4' },
+                html2canvas: { scale: 2 },
+                margin: [20, 10],
+            };
+
+            await html2pdf().set(options).from(chunkContainer).save();
+
+            // Clean up the temporary chunk container
+            document.body.removeChild(chunkContainer);
+        }
+    } catch (err) {
+        console.error('Error generating PDFs:', err);
+        alert('Failed to generate PDFs. Please try again.');
+    } finally {
+        // Restore visibility and styles
+        if (pdfRef.current) {
+            const element = pdfRef.current;
+            element.style.visibility = '';
+            element.style.position = '';
+            element.style.zIndex = '';
+        }
+
+        setLoading(false);
+        setIsDownloading(false);
+    }
+};
+
+
+
+
+
+   /*
+   const handleDownloadAll = async () => {
+    setIsDownloading(true);
+
+    setLoading(true);
+
+    try {
+        const element = pdfRef.current;
+        const buttons = element.querySelectorAll('.exclude-from-pdf');
+        buttons.forEach((button) => (button.style.display = 'none'));
+        // Estimate the total height of the content to decide the split
+        const contentHeight = element.scrollHeight;
+        const pageHeight = 1108;// Approximate height for one A4 page in px (for 96 DPI)
+        const maxPages =29;
+        const maxHeight = pageHeight * maxPages;
+       
+        // Determine the number of chunks needed
+        const totalChunks = Math.ceil(contentHeight / maxHeight);
+
+        for (let i = 0; i < totalChunks; i++) {
+            // Create a temporary div to hold the content for the current chunk
+            const chunkContainer = document.createElement('div');
+            chunkContainer.style.height = `${maxHeight}px`;
+            chunkContainer.style.overflow = 'hidden';
+
+            // Clone the content for the current chunk
+            const clonedElement = element.cloneNode(true);
+            clonedElement.style.position = 'absolute';
+            clonedElement.style.top = `-${i * maxHeight}px`; // Offset to start the chunk
+            clonedElement.style.height = `${contentHeight}px`; // Ensure full height for calculations
+            clonedElement.style.overflow = 'hidden';
+            chunkContainer.appendChild(clonedElement);
+
+            // Add the temporary container to the DOM (hidden)
+            document.body.appendChild(chunkContainer);
+
+            // Generate PDF for the current chunk
+            const options = {
+                filename: `Marksheets_Part_${i + 1}.pdf`,
+                jsPDF: { unit: 'pt', format: 'a4' },
+                html2canvas: { scale: 2 },
+                margin: [20,10],
+            };
+
+            await html2pdf().set(options).from(chunkContainer).save();
+
+            // Remove the temporary container from the DOM
+            document.body.removeChild(chunkContainer);
+        }
+    } catch (err) {
+        console.error('Error generating PDFs:', err);
+        alert('Failed to generate PDFs. Please try again.');
+    } finally {
+        setLoading(false);
+        setIsDownloading(false);
+    }
+};
+
+
+  
+
     const handleDownloadAll = () => {
 
         setLoading(true);
@@ -77,6 +220,9 @@ const Marksheet = ({user}) => {
     
     };
 
+*/
+    
+
     const handleDownloadSingle = (marksheet) => {
         setLoading(true);
         setIsDownloading(true);
@@ -85,7 +231,7 @@ const Marksheet = ({user}) => {
             filename: `${marksheet.stu_name}_Marksheet.pdf`,
             jsPDF: { unit: 'pt', format: 'a4' },
             html2canvas: { scale: 2 },
-            margin: [20, 10],
+            margin: [0, 0,0,0],
         };
         html2pdf().set(options).from(element).save().then(() => {
             setLoading(false);
@@ -127,13 +273,13 @@ const Marksheet = ({user}) => {
               
                 <div className='cont_ner'>
                 <Card key={marksheet._id} id={`marksheet-${marksheet._id}`} className="mb-4 overr">
+             
                 {!isDownloading && (
                 <div className='btnn'>
-                  <Button variant="primary" className="mb-1 btn" onClick={() => handleDownloadSingle(marksheet)}>Download Marksheet</Button>
+                  <Button variant="primary" className="exclude-from-pdf   mb-1 btn" onClick={() => handleDownloadSingle(marksheet)}>Download Marksheet</Button>
               </div>
 
                 )}
-                
                      <div className="mb-4 bord" >
                     <Card.Body>
                       
@@ -286,12 +432,7 @@ From                          </p>
 
             ))}
 
-{!isDownloading && (
-<div className='btnn'>
-<Button variant="success" className="mb-2  btn" onClick={handleDownloadAll}>Download All as PDF</Button>
-</div>
-)}
-        </Container>
+     </Container>
         </div>
     );
 };

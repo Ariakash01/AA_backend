@@ -4,7 +4,7 @@ import { FaRegEyeSlash } from "react-icons/fa"
 import React, { useState } from 'react';
 import axios from '../api/axiosInstance';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { Form, Button, Container, Alert ,Spinner} from 'react-bootstrap';
 import '../App.css';
 
 const Signup = ({ setUser }) => {
@@ -17,11 +17,13 @@ const Signup = ({ setUser }) => {
     const [error, setError] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-
+    const[loading,setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+
         setError('');
 
         if (password !== confirmPassword) {
@@ -32,6 +34,8 @@ const Signup = ({ setUser }) => {
         try {
             const res = await axios.post('/auth/signup', { name, email, college, dept, password, confirmPassword });
             localStorage.setItem('token', res.data.token);
+            setLoading(false);
+
             navigate('/');
         } catch (err) {
             setError(err.response?.data?.message || 'Signup failed');
@@ -47,6 +51,12 @@ const Signup = ({ setUser }) => {
     };
 
     return (
+        <div className={loading ? 'loading' : ''}>
+             {loading && (
+                <div className="overlay">
+                    <Spinner animation="border" id='sspp' />
+                </div>
+            )}
         <Container>
             <h2 className="my-4">Sign Up</h2>
             {error && <Alert variant="danger">{error}</Alert>}
@@ -152,6 +162,7 @@ const Signup = ({ setUser }) => {
                 </Button>
             </span>
         </Container>
+        </div>
     );
 };
 

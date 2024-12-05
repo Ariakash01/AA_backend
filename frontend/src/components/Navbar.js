@@ -43,36 +43,12 @@ const NavbarComponent = ({userr}) => {
         navigate('/login');
     };
  
-    useEffect(() => {
-        const fetchTemplates = async () => {
-            if (user) {
-                try {
-                    const res = await axios.get(`/marksheets/${user._id}`);
-                    setTemplates(res.data);
-
-                    const uniqueNames = new Set();
-
-                 
-                    res.data.forEach(marksheet => uniqueNames.add(marksheet.templateName));
-                    
-              
-                    const uniqueNameArray = Array.from(uniqueNames);
-                    setName(uniqueNameArray)
-                    
-                    console.log(uniqueNameArray); 
-                    
-                } catch (error) {
-                    console.error('Error fetching templates:', error);
-                }
-            }
-        };
-        fetchTemplates();
-    }, []);
+   
 
     const fetchTemplates = async () => {
         if (user) {
             try {
-                const res = await axios.get(`/marksheets/${user._id}`);
+                const res = await axios.get(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/marksheets/ms/${user._id}`);
                 setTemplates(res.data);
 
                 const uniqueNames = new Set();
@@ -139,7 +115,7 @@ const NavbarComponent = ({userr}) => {
     return (
         <>
         {user &&
-        <Navbar  expand="lg" className='navbarr' >
+        <Navbar  expand="lg" className='navbarr' id="nnn" >
         <Container className='dis_nav'>
 
             {user && (

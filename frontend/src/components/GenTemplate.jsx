@@ -111,26 +111,13 @@ const GenTemplate = ({ user }) => {
             required
           >
             <option value="">Select Class Name</option>
-            <option value="First Batch 1">First Batch 1</option>
-            <option value="First  Batch 2">First Batch 2</option>
+            <option value="First Year">First Year</option>
+           
+            <option value="Second Year">Second Year</option>
+            <option value="Third Year">Third Year</option>
+           
 
-            <option value="First Batch 3">First Batch 3</option>
-            <option value="First Batch 4">First Batch 4</option>
-
-            <option value="Second Batch 1">Second Batch 1</option>
-            <option value="Second Batch 2">Second Batch 2</option>
-            <option value="Second Batch 3">Second Batch 3</option>
-            <option value="Second Batch 4">Second Batch 4</option>
-            <option value="Third Batch 1">Third Batch 1</option>
-            <option value="Third Batch 2">Third Batch 2</option>
-            <option value="Third Batch 3">Third Batch 3</option>
-             <option value="Third Batch 4">Third Batch 4</option>
-            <option value="Fourth Batch 1">Fourth Batch 1</option>
-            <option value="Fourth Batch 2">Fourth Batch 2</option>
-
-            <option value="Fourth Batch 3">Fourth Batch 3</option>
-
-            <option value="Fourth Batch 4">Fourth Batch 4</option>
+            <option value="Fourth Year">Fourth Year</option>
 
           </Form.Select>
         </Form.Group>

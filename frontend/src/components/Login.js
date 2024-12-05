@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from '../api/axiosInstance';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { Form, Button, Container, Alert, Spinner } from 'react-bootstrap';
 import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash } from "react-icons/fa";
 import '../App.css';
@@ -11,15 +11,18 @@ const Login = ({ setUser }) => {
     const [password, setPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [error, setError] = useState('');
-
+const[loading,setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         setError('');
         try {
             const res = await axios.post('/auth/login', { email, password });
             localStorage.setItem('token', res.data.token);
+            setLoading(false);
+
             navigate('/');
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed');
@@ -31,6 +34,12 @@ const Login = ({ setUser }) => {
     };
 
     return (
+        <div className={loading ? 'loading' : ''}>
+             {loading && (
+                <div className="overlay">
+                    <Spinner animation="border" id='sspp' />
+                </div>
+            )}
         <Container>
             <h2 className="my-4">Login</h2>
             {error && <Alert variant="danger">{error}</Alert>}
@@ -84,6 +93,7 @@ const Login = ({ setUser }) => {
                 </Button>
             </span>
         </Container>
+        </div>
     );
 };
 
