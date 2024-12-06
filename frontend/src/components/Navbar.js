@@ -54,7 +54,7 @@ const NavbarComponent = ({userr}) => {
                 const uniqueNames = new Set();
 
              
-                res.data.forEach(marksheet => uniqueNames.add(marksheet.templateName));
+                res.data.forEach(marksheet => uniqueNames.add(marksheet.testName));
                 
           
                 const uniqueNameArray = Array.from(uniqueNames);
@@ -193,8 +193,9 @@ const NavbarComponent = ({userr}) => {
                                     </div>
                                 </NavDropdown>
 
-
-
+{user.isAdmin &&
+                                <Nav.Link   as={Link} to="/signup" className='mmove' id="na">Create Advisor</Nav.Link>
+}
 
 
                               

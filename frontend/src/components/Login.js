@@ -83,7 +83,7 @@ const[loading,setLoading] = useState(false);
                     Login
                 </Button>
             </Form>
-
+{/*
             <span className='ma'>
                 Create An Account
             </span>
@@ -92,6 +92,7 @@ const[loading,setLoading] = useState(false);
                     <Link to={'/signup'} className='dec'>Signup</Link>
                 </Button>
             </span>
+            */}
         </Container>
         </div>
     );

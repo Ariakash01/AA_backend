@@ -64,7 +64,7 @@ const App = () => {
 
                     <Route path="/" element={<> <NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Home user={user}/></>} />
                     <Route path="/login" element={ <Login  />} />
-                    <Route path="/signup" element={<Signup />}  />
+                    <Route path="/signup" element={<> <NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Signup /></>}  />
                     <Route path="/template" element={<><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Common user={user}/></>} />
                     <Route path="/marks/:t_nm" element={ <><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Table user={user}/></>} />
                     <Route path="/marksheets/:t_nm" element={<><NavbarComponent user={user} handleLogout={handleLogout} fetchUser={fetchUser}/> <Marksheet user={user}/> </>} />

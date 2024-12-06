@@ -58,7 +58,7 @@ const Signup = ({ setUser }) => {
                 </div>
             )}
         <Container>
-            <h2 className="my-4">Sign Up</h2>
+            <h2 className="my-4">Create Advisor</h2>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formName" className="mb-3">
@@ -152,15 +152,15 @@ const Signup = ({ setUser }) => {
                 </Form.Group>
 
                 <Button variant="primary" type="submit">
-                    Sign Up
-                </Button>
-            </Form>
+Create                </Button>
+            </Form>{/*
             <span className='ma'>Already Have An Account</span>
             <span>
                 <Button variant="primary" className='ml-3'>
                     <Link to={'/login'} className='dec'>Login</Link>
                 </Button>
             </span>
+            */}
         </Container>
         </div>
     );
