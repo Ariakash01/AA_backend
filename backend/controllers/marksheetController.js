@@ -40,7 +40,7 @@ exports.marksheets = async (req, res) => {
     try {
         
 
-        const marksheets = await Marksheet.find({ userId:user,templateName });
+        const marksheets = await Marksheet.find({ userId:user,testName:templateName });
         res.json(marksheets);
     } catch (error) {
         res.status(500).json({ message: error.message });
