@@ -354,7 +354,7 @@ const Marksheet = ({user}) => {
 
                             <div className='below'>
                                 <span className=' medi'>Attendance Percentage</span>
-                                <span className=' medi gp'> {marksheet.attendanceRate}%</span>
+                                <span className=' medi gp'> {marksheet.attendance}%</span>
                                
                                 <span className=' medi gp'>From :{marksheet.fromDate? new Date(marksheet.fromDate).toLocaleDateString() : 'Dummy Date'}</span>
                              

@@ -5,27 +5,12 @@ import axios from '../api/axiosInstance';
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import  '../App.css'
 import logoo from '../logoo.png'
-const NavbarComponent = ({userr}) => {
+const NavbarComponent = ({user,rel}) => {
 
-    const [user, setUser] = useState(userr);
+   
 
 
-    useEffect(() => {
-        const fetchUser = async () => {
-          
-            const token = localStorage.getItem('token');
-            if (token) {
-                try {
-                    const res = await axios.get('/auth/me'); 
-                    setUser(res.data);
-                    console.log(res.data)
-                } catch (error) {
-                    console.error('Failed to fetch user:', error);
-                }
-            }
-        };
-        fetchUser();
-    }, []);
+    
 
 
     const [templates, setTemplates] = useState([]);
@@ -130,6 +115,8 @@ const NavbarComponent = ({userr}) => {
                         <>
                             <Nav  className=" me-auto my-2 my-lg-0 navv" >
                                 <Nav.Link   as={Link} to="/" className='mmove' id="na">Home</Nav.Link>
+                                <Nav.Link   as={Link} to="/analyze" className='mmove' id="na" onClick={rel}>Analyze</Nav.Link>
+
                                 <Nav.Link   as={Link} to="/GenTemplate" className='mmove' id="na">Create Class</Nav.Link>
                               
                                 <Nav.Link as={Link} to="/template" className='mmove' id="na">Template</Nav.Link>
@@ -208,7 +195,7 @@ const NavbarComponent = ({userr}) => {
                             </Nav>
                             <Nav className="ms-auto  nav">
                                 <Navbar.Text className="me-3 ml-3">
-                                    <a href="#login" className="padd"> {user.name}</a>
+                                    <a href="#" className="padd"> {user.name}</a>
                                 </Navbar.Text>
                                 <Button variant="danger" onClick={handleLogout}>Logout</Button>
                             </Nav>

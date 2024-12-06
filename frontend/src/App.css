@@ -49,6 +49,8 @@ body {
 }
 #na{
   background-color:#35f3c4 ;
+height: 2.6rem;
+width: max-content;
 
   color: black;
   transition: all 400ms ease;
@@ -72,10 +74,38 @@ body {
 }
 
 .mmove{
+  height: 2.6rem;
+width: max-content;
   background-color:#35f3c4 ;
   color: rgb(3, 3, 3);
   transition: all 400ms ease;
   border-radius:0.4rem;
+}
+.chart-container {
+  height: 300px; /* Fixed height for consistent chart display */
+}
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.table {
+  font-size: 0.9rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.spinner-border {
+  color: #007bff;
 }
 
 .nav{
@@ -83,12 +113,12 @@ body {
 
   background-color:rgb(255, 255, 255);
   border-radius: 0.5rem;
-  padding: 0.3rem ;
   
+  height: 3rem;
 
 }
 .padd{
-  padding-left: 1.5rem;
+  padding-left: 0.3rem;
 }
 #stu_table{
    border-radius: 0.5rem;

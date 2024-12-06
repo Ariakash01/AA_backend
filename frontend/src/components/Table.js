@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import * as XLSX from 'xlsx';
 
-const TableComponent = ({ user }) => {
+const TableComponent = ({ user,setReload }) => {
     const [marksheets, setMarksheets] = useState([]);
     const [formInput, setFormInput] = useState([]);
     const [error, setError] = useState('');
@@ -157,6 +157,7 @@ const TableComponent = ({ user }) => {
 
         try {
             await axios.put(`/marksheets/${templateId}/students`, updatedData);
+            setReload(true);
             setError('');
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to update data');
@@ -230,7 +231,7 @@ const TableComponent = ({ user }) => {
                                             {marksheet.subjects.map(subject => (
                                                 <th key={subject.code}>{subject.name} ({subject.code})</th>
                                             ))}
-                                            <th>Attendance</th>
+                                            <th>Attendance(Days)</th>
                                             <th>To_Address_Of_Student</th>
                                             <th>Remarks_Of_A_Student</th>
                                             <th>Action</th>

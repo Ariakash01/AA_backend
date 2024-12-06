@@ -3,13 +3,12 @@ import axios from '../api/axiosInstance';
 import { Form, Button, Container, Row, Col, Spinner } from 'react-bootstrap';
 import '../App.css'; // Add a new CSS file for styling
 
-const Common = ({ user }) => {
+const Common = ({ user,setReload }) => {
     const [formData, setFormData] = useState({
        
         templateName: '',
         college: 'Dr. Sivanthi Aditanar College of Engineering , Tiruchendur',
         department: 'Information Technology',
-        testName: 'Periodical Test 1',
         year: '',
         oddEven: '',
         sem: '',
@@ -20,6 +19,7 @@ const Common = ({ user }) => {
         passingMark: 50,
         fromDate: '',
         toDate: '',
+        testName:'',
         remarks: 'Work Hard. Study well and can do better',
         total_class: '',
         advisorName: '',
@@ -87,8 +87,7 @@ const Common = ({ user }) => {
             for (const student of students) {
                 const studentData = {
                     ...dataToSend,
-                   
-
+                    testName: testName+templateName,
                     templateName:templateName,
                     stu_name: student.name,
                     toAddress: student.address,
