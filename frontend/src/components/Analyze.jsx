@@ -6,7 +6,7 @@ import '../App.css'
 const Home = ({ user, templates, marksheetData, loading, name }) => {
     const [total,setTotal]=useState(0);
     return (
-        <Container className="mt-4">
+        <Container className="mt-4" variany="primary">
             <h3 >
                 Students Overview
             </h3>

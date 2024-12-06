@@ -92,13 +92,18 @@ useEffect(()=>{
                                 subjectWise[subject.name].fail += 1;
                             }
                         });
-                    });
+                    }
+               
+                );
+                 
 
                     tempData[t_nm] = {
                         totalPass,
                         totalFail,
                         subjectWise,
                     };
+                    totalPass = 0;
+                 totalFail = 0;
                 } catch (error) {
                     console.error(`Error fetching marksheets for template ${t_nm}:`, error);
                 }
