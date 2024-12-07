@@ -168,24 +168,200 @@ useEffect(()=>{
 
 
 
+    const [classStats, setClassStats] = useState([]);
+    const [marksheetStats, setMarksheetStats] = useState([]);
+    const [loadingg, setLoadingg] = useState(true);
+
+    // Fetch unique named classes
+  
+
+
+    const fetchUniqueClasses = async () => {
+        if (user) {
+            try {
+                const res = await axios.get(`/students/stu/${user._id}`);
+               
+
+                const uniqueNames = new Set();
+
+             
+                res.data.forEach(student => uniqueNames.add(student.temp_name));
+                
+          
+                return Array.from(uniqueNames);
+               
+                
+              
+                
+            } catch (error) {
+                console.error('Error fetching templates:', error);
+            }
+        }
+    };
+
+
+
+    // Fetch unique named marksheets
+    const fetchUniqueNamedMarksheets = async () => {
+        try {
+            const res = await axios.get(
+                `https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/marksheets/ms/${user._id}`
+            );
+            const uniqueNames = new Set();
+            res.data.forEach((marksheet) => uniqueNames.add(marksheet.testName));
+            return Array.from(uniqueNames);
+        } catch (error) {
+            console.error('Error fetching unique named marksheets:', error);
+            return [];
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoadingg(true);
+
+            try {
+                // Fetch unique classes and their stats
+                const uniqueClasses = await fetchUniqueClasses();
+                const classData = await Promise.all(
+                    uniqueClasses.map(async (className) => {
+                        try {
+                            const studentRes = await axios.get(
+                                `https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/stu_by_template/${className}/${user._id}`
+                            );
+                           
+                            return {
+                                className,
+                                students: studentRes.data.length,
+                        
+                            };
+                        } catch (error) {
+                            console.error(`Error fetching data for class ${className}:`, error);
+                            return {
+                                className,
+                                students: 0,
+                                marksheets: 0,
+                            };
+                        }
+                    })
+                );
+                console.log(uniqueClasses);
+                setClassStats(classData);
+
+                // Fetch unique named marksheets and their counts
+                const uniqueMarksheetNames = await fetchUniqueNamedMarksheets();
+                const marksheetData = await Promise.all(
+                    uniqueMarksheetNames.map(async (testName) => {
+                        try {
+                            const res = await axios.get(`/marksheets/marksheet/${testName}/${user._id}`);
+                            return { testName, count: res.data.length };
+                        } catch (error) {
+                            console.error(`Error fetching marksheets for ${testName}:`, error);
+                            return { testName, count: 0 };
+                        }
+                    })
+                );
+                setMarksheetStats(marksheetData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoadingg(false);
+            }
+        };
+
+        fetchData();
+    }, [user]);
+
+    const fetchData = async () => {
+        setLoadingg(true);
+
+        try {
+            // Fetch unique classes and their stats
+            const uniqueClasses = await fetchUniqueClasses();
+            const classData = await Promise.all(
+                uniqueClasses.map(async (className) => {
+                    try {
+                        const studentRes = await axios.get(
+                            `https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/stu_by_template/${className}/${user._id}`
+                        );
+                     
+                        return {
+                            className,
+                            students: studentRes.data.length
+                        };
+                    } catch (error) {
+                        console.error(`Error fetching data for class ${className}:`, error);
+                        return {
+                            className,
+                            students: 0,
+                            marksheets: 0,
+                        };
+                    }
+                })
+            );
+            setClassStats(classData);
+
+            // Fetch unique named marksheets and their counts
+            const uniqueMarksheetNames = await fetchUniqueNamedMarksheets();
+            const marksheetData = await Promise.all(
+                uniqueMarksheetNames.map(async (testName) => {
+                    try {
+                        const res = await axios.get(`/marksheets/marksheet/${testName}/${user._id}`);
+                        return { testName, count: res.data.length };
+                    } catch (error) {
+                        console.error(`Error fetching marksheets for ${testName}:`, error);
+                        return { testName, count: 0 };
+                    }
+                })
+            );
+            setMarksheetStats(marksheetData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoadingg(false);
+        }
+    }
+    const handleDelete_student = async (template) => {
+        try {
+            console.log(`${template}`)
+            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
+            fetchData();
+
+            console.log(template)
+            setStudents(studs.filter(templatee => templatee.temp_name !== template));
+        } catch (error) {
+            console.error('Error deleting template:', error);
+        }
+    };
+    const handleDelete = async (template) => {
+        try {
+            console.log(`11${template}`)
+            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/marksheets/mark/${user._id}/mar?templateName=${encodeURIComponent(template)}`);
+            fetchData();
+            console.log(template)
+            setTemplates(templates.filter(templatee => templatee.templateName !== template));
+        } catch (error) {
+            console.error('Error deleting template:', error);
+        }
+    };
     return (
         <Router>
            
             <div className="container mt-4 bod">
-               
+              
                 <Routes>
 
-                    <Route path="/" element={<> <NavbarComponent rel={rel} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Home user={user} templates={templates} marksheetData={marksheetData} loading={loading} name={name} rel={rel}/></>} />
-                    <Route path="/analyze" element={<> <NavbarComponent rel={rel} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Analyze user={user} templates={templates} marksheetData={marksheetData} loading={loading} name={name} rel={rel}/></>} />
+                    <Route path="/" element={<> <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Home user={user} classStats={classStats} marksheetStats={marksheetStats} templates={templates} marksheetData={marksheetData} loading={loadingg} name={name} rel={rel}/></>} />
+                    <Route path="/analyze" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Analyze user={user} templates={templates} marksheetData={marksheetData} loading={loading} name={name} rel={rel}/></>} />
 
                     <Route path="/login" element={ <Login  />} />
-                    <Route path="/signup" element={<> <NavbarComponent rel={rel} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Signup /></>}  />
-                    <Route path="/template" element={<><NavbarComponent rel={rel} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Common user={user} setReload={setReload}/></>} />
-                    <Route path="/marks/:t_nm" element={ <><NavbarComponent rel={rel} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Table user={user} setReload={setReload}/></>} />
-                    <Route path="/marksheets/:t_nm" element={<><NavbarComponent rel={rel} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/> <Marksheet user={user}/> </>} />
-                    <Route path="/images_update" element={<><NavbarComponent rel={rel} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Image_upd user={user}/></>} />
-                    <Route path="/GenTemplate" element={<><NavbarComponent rel={rel} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><GenTemplate user={user}/></>} />
-                    <Route path="/students/:temp_name" element={<><NavbarComponent rel={rel} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Student user={user}/></>} />
+                    <Route path="/signup" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete}  rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Signup /></>}  />
+                    <Route path="/template" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Common user={user} setReload={setReload}/></>} />
+                    <Route path="/marks/:t_nm" element={ <><NavbarComponent  handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Table user={user} setReload={setReload}/></>} />
+                    <Route path="/marksheets/:t_nm" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/> <Marksheet user={user}/> </>} />
+                    <Route path="/images_update" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Image_upd user={user}/></>} />
+                    <Route path="/GenTemplate" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><GenTemplate user={user}/></>} />
+                    <Route path="/students/:temp_name" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Student user={user}/></>} />
                     
                 </Routes>
              

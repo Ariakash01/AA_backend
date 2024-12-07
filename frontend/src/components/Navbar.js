@@ -5,13 +5,14 @@ import axios from '../api/axiosInstance';
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import  '../App.css'
 import logoo from '../logoo.png'
-const NavbarComponent = ({user,rel}) => {
+const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}) => {
 
    
 
 
     
 
+    const [user, setUser] = useState(userr);
 
     const [templates, setTemplates] = useState([]);
     const [name,setName]=useState([])
@@ -20,7 +21,24 @@ const NavbarComponent = ({user,rel}) => {
     const navigate = useNavigate();
 
 
-    
+    useEffect(() => {
+        const fetchUser = async () => {
+          
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const res = await axios.get('/auth/me'); 
+                    setUser(res.data);
+                    console.log(res.data)
+                    rel();
+                    
+                } catch (error) {
+                    console.error('Failed to fetch user:', error);
+                }
+            }
+        };
+        fetchUser();
+    }, []);
 
     const handleLogout = () => {
         setUser(null);
@@ -75,27 +93,9 @@ const NavbarComponent = ({user,rel}) => {
             }
         }
     };
-    const handleDelete = async (template) => {
-        try {
-            console.log(`11${template}`)
-            await axios.delete(`/marksheets/mark/${user._id}/mar?templateName=${encodeURIComponent(template)}`);
-            console.log(template)
-            setTemplates(templates.filter(templatee => templatee.templateName !== template));
-        } catch (error) {
-            console.error('Error deleting template:', error);
-        }
-    };
+    
 
-    const handleDelete_student = async (template) => {
-        try {
-            console.log(`${template}`)
-            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
-            console.log(template)
-            setStudents(studs.filter(templatee => templatee.temp_name !== template));
-        } catch (error) {
-            console.error('Error deleting template:', error);
-        }
-    };
+   
 
     return (
         <>
@@ -114,7 +114,7 @@ const NavbarComponent = ({user,rel}) => {
                     {user && (
                         <>
                             <Nav  className=" me-auto my-2 my-lg-0 navv" >
-                                <Nav.Link   as={Link} to="/" className='mmove' id="na">Home</Nav.Link>
+                                <Nav.Link   as={Link} to="/" className='mmove' id="na" onClick={fetchData}>Home</Nav.Link>
                                 <Nav.Link   as={Link} to="/analyze" className='mmove' id="na" onClick={rel}>Analyze</Nav.Link>
 
                                 <Nav.Link   as={Link} to="/GenTemplate" className='mmove' id="na">Create Class</Nav.Link>

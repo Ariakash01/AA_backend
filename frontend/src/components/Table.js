@@ -81,6 +81,7 @@ const TableComponent = ({ user,setReload }) => {
         setSuccess('');
 
         try {
+           
             // Read the file as array buffer
             const data = await file.arrayBuffer();
             const workbook = XLSX.read(data, { type: 'array' });
@@ -307,6 +308,5 @@ const TableComponent = ({ user,setReload }) => {
             </div>
         </Container>
     );
-};
-
+}; 
 export default TableComponent;

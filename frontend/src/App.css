@@ -918,3 +918,127 @@ footer{
       margin-bottom: 2rem;
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-bg: #1f1f38;
+    --color-bg-variant: #2c2c6c;
+    --color-primary: #4db5ff;
+    --color-primary-variant: rgba(77, 181, 255, 0.4);
+    --color-white: #fff;
+    --color-light: rgba(255, 255, 255, 0.6);
+
+    --transition: all 400ms ease;
+    --container-width-lg: 75%;
+    --container-width-md: 86%;
+    --container-width-sm: 90%;
+}
+.home-header{
+  
+  color:#fff;
+  border-radius: 10px;
+}
+.call-to-action{
+  padding: 0.5rem;
+
+  background-color: #fff;
+  border-radius: 10px;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--color-bg);
+    color: var(--color-white);
+    line-height: 1.7;
+}
+
+.home-container {
+    width: var(--container-width-lg);
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+#class-card ,#marksheet-card{
+    background: #46469b;
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 400ms ease;
+}
+
+#he{
+  color:#4db5ff;
+}
+#class-card:hover ,#marksheet-card:hover {
+  transition: all 400ms ease;
+
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.class-card, .marksheet-card {
+    margin: 1rem 0;
+}
+#class-card button, #marksheet-card button{
+  color: #fff;
+
+}
+#tx{
+  text-decoration: none;
+  color: #fff;
+  border: none;
+  outline:none;
+}
+.stat-icon {
+    font-size: 3rem;
+}
+
+
+.home-container {
+  width: var(--container-width-lg);
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.card {
+  background: var(--color-bg-variant);
+  color: var(--color-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+}
+
+.stat-card .stat-icon {
+  font-size: 3rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.class-card, .marksheet-card {
+  margin: 1rem 0;
+}
+
+#lf_to{
+  height: 4rem;
+  padding: 0;
+}
+.stat-number{
+margin-left: 3.6rem;
+}
+.stat-number2{
+  margin-left: 1rem;
+  }
+
+
+
