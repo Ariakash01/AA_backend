@@ -29,7 +29,8 @@ const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}
                 try {
                     const res = await axios.get('/auth/me'); 
                     setUser(res.data);
-                    console.log(res.data)
+                    console.log(res.data);
+                    fetchData();
                     rel();
                     
                 } catch (error) {

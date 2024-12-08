@@ -328,7 +328,7 @@ useEffect(()=>{
             fetchData();
 
             console.log(template)
-            setStudents(studs.filter(templatee => templatee.temp_name !== template));
+          /*  setStudents(studs.filter(templatee => templatee.temp_name !== template));*/
         } catch (error) {
             console.error('Error deleting template:', error);
         }
@@ -339,7 +339,7 @@ useEffect(()=>{
             await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/marksheets/mark/${user._id}/mar?templateName=${encodeURIComponent(template)}`);
             fetchData();
             console.log(template)
-            setTemplates(templates.filter(templatee => templatee.templateName !== template));
+          /*  setTemplates(templates.filter(templatee => templatee.templateName !== template));*/
         } catch (error) {
             console.error('Error deleting template:', error);
         }

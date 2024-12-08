@@ -1030,6 +1030,8 @@ body {
 }
 
 #lf_to{
+  background: #46469b;
+color:#fff;
   height: 4rem;
   padding: 0;
 }

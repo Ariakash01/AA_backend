@@ -87,7 +87,7 @@ const Common = ({ user,setReload }) => {
             for (const student of students) {
                 const studentData = {
                     ...dataToSend,
-                    testName: testName+templateName,
+               
                     templateName:templateName,
                     stu_name: student.name,
                     toAddress: student.address,
