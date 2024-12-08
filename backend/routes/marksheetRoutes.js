@@ -51,7 +51,7 @@ router.post('/upload-marks', async (req, res) => {
             const rollno = row['Roll Number'];
 
             // Fetch the student by roll number, user, and template name
-            const student = await Marksheet.findOne({ rollno, userId, templateName: t_nm });
+            const student = await Marksheet.findOne({ rollno, userId, testName: t_nm });
             let test=student.testName;
             testName=test
             if (!student) {
