@@ -108,7 +108,7 @@ console.log("hello")
     }
 
     try {
-        const result = await Marksheet.deleteMany({userId:user,templateName} );
+        const result = await Marksheet.deleteMany({userId:user,testName:templateName} );
 
 
         

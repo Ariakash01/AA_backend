@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, unique: true },
     college: { type: String },
     dept: { type: String },
-    isAdmin:{type: Boolean}
+    isAdmin:{type: Boolean},
     password: { type: String },
     imagePath:{ type: String },
     imageName:{ type: String }

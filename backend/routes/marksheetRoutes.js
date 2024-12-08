@@ -30,9 +30,11 @@ router.post('/:user', createMarksheet);
 
 router.put('/:templateId/students', marksheetsController.updateStudentMarks);
 
+router.delete('/mark/:user/mar', marksheetsController.deleteMarksheets);
+
 router.delete(`/:_id`, deleteMarksheet);
 
-router.delete('/mark/:user/mar', marksheetsController.deleteMarksheets);
+
 
 
 router.post('/upload-marks', async (req, res) => {
