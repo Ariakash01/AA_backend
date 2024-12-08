@@ -39,7 +39,7 @@ router.delete(`/:_id`, deleteMarksheet);
 
 router.post('/upload-marks', async (req, res) => {
     const { t_nm, userId, marks } = req.body;
-    let testName;
+   
 
     if (!marks || !Array.isArray(marks)) {
         return res.status(400).json({ message: 'Invalid marks data' });
@@ -52,8 +52,7 @@ router.post('/upload-marks', async (req, res) => {
 
             // Fetch the student by roll number, user, and template name
             const student = await Marksheet.findOne({ rollno, userId, testName: t_nm });
-            let test=student.testName;
-            testName=test
+            
             if (!student) {
                 console.log(`Student with Roll Number ${rollno} not found`);
                 continue;
@@ -105,7 +104,7 @@ router.post('/upload-marks', async (req, res) => {
         }
 
         // Get all "Pass" marksheets for ranking
-        const passingMarksheets = await Marksheet.find({ userId, status: 'Pass', testName });
+        const passingMarksheets = await Marksheet.find({ userId, status: 'Pass', testName:t_nm });
 
         // Sort passing marksheets based on the total scored marks in descending order
         passingMarksheets.sort((a, b) => b.sum_scored_mark - a.sum_scored_mark);
