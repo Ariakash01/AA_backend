@@ -36,7 +36,7 @@ const GenTemplate = ({ user }) => {
       if (isManualEntry) {
         // Manual Entry: Send individual details
         await axios.post(
-          `https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/create-students/${user._id}`,
+          `http://localhost:5000/api/students/create-students/${user._id}`,
           {
             temp_name,
             start_roll_no,
@@ -66,7 +66,7 @@ const GenTemplate = ({ user }) => {
         }
 
         await axios.post(
-          `https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/create-students/${user._id}`,
+          `http://localhost:5000/api/students/create-students/${user._id}`,
           {
             temp_name,
             students: rows,

@@ -10,6 +10,11 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
 
     return (
         <Container className="home-container">
+            {!user&& 
+             <Link to={'/login'}>
+             <h5 className="text-center rred mb-3">Login To Continue</h5>
+             </Link>
+            }
             {/* Header Section */}
             <header className="home-header mb-4">
                 <Row>
@@ -108,6 +113,8 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
                 </>
             )}
         </Container>
+
+
     );
 };
 

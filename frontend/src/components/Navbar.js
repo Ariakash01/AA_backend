@@ -52,7 +52,7 @@ const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}
     const fetchTemplates = async () => {
         if (user) {
             try {
-                const res = await axios.get(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/marksheets/ms/${user._id}`);
+                const res = await axios.get(`http://localhost:5000/api/marksheets/ms/${user._id}`);
                 setTemplates(res.data);
 
                 const uniqueNames = new Set();
@@ -122,7 +122,7 @@ const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}
                               
                                 <Nav.Link as={Link} to="/template" className='mmove' id="na">Template</Nav.Link>
 
-                                <NavDropdown title="Class" id="marksheets-nav-dropdown na"  onClick={fetchStud} className='mmove na'>
+                                <NavDropdown responsive title="Class" id="marksheets-nav-dropdown na"  onClick={fetchStud} className='mmove na'>
                                 <div className='scroll'>
                                     {temp_name.map(temp_name => (
                                          <p className="ss"> 
@@ -181,11 +181,28 @@ const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}
                                     </div>
                                 </NavDropdown>
 
+
+                            {/*   <Nav.Link   as={Link} to="/signup" className='mmove' id="na">Create Advisor</Nav.Link>*/} 
 {user.isAdmin &&
-                                <Nav.Link   as={Link} to="/signup" className='mmove' id="na">Create Advisor</Nav.Link>
+<NavDropdown title="Advisor" id="marksheets-nav-dropdown na"   className='mmove na'>
+                                <div className='scroll'>
+                                    
+                                         <p className="ss"> 
+                                        <NavDropdown.Item  as={Link} to={`/signup`} className="nav_item">
+                                        <span className="nav_item"> Create Advisor</span>
+                                         
+                                           
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Item  as={Link} to={`/visit/advisor`} className="nav_item">
+                                        <span className="nav_item"> Visit Advisor</span>
+                                         
+                                           
+                                        </NavDropdown.Item>
+                                        </p>
+                                  
+                                    </div>
+                                </NavDropdown>
 }
-
-
                               
                             {/*         For image all fn realated to image upload and get a image are work very well ,simply remove comment if want these
 
@@ -222,7 +239,6 @@ const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}
 
          <div className=" navv_flex">
              <Link   to="/login" className=" navvv_flex">Login</Link>
-             <Link to="/signup" className=" navvv_flex">Signup</Link>
         </div>
      </div>
        

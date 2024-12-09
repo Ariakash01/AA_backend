@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert ,Spinner} from 'react-bootstrap';
 import '../App.css';
 
-const Signup = ({ setUser }) => {
+const Signup = ({ user }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -32,12 +32,13 @@ const Signup = ({ setUser }) => {
         }
 
         try {
-            const res = await axios.post('/auth/signup', { name, email, college, dept, password, confirmPassword });
-            localStorage.setItem('token', res.data.token);
+            const res = await axios.post(`/auth/signup/${user._id}`, { name, email, college, dept, password, confirmPassword });
+            console.log("ssssssss")
             setLoading(false);
 
-            navigate('/');
+            
         } catch (err) {
+            setLoading(false);
             setError(err.response?.data?.message || 'Signup failed');
         }
     };
@@ -94,16 +95,30 @@ const Signup = ({ setUser }) => {
                     />
                 </Form.Group>
 
-                <Form.Group controlId="formDept" className="mb-3">
-                    <Form.Label>Department</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter your Department"
-                        value={dept}
-                        onChange={(e) => setDept(e.target.value)}
-                        required
-                    />
-                </Form.Group>
+               
+
+
+
+                <Form.Group className="mb-3">
+        <Form.Label>Department</Form.Label>
+        <Form.Select
+            type="text"
+            placeholder="Enter your Department"
+            value={user.dept||dept}
+            onChange={(e) => setDept(e.target.value)}
+            required
+        >
+            <option value="">Select Department</option>
+            <option value="Information Technology">Information Technology</option>
+            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+            <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+            <option value="Master of Business Administration">Master of Business Administration</option>
+        </Form.Select>
+    </Form.Group>
+
 
                 <Form.Group controlId="formBasicPassword" className="mb-3" style={{ position: 'relative' }}>
                     <Form.Label>Password</Form.Label>

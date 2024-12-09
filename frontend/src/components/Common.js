@@ -143,7 +143,24 @@ const Common = ({ user,setReload }) => {
 </Form.Group>
 </Col>
 
+
 <Col md={6}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>College</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="college"
+                                value={formData.college}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                    </Col>
+
+                </Row>
+
+                {/* Other form fields here... */}
+                <Row>
+                <Col md={6}>
 <Form.Group className="mb-3">
     <Form.Label>Test Name</Form.Label>
     <Form.Select
@@ -170,25 +187,8 @@ const Common = ({ user,setReload }) => {
        
     </Form.Select>
 </Form.Group>
-</Col>
-
-
-                </Row>
-
-                {/* Other form fields here... */}
-                <Row>
-                    
-                <Col md={6}>
-                        <Form.Group className="mb-3">
-                            <Form.Label>College</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="college"
-                                value={formData.college}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </Col>
+</Col>   
+               
                 <Col md={6}>
     <Form.Group className="mb-3">
         <Form.Label>Department</Form.Label>
@@ -233,7 +233,7 @@ const Common = ({ user,setReload }) => {
         <Form.Control
             type="text"
             name="year"
-            value={formData.year}
+            value={formData.year||`${(new Date().getFullYear())}-${(new Date().getFullYear())+1}`}
             onChange={handleChange}
             required
         />
@@ -356,7 +356,7 @@ const Common = ({ user,setReload }) => {
     </Form.Group>
 </Col>
 </Row>
-
+{/*
 <Row>
 <Col md={6}>
     <Form.Group className="mb-3">
@@ -369,19 +369,9 @@ const Common = ({ user,setReload }) => {
         />
     </Form.Group>
 </Col>
-<Col md={6}>
-    <Form.Group className="mb-3">
-        <Form.Label>Working Days</Form.Label>
-        <Form.Control
-            type="number"
-            name="total_class"
-            value={formData.total_class}
-            onChange={handleChange}
-        />
-    </Form.Group>
-</Col>
-</Row>
 
+</Row>
+*/}
 <Row>
 <Col md={6}>
     <Form.Group className="mb-3">
@@ -419,7 +409,17 @@ const Common = ({ user,setReload }) => {
         />
     </Form.Group>
 </Col>
-
+<Col md={6}>
+    <Form.Group className="mb-3">
+        <Form.Label>Working Days</Form.Label>
+        <Form.Control
+            type="number"
+            name="total_class"
+            value={formData.total_class}
+            onChange={handleChange}
+        />
+    </Form.Group>
+</Col>
 </Row>
                 
 

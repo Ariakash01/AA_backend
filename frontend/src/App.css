@@ -1041,6 +1041,17 @@ margin-left: 3.6rem;
 .stat-number2{
   margin-left: 1rem;
   }
+.rred{
+  color:red;
+}
+  @media  (max-width:970px) {
+#na{
+  width: 80%;
+}
+.mmove{
+  width: 80%;
+}
 
 
-
+  }
+ 

@@ -81,36 +81,27 @@ const TableComponent = ({ user,setReload }) => {
         setSuccess('');
 
         try {
-           
-            // Read the file as array buffer
             const data = await file.arrayBuffer();
             const workbook = XLSX.read(data, { type: 'array' });
 
-            // Get the first sheet and convert it to JSON
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];
             const rows = XLSX.utils.sheet_to_json(worksheet);
 
-            console.log('Parsed rows:', rows); // Log the parsed rows
+            console.log('Parsed rows:', rows);
 
-            // Send the parsed data to the backend
-            await axios.post('/marksheets/upload-marks', {
+            const response = await axios.put('http://localhost:5000/api/marksheets/upload-marks', {
                 t_nm,
                 userId: user._id,
                 marks: rows,
             });
 
-            setSuccess('Marks uploaded and updated successfully.');
+            setSuccess(response.data.message);
             fetchMarksheets();
-
-            // Reset the file input value
             setFile(null);
-
-            setLoading(false);
-            setShowToast(true);
         } catch (err) {
-            console.error('File processing error:', err); // Log the error to the console
-            setError('Failed to process the file. Please check the format.');
+            console.error('Error processing file:', err);
+            setError(err.response?.data?.message || 'Failed to process the file.');
         } finally {
             setLoading(false);
         }
@@ -232,8 +223,8 @@ const TableComponent = ({ user,setReload }) => {
                                             {marksheet.subjects.map(subject => (
                                                 <th key={subject.code}>{subject.name} ({subject.code})</th>
                                             ))}
-                                            <th>Attendance(Days)</th>
-                                            <th>To_Address_Of_Student</th>
+                                            <th>Attendances</th>
+                                            <th>ToAddress</th>
                                             <th>Remarks_Of_A_Student</th>
                                             <th>Action</th>
                                         </tr>

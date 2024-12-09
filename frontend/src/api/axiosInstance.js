@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api',
+    baseURL: 'http://localhost:5000/api',
 });
 
 /*Add a request interceptor to include the token -->  https://ariakashs-marksheet-management-backend-5yy1.onrender.com

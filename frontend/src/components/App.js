@@ -17,6 +17,7 @@ import  '../App.css'
 import Footer from './Footer';
 import GenTemplate from './GenTemplate';
 import Student from './Student';
+import AdvisorManagement from './AdvisorManagement';
 const App = () => {
     const [user, setUser] = useState(null);
     const [reload, setReload] = useState(false);
@@ -43,7 +44,7 @@ useEffect(()=>{
             if (user) {
                 try {
                     const res = await axios.get(
-                        `https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/marksheets/ms/${user._id}`
+                        `http://localhost:5000/api/marksheets/ms/${user._id}`
                     );
                     setTemplates(res.data);
 
@@ -205,7 +206,7 @@ useEffect(()=>{
     const fetchUniqueNamedMarksheets = async () => {
         try {
             const res = await axios.get(
-                `https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/marksheets/ms/${user._id}`
+                `http://localhost:5000/api/marksheets/ms/${user._id}`
             );
             const uniqueNames = new Set();
             res.data.forEach((marksheet) => uniqueNames.add(marksheet.testName));
@@ -227,7 +228,7 @@ useEffect(()=>{
                     uniqueClasses.map(async (className) => {
                         try {
                             const studentRes = await axios.get(
-                                `https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/stu_by_template/${className}/${user._id}`
+                                `http://localhost:5000/api/students/stu_by_template/${className}/${user._id}`
                             );
                            
                             return {
@@ -282,7 +283,7 @@ useEffect(()=>{
                 uniqueClasses.map(async (className) => {
                     try {
                         const studentRes = await axios.get(
-                            `https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/stu_by_template/${className}/${user._id}`
+                            `http://localhost:5000/api/students/stu_by_template/${className}/${user._id}`
                         );
                      
                         return {
@@ -324,7 +325,7 @@ useEffect(()=>{
     const handleDelete_student = async (template) => {
         try {
             console.log(`${template}`)
-            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
+            await axios.delete(`http://localhost:5000/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
             fetchData();
 
             console.log(template)
@@ -336,7 +337,7 @@ useEffect(()=>{
     const handleDelete = async (template) => {
         try {
             console.log(`11${template}`)
-            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/marksheets/mark/${user._id}/mar?templateName=${encodeURIComponent(template)}`);
+            await axios.delete(`http://localhost:5000/api/marksheets/mark/${user._id}/mar?templateName=${encodeURIComponent(template)}`);
             fetchData();
             console.log(template)
           /*  setTemplates(templates.filter(templatee => templatee.templateName !== template));*/
@@ -355,14 +356,15 @@ useEffect(()=>{
                     <Route path="/analyze" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Analyze user={user} templates={templates} marksheetData={marksheetData} loading={loading} name={name} rel={rel}/></>} />
 
                     <Route path="/login" element={ <Login  />} />
-                    <Route path="/signup" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete}  rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Signup /></>}  />
+                    <Route path="/signup" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete}  rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Signup user={user}/></>}  />
                     <Route path="/template" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Common user={user} setReload={setReload}/></>} />
                     <Route path="/marks/:t_nm" element={ <><NavbarComponent  handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Table user={user} setReload={setReload}/></>} />
                     <Route path="/marksheets/:t_nm" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/> <Marksheet user={user}/> </>} />
                     <Route path="/images_update" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Image_upd user={user}/></>} />
                     <Route path="/GenTemplate" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><GenTemplate user={user}/></>} />
                     <Route path="/students/:temp_name" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><Student user={user}/></>} />
-                    
+                    <Route path="/visit/advisor" element={<> <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogout={handleLogout} fetchUser={fetchUser}/><AdvisorManagement user={user}/></>} />
+
                 </Routes>
              
             </div>

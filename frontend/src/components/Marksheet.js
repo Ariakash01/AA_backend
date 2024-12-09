@@ -64,6 +64,77 @@ const Marksheet = ({user}) => {
    */}
 
 
+
+   const handleDownloadAll = async () => {
+    setIsDownloading(true);
+    setLoading(true);
+
+    try {
+        const element = pdfRef.current;
+
+        // Hide buttons from the PDF
+        const buttons = element.querySelectorAll('.exclude-from-pdf');
+        buttons.forEach((button) => (button.style.display = 'none'));
+
+        // Get the full height of the content
+        const contentHeight = element.scrollHeight;
+        const pageHeight = 1108; // Approximate A4 page height in pixels (96 DPI)
+        const maxPages = 29;
+        const maxHeight = pageHeight * maxPages;
+
+        // Determine the total number of chunks
+        const totalChunks = Math.ceil(contentHeight / maxHeight);
+
+        // Iterate through each chunk
+        for (let i = 0; i < totalChunks; i++) {
+            // Create a temporary container for the current chunk
+            const chunkContainer = document.createElement('div');
+            chunkContainer.style.position = 'relative';
+            chunkContainer.style.height = `${maxHeight}px`;
+            chunkContainer.style.overflow = 'hidden';
+
+            // Clone the content and adjust for the current chunk
+            const clonedElement = element.cloneNode(true);
+            clonedElement.style.position = 'relative';
+            clonedElement.style.top = `-${i * maxHeight}px`; // Offset content for the current chunk
+            clonedElement.style.height = `${contentHeight}px`; // Set full height for accurate clipping
+            clonedElement.style.overflow = 'hidden';
+
+            // Append the visible part of the cloned content to the chunk container
+            chunkContainer.appendChild(clonedElement);
+
+            // Append the chunk container to the DOM (temporarily)
+            document.body.appendChild(chunkContainer);
+
+            // Generate the PDF for the current chunk
+            const options = {
+                filename: `Marksheets_Part_${i + 1}.pdf`,
+                jsPDF: { unit: 'pt', format: 'a4' },
+                html2canvas: { scale: 2 },
+                margin: [20, 10],
+            };
+
+            await html2pdf().set(options).from(chunkContainer).save();
+
+            // Remove the temporary chunk container
+            document.body.removeChild(chunkContainer);
+        }
+    } catch (err) {
+        setLoading(false);
+        console.error('Error generating PDFs:', err);
+        alert('Failed to generate PDFs. Please try again.');
+    } finally {
+        // Restore visibility and styles
+       
+
+        setLoading(false);
+        setIsDownloading(false);
+    }
+};
+
+
+
+/*
    const handleDownloadAll = async () => {
     setIsDownloading(true);
     setLoading(true);
