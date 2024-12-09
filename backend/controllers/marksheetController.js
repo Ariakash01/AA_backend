@@ -8,6 +8,7 @@ exports.createMarksheet = async (req, res) => {
 
     const marksheet = new Marksheet({
         ...data,
+        testName:`${data.testName} (${data.templateName})`,
         userId:user,
     });
 
@@ -37,6 +38,7 @@ exports.getMarksheets = async (req, res) => {
 exports.marksheets = async (req, res) => {
   
     const { templateName ,user} = req.params;
+    console.log(user)
     try {
         
 

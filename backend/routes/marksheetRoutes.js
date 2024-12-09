@@ -37,90 +37,82 @@ router.delete(`/:_id`, deleteMarksheet);
 
 
 
-router.post('/upload-marks', async (req, res) => {
+router.put('/upload-marks', async (req, res) => {
+    console.log("hgfghfff")
     const { t_nm, userId, marks } = req.body;
-   
+    console.log("2hgfghfff")
 
-    if (!marks || !Array.isArray(marks)) {
-        return res.status(400).json({ message: 'Invalid marks data' });
+console.log(t_nm);
+    if (!t_nm || !userId || !Array.isArray(marks)) {
+        return res.status(400).json({ message: 'Invalid input data. Please provide test name, user ID, and marks as an array.' });
     }
 
     try {
-        // Loop through all rows (marks)
         for (const row of marks) {
-            const rollno = row['Roll Number'];
-
-            // Fetch the student by roll number, user, and template name
-            const student = await Marksheet.findOne({ rollno, userId, testName: t_nm });
-            
-            if (!student) {
-                console.log(`Student with Roll Number ${rollno} not found`);
+            const rollno = row['RollNumber'];
+            if (!rollno) {
+                console.log(`Skipping row without RollNumber:`, row);
                 continue;
             }
 
-            let pf_c = 0; // Pass count
-            let count = 0; // Total subject count
-            let new_sum_total_mark = 0;
-            let new_sum_scored_mark = 0;
+            const student = await Marksheet.findOne({ rollno, userId, testName: t_nm });
+            if (!student) {
+                console.log(`Student with Roll Number ${rollno} not found.`);
+                continue;
+            }
+          /*  if (row.Attendances) {
+                student.attendanceRate=row.Attendances;
+                student.attendance = ((row.Attendances /   student.total_class) * 100).toFixed(2);
+            } 
+            if (row.studentName) student.stu_name = row.studentName;
+            
+               
+                if (row.ToAddress)  student.toAddress = row.ToAddress;
+            if (row.Remarks)  student.remarks =row.Remarks;
+    */
+            
+            let passCount = 0;
+            let subjectCount = 0;
+            let sumTotalMarks = 0;
+            let sumScoredMarks = 0;
 
-            // Loop through the subjects and update scored marks
             for (const [subjectName, scoredMark] of Object.entries(row)) {
-                if (subjectName === 'Roll Number') continue;
+                if (subjectName === 'RollNumber') continue;
 
+                const score = parseFloat(scoredMark || 0);
                 const subject = student.subjects.find(subj => subj.name === subjectName);
+
                 if (subject) {
-                    subject.scoredMark = scoredMark;
+                    subject.scoredMark = score;
                 } else {
-                    // Add new subject if it doesn't exist
-                    student.subjects.push({ name: subjectName, scoredMark });
+                    student.subjects.push({ name: subjectName, scoredMark: score });
                 }
 
-                // Pass/Fail logic
-                if (scoredMark < 50) {
-                    pf_c = pf_c - 1;
-                } else {
-                    pf_c = pf_c + 1;
-                }
-                count = count + 1;
-
-                // Calculate the new total and scored marks for rank calculation
-                new_sum_total_mark += subject?.totalMark || 100;
-                new_sum_scored_mark += subject.scoredMark;
+                if (score >= 50) passCount++;
+                subjectCount++;
+                sumTotalMarks += subject?.totalMark || 100;
+                sumScoredMarks += score;
             }
 
-            // Calculate pass/fail status based on the pass count
-            if (pf_c < count) {
-                student.status = "Fail";
-            } else {
-                student.status = "Pass";
-            }
+            student.status = passCount === subjectCount ? 'Pass' : 'Fail';
+            student.sum_total_mark = sumTotalMarks;
+            student.sum_scored_mark = sumScoredMarks;
 
-            // Update the total and scored marks
-            student.sum_total_mark = new_sum_total_mark;
-            student.sum_scored_mark = new_sum_scored_mark;
-
-            // Save the updated student data
             await student.save();
         }
 
-        // Get all "Pass" marksheets for ranking
-        const passingMarksheets = await Marksheet.find({ userId, status: 'Pass', testName:t_nm });
-
-        // Sort passing marksheets based on the total scored marks in descending order
+        const passingMarksheets = await Marksheet.find({ userId, testName: t_nm, status: 'Pass' });
         passingMarksheets.sort((a, b) => b.sum_scored_mark - a.sum_scored_mark);
 
-        // Update the rank for each passing marksheet
         for (let i = 0; i < passingMarksheets.length; i++) {
-            passingMarksheets[i].rank = i + 1; // Rank starts from 1
+            passingMarksheets[i].rank = i + 1;
             await passingMarksheets[i].save();
         }
 
-        console.log("Ranks updated successfully.");
-        res.status(200).json({ message: 'Marks updated successfully and ranks assigned' });
-
+        res.status(200).json({ message: 'Marks updated successfully and ranks assigned.' });
     } catch (error) {
         console.error('Error updating marks:', error);
-        res.status(500).json({ message: 'Error updating marks', error: error.message });
+        res.status(500).json({ message: 'Error updating marks.', error: error.message });
     }
 });
 
