@@ -329,7 +329,7 @@ const Marksheet = ({user}) => {
             )}
 <h2 className="my-4">Marksheets</h2>
 <h4 className="my-4 ctre">{t_nm}</h4>
-<p className="my-4 ctre">{marksheets.length} Marksheets Found</p>
+<p className="my-4 ctre">{marksheets.length} Marksheet(s) Found</p>
 {!isDownloading && (
          <div className='btnn'>
           {/*  <Button variant="primary" className="mb-3  " onClick={ handleUpdateRanks }>Rank</Button>  */} 

@@ -6,7 +6,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash } from "react-icons/fa";
 import '../App.css';
 
-const Login = ({ setUser }) => {
+const Login = ({ setUser,fetchUser }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -22,7 +22,7 @@ const[loading,setLoading] = useState(false);
             const res = await axios.post('/auth/login', { email, password });
             localStorage.setItem('token', res.data.token);
             setLoading(false);
-
+            fetchUser();
             navigate('/');
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed');

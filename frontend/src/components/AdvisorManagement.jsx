@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const AdvisorManagement = ({user}) => {
+const AdvisorManagement = ({ user }) => {
     const [advisors, setAdvisors] = useState([]);
     const [error, setError] = useState('');
+    const [editStates, setEditStates] = useState({}); // Tracks changes for each advisor
 
     // Fetch advisors on component load
     useEffect(() => {
@@ -14,19 +16,39 @@ const AdvisorManagement = ({user}) => {
         try {
             const response = await axios.get(`http://localhost:5000/api/auth/advisors/${user._id}`);
             setAdvisors(response.data);
+            const initialStates = response.data.reduce((acc, advisor) => {
+                acc[advisor._id] = { hasChanges: false, updatedFields: {} };
+                return acc;
+            }, {});
+            setEditStates(initialStates);
         } catch (err) {
             setError('Failed to fetch advisors.');
         }
     };
 
-    const handleEdit = async (id, field, value) => {
+    const handleFieldChange = (id, field, value) => {
+        setEditStates((prev) => ({
+            ...prev,
+            [id]: {
+                hasChanges: true,
+                updatedFields: { ...prev[id].updatedFields, [field]: value },
+            },
+        }));
+    };
+
+    const handleSave = async (id) => {
+        const { updatedFields } = editStates[id];
         try {
-            await axios.put(`http://localhost:5000/api/auth/advisors_upd/${id}`, { [field]: value });
-            setAdvisors(prev =>
-                prev.map(advisor =>
-                    advisor._id === id ? { ...advisor, [field]: value } : advisor
+            await axios.put(`http://localhost:5000/api/auth/advisors_upd/${id}`, updatedFields);
+            setAdvisors((prev) =>
+                prev.map((advisor) =>
+                    advisor._id === id ? { ...advisor, ...updatedFields } : advisor
                 )
             );
+            setEditStates((prev) => ({
+                ...prev,
+                [id]: { hasChanges: false, updatedFields: {} },
+            }));
         } catch (err) {
             console.error('Error updating advisor:', err);
             setError('Failed to update advisor.');
@@ -36,7 +58,12 @@ const AdvisorManagement = ({user}) => {
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:5000/api/auth/advisors_del/${id}`);
-            setAdvisors(prev => prev.filter(advisor => advisor._id !== id));
+            setAdvisors((prev) => prev.filter((advisor) => advisor._id !== id));
+            setEditStates((prev) => {
+                const newState = { ...prev };
+                delete newState[id];
+                return newState;
+            });
         } catch (err) {
             console.error('Error deleting advisor:', err);
             setError('Failed to delete advisor.');
@@ -44,52 +71,64 @@ const AdvisorManagement = ({user}) => {
     };
 
     return (
-        <div>
-            <h1>Advisor Management</h1>
+        <div className="container mt-4">
+            <h2 className="mb-4">Advisor Management</h2>
+            <p className="my-4">{advisors.length} Advisor(s) Found</p>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {advisors.map(advisor => (
-                    <div
-                        key={advisor._id}
-                        style={{
-                            border: '1px solid #ccc',
-                            padding: '10px',
-                            margin: '10px',
-                            width: '200px',
-                            borderRadius: '8px',
-                            position: 'relative',
-                        }}
-                    >
-                        <input
-                            type="text"
-                            defaultValue={advisor.name}
-                            onBlur={(e) =>
-                                handleEdit(advisor._id, 'name', e.target.value)
-                            }
-                            style={{ width: '100%', marginBottom: '5px' }}
-                        />
-                        <input
-                            type="email"
-                            defaultValue={advisor.email}
-                            onBlur={(e) =>
-                                handleEdit(advisor._id, 'email', e.target.value)
-                            }
-                            style={{ width: '100%', marginBottom: '5px' }}
-                        />
-                        <button
-                            onClick={() => handleDelete(advisor._id)}
-                            style={{
-                                position: 'absolute',
-                                top: '5px',
-                                right: '5px',
-                                color: 'red',
-                                background: 'none',
-                                border: 'none',
-                                cursor: 'pointer',
-                            }}
-                        >
-                            &#10005;
-                        </button>
+            <div className="row">
+                {advisors.map((advisor) => (
+                    <div key={advisor._id} className="col-md-4 mb-4">
+                        <div className="card shadow-sm">
+                            <div className="card-body">
+                                <h5 className="card-title">
+                                    <input
+                                        type="text"
+                                        defaultValue={advisor.name}
+                                        onChange={(e) =>
+                                            handleFieldChange(advisor._id, 'name', e.target.value)
+                                        }
+                                        className="form-control border-0 bg-light mb-2"
+                                    />
+                                </h5>
+                                <h6 className="card-subtitle mb-2 text-muted">
+                                    <input
+                                        type="text"
+                                        defaultValue={advisor.dept || 'N/A'}
+                                        onChange={(e) =>
+                                            handleFieldChange(advisor._id, 'dept', e.target.value)
+                                        }
+                                        className="form-control border-0 bg-light mb-2"
+                                    />
+                                </h6>
+                                <p className="card-text">
+                                    <input
+                                        type="email"
+                                        defaultValue={advisor.email}
+                                        onChange={(e) =>
+                                            handleFieldChange(advisor._id, 'email', e.target.value)
+                                        }
+                                        className="form-control border-0 bg-light"
+                                    />
+                                </p>
+                                <p className="card-text bl ">Role: Advisor</p>
+
+                                <div className="d-flex justify-content-between mt-3">
+                                    <button
+                                        onClick={() => handleSave(advisor._id)}
+                                        className="btn btn-primary btn-sm"
+                                        disabled={!editStates[advisor._id]?.hasChanges}
+                                    >
+                                        Save Changes
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(advisor._id)}
+                                        className="btn btn-danger btn-sm"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 ))}
             </div>

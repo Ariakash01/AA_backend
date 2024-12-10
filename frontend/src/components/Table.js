@@ -162,7 +162,7 @@ const TableComponent = ({ user,setReload }) => {
             <h2 className="my-4">Update Marks</h2>
 
             <h4 className="my-4 ctre">{t_nm}</h4>
-            <p className="my-4 ctre">{marksheets.length} Students Found</p>
+            <p className="my-4 ctre">{marksheets.length} Student(s) Found</p>
 
             {error && (
                 <Toast

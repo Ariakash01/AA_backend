@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert ,Toast,Spinner} from 'react-bootstrap';
 import '../App.css';
 
-const Signup = ({ user }) => {
+const AdminSignup = ({ user }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -33,7 +33,7 @@ const Signup = ({ user }) => {
         }
 
         try {
-            const res = await axios.post(`/auth/signup/${user._id}`, { name, email, college, dept, password, confirmPassword ,isAdmin:"false"});
+            const res = await axios.post(`/auth/signup/${user._id}`, { name, email, college, dept, password, confirmPassword,isAdmin:true });
             console.log("ssssssss")
             setLoading(false);
             setSuccess("Successfully Created ")
@@ -206,4 +206,4 @@ Create                </Button>
     );
 };
 
-export default Signup;
+export default AdminSignup;

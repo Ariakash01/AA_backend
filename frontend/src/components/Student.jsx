@@ -73,7 +73,7 @@ const Student = ({user}) => {
       <h4 className="my-4 ctre"> {temp_name}</h4>
 
      
-      <p className="my-4 ctre">{students.length} Students Found</p>
+      <p className="my-4 ctre">{students.length} Student(s) Found</p>
 
       <Table striped bordered hover responsive className="mt-4 tt" variant="primary" >
         <thead>

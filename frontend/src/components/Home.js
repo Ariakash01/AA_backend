@@ -81,6 +81,9 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
                                     </Card>
                                 </Col>
                             ))}
+                            {!classStats.length &&
+                            <p className="text-center mb-3">No classes Found</p>
+                            }
                         </Row>
                     </section>
 
@@ -108,6 +111,9 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
                                     </Card>
                                 </Col>
                             ))}
+                            {!marksheetStats.length &&
+                            <p className="text-center mb-3">No Marksheets Found</p>
+                            }
                         </Row>
                     </section>
                 </>

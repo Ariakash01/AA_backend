@@ -5,14 +5,14 @@ import axios from '../api/axiosInstance';
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import  '../App.css'
 import logoo from '../logoo.png'
-const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}) => {
+const NavbarComponent = ({user,rel,fetchData,handleDelete,handleDelete_student,handleLogoutt}) => {
 
    
 
 
     
 
-    const [user, setUser] = useState(userr);
+   
 
     const [templates, setTemplates] = useState([]);
     const [name,setName]=useState([])
@@ -20,7 +20,7 @@ const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}
     const [temp_name,setStu_Temp_Name]=useState([])
     const navigate = useNavigate();
 
-
+/* const [user, setUser] = useState(userr);
     useEffect(() => {
         const fetchUser = async () => {
           
@@ -44,10 +44,11 @@ const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem('token');
+    
         navigate('/login');
     };
  
-   
+   */
 
     const fetchTemplates = async () => {
         if (user) {
@@ -183,27 +184,48 @@ const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}
 
 
                             {/*   <Nav.Link   as={Link} to="/signup" className='mmove' id="na">Create Advisor</Nav.Link>*/} 
+{/* */}
 {user.isAdmin &&
 <NavDropdown title="Advisor" id="marksheets-nav-dropdown na"   className='mmove na'>
                                 <div className='scroll'>
                                     
                                          <p className="ss"> 
-                                        <NavDropdown.Item  as={Link} to={`/signup`} className="nav_item">
-                                        <span className="nav_item"> Create Advisor</span>
-                                         
-                                           
+                                        <NavDropdown.Item  as={Link} to={`/advisor/create`} className="nav_item">
+                                       
+                                          <span className="nav_item"> Create Advisor</span>
+                                                                                       <NavDropdown.Divider/>
+
                                         </NavDropdown.Item>
-                                        <NavDropdown.Item  as={Link} to={`/visit/advisor`} className="nav_item">
-                                        <span className="nav_item"> Visit Advisor</span>
+                                        <NavDropdown.Item  as={Link} to={`/admin/create`} className="nav_item">
+                                        <span className="nav_item"> Create Admin</span>
                                          
-                                           
+                                                                                       <NavDropdown.Divider/>
+
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Item  as={Link} to={`/view/advisor`} className="nav_item">
+                                        <span className="nav_item"> View Advisors</span>
+                                         
+                                                                                      <NavDropdown.Divider/>
+ 
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Item  as={Link} to={`/view/admin`} className="nav_item">
+                                        <span className="nav_item"> View Admins</span>
+                                         
+                                                                                      <NavDropdown.Divider/>
+ 
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Item  as={Link} to={`/update/profile`} className="nav_item">
+                                        <span className="nav_item"> My Profile</span>
+                                         
+                                                                                      <NavDropdown.Divider/>
+ 
                                         </NavDropdown.Item>
                                         </p>
                                   
                                     </div>
                                 </NavDropdown>
-}
-                              
+
+}      
                             {/*         For image all fn realated to image upload and get a image are work very well ,simply remove comment if want these
 
                                 <Nav.Link   as={Link} to="/images_update" className='mmove' id="na">Image_Update</Nav.Link>
@@ -212,10 +234,16 @@ const NavbarComponent = ({userr,rel,fetchData,handleDelete,handleDelete_student}
 
                             </Nav>
                             <Nav className="ms-auto  nav">
+                                {user.isAdmin?(
                                 <Navbar.Text className="me-3 ml-3">
-                                    <a href="#" className="padd"> {user.name}</a>
+                                     <Link to={"/update/profile"} className="padd"> {user.name}</Link>
+                                    
+                                </Navbar.Text>):(
+                                <Navbar.Text className="me-3 ml-3">
+                                   <a href="#" className="padd"> {user.name}</a>
                                 </Navbar.Text>
-                                <Button variant="danger" onClick={handleLogout}>Logout</Button>
+                                )}
+                                <Button variant="danger" onClick={handleLogoutt}>Logout</Button>
                             </Nav>
                         </>
                     )}

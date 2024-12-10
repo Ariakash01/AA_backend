@@ -1047,11 +1047,18 @@ margin-left: 3.6rem;
   @media  (max-width:970px) {
 #na{
   width: 80%;
+  height: max-content;
 }
 .mmove{
   width: 80%;
+  height: max-content;
 }
 
 
   }
- 
+.gr{
+ color: green;
+}
+.bl{
+  color: blue;
+}
