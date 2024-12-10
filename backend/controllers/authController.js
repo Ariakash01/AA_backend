@@ -11,7 +11,7 @@ const generateToken = (id) => {
 
 
 exports.signupUser = async (req, res) => {
-    const { name, email,college, password, dept,confirmPassword } = req.body;
+    const { name, email,college, password, dept,confirmPassword,isAdmin } = req.body;
     const {userId}=req.params;
 
     if (password !== confirmPassword) {
@@ -24,12 +24,12 @@ exports.signupUser = async (req, res) => {
         return res.status(400).json({ message: 'User already exists' });
     }
 
-    const user = await User.create({ name,userId, email,college,dept, password });
+    const user = await User.create({ name,userId, email,college,dept, password,isAdmin });
 
     if (user) {
         res.status(201).json({
             _id: user._id,
-
+            
             name: user.name,
             email: user.email,
             college:user.college,
@@ -110,8 +110,38 @@ exports.deleteAdvisor = async (req, res) => {
         res.status(500).json({ message: 'Error deleting advisor', error: error.message });
     }
 };
+exports.updateUserProfile = async (req, res) => {
+    const { id } = req.params;
+    const { name, email, dept, role } = req.body;
 
+    try {
+        const user = await User.findById(id);
 
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        user.name = name || user.name;
+        user.email = email || user.email;
+        user.dept = dept || user.dept;
+        user.role = role || user.role;
+
+        const updatedUser = await user.save();
+        res.status(200).json(updatedUser);
+    } catch (err) {
+        console.error('Error updating profile:', err);
+        res.status(500).json({ message: 'Failed to update profile.' });
+    }
+};
+exports.getAdmins = async (req, res) => {
+    try {
+        const admins = await User.find({ isAdmin: true });
+        res.status(200).json(admins);
+    } catch (err) {
+        console.error('Error fetching admins:', err);
+        res.status(500).json({ message: 'Failed to fetch admins.' });
+    }
+};
 
 exports.getMe = async (req, res) => {
     res.status(200).json(req.user);
