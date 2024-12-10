@@ -378,7 +378,7 @@ const Marksheet = ({user}) => {
                                </div>
                                <div className='lf_part_varr'>
                             <span className='lf_part_var medi_only'>Class & Sem </span>
-                               <span className='lf_part medi_only'>: {marksheet.classSem}</span>
+                               <span className='lf_part medi_only'>: {marksheet.classSem} {user.dept}</span>
                                </div>
                         </Card.Text>
                         <table  bordered className='bdr tbl'>

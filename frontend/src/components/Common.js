@@ -169,7 +169,8 @@ const Common = ({ user,setReload }) => {
         onChange={handleChange}
         required
     >
-        <option value="">Select Test</option>
+                    <option value="">Select Test</option>
+
         <option value="Periodical Test 1">Periodical Test 1</option>
         <option value="Periodical Test 2">Periodical Test 2</option>
         <option value="Periodical Test 3">Periodical Test 3</option>
@@ -194,7 +195,7 @@ const Common = ({ user,setReload }) => {
         <Form.Label>Department</Form.Label>
         <Form.Select
             name="department"
-            value={formData.department}
+            value={user.dept||formData.department}
             onChange={handleChange}
             required
         >
@@ -218,14 +219,24 @@ const Common = ({ user,setReload }) => {
 <Col md={6}>
     <Form.Group className="mb-3">
         <Form.Label>Class & Sem</Form.Label>
-        <Form.Control
-            type="text"
-            name="classSem"
-            value={formData.classSem}
-            onChange={handleChange}
-            required
-        />
+        <Form.Select
+             name="classSem"
+             value={formData.classSem}
+             onChange={handleChange}
+             required
+        >            <option value="">Select Semester</option>
+
+            <option value="I & I sem">I & I sem</option>
+            <option value="I & II sem">I & II sem</option>
+            <option value="II & III sem">II & III sem</option>
+            <option value="II & IIV sem">II & IV sem</option>
+            <option value="III & V sem">III & V sem</option>
+            <option value="III & VI sem">III & VI sem</option>
+            <option value="IV & VII sem">IV & VII sem</option>
+            <option value="IV & VIII sem">IV & VIII sem</option>
+        </Form.Select>
     </Form.Group>
+   
 </Col>
 <Col md={6}>
     <Form.Group className="mb-3">
@@ -251,7 +262,6 @@ const Common = ({ user,setReload }) => {
             onChange={handleChange}
             required
         >
-            <option value="">Select</option>
             <option value="Odd">Odd</option>
             <option value="Even">Even</option>
         </Form.Select>

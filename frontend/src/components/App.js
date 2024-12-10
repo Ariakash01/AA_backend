@@ -21,6 +21,7 @@ import AdvisorManagement from './AdvisorManagement';
 import AdminSignup from './AdminSignup';
 import Admin from './Admin';
 import UpdateProfile from './UpdateProfile';
+import ProtectedRoute from './ProtectedRoute';
 const App = () => {
     const [user, setUser] = useState(null);
     const [reload, setReload] = useState(false);
@@ -355,22 +356,177 @@ useEffect(()=>{
               
                 <Routes>
 
-                    <Route path="/" element={<> <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Home user={user} classStats={classStats} marksheetStats={marksheetStats} templates={templates} marksheetData={marksheetData} loading={loadingg} name={name} rel={rel}/></>} />
-                    <Route path="/analyze" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Analyze user={user} templates={templates} marksheetData={marksheetData} loading={loading} name={name} rel={rel}/></>} />
 
+                
+<Route
+    path="/"
+    element={
+        <>
+            <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+            <Home user={user} classStats={classStats} marksheetStats={marksheetStats} templates={templates} marksheetData={marksheetData} loading={loadingg} name={name} rel={rel} />
+        </>
+    }
+/>
+<Route path="/login" element={<Login fetchUser={fetchUser} />} />
+
+{/* User Routes */}
+<Route
+    path="/analyze"
+    element={
+        <ProtectedRoute user={user} requiredRole={false} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <Analyze user={user} templates={templates} marksheetData={marksheetData} loading={loadingg} name={name} rel={rel} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/template"
+    element={
+        <ProtectedRoute user={user} requiredRole={false} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <Common user={user} setReload={setReload} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/marks/:t_nm"
+    element={
+        <ProtectedRoute user={user} requiredRole={false} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <Table user={user} setReload={setReload} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/marksheets/:t_nm"
+    element={
+        <ProtectedRoute user={user} requiredRole={false} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <Marksheet user={user} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/images_update"
+    element={
+        <ProtectedRoute user={user} requiredRole={false} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <Image_upd user={user} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/GenTemplate"
+    element={
+        <ProtectedRoute user={user} requiredRole={false} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <GenTemplate user={user} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/students/:temp_name"
+    element={
+        <ProtectedRoute user={user} requiredRole={false} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <Student user={user} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+
+{/* Admin Routes */}
+<Route
+    path="/view/advisor"
+    element={
+        <ProtectedRoute user={user} requiredRole={true} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <AdvisorManagement user={user} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/admin/create"
+    element={
+        <ProtectedRoute user={user} requiredRole={true} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <AdminSignup user={user} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/view/admin"
+    element={
+        <ProtectedRoute user={user} requiredRole={true} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <Admin user={user} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/update/profile"
+    element={
+        <ProtectedRoute user={user} requiredRole={true} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <UpdateProfile user={user} fetchUser={fetchUser} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+<Route
+    path="/advisor/create"
+    element={
+        <ProtectedRoute user={user} requiredRole={true} fetchUser={fetchUser}>
+            <>
+                <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+                <Signup user={user} />
+            </>
+        </ProtectedRoute>
+    }
+/>
+
+
+{/* 
+//below are public route
+ <Route path="/" element={<> <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Home user={user} classStats={classStats} marksheetStats={marksheetStats} templates={templates} marksheetData={marksheetData} loading={loadingg} name={name} rel={rel}/></>} />
+                    <Route path="/analyze" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Analyze user={user} templates={templates} marksheetData={marksheetData} loading={loading} name={name} rel={rel}/></>} />
+//below are user route
                     <Route path="/login" element={ <Login fetchUser={fetchUser} />} />
-                    <Route path="/advisor/create" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete}  rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Signup user={user}/></>}  />
                     <Route path="/template" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Common user={user} setReload={setReload}/></>} />
                     <Route path="/marks/:t_nm" element={ <><NavbarComponent  handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Table user={user} setReload={setReload}/></>} />
                     <Route path="/marksheets/:t_nm" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/> <Marksheet user={user}/> </>} />
                     <Route path="/images_update" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Image_upd user={user}/></>} />
                     <Route path="/GenTemplate" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><GenTemplate user={user}/></>} />
                     <Route path="/students/:temp_name" element={<><NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete} rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Student user={user}/></>} />
+                  //below are admin route 
                     <Route path="/view/advisor" element={<> <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><AdvisorManagement user={user}/></>} />
                     <Route path="/admin/create" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete}  rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><AdminSignup user={user}/></>}  />
                     <Route path="/view/admin" element={<> <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Admin user={user}/></>} />
                     <Route path="/update/profile" element={<> <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><UpdateProfile user={user} fetchUser={fetchUser}/></>} />
+                    <Route path="/advisor/create" element={<> <NavbarComponent handleDelete_student={handleDelete_student} handleDelete={handleDelete}  rel={rel} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser}/><Signup user={user}/></>}  />
 
+   */}
+                   
 
 
 {

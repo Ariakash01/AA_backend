@@ -25,6 +25,8 @@ const[loading,setLoading] = useState(false);
             fetchUser();
             navigate('/');
         } catch (err) {
+                        setLoading(false);
+
             setError(err.response?.data?.message || 'Login failed');
         }
     };

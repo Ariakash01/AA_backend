@@ -12,6 +12,8 @@ const Home = ({ user, templates, marksheetData, loading, name }) => {
             </h3>
             
 
+    <p className="my-4 ctre">{name.length} Marksheet(s) Found For Analyze</p>
+
             {loading ? (
                 <div className="text-center mt-5">
                     <span className="spinner-border" role="status"></span>

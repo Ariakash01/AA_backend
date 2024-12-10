@@ -33,7 +33,7 @@ const Signup = ({ user }) => {
         }
 
         try {
-            const res = await axios.post(`/auth/signup/${user._id}`, { name, email, college, dept, password, confirmPassword ,isAdmin:"false"});
+            const res = await axios.post(`/auth/signup/${user._id}`, { name, email, college, dept, password, confirmPassword ,isAdmin:false});
             console.log("ssssssss")
             setLoading(false);
             setSuccess("Successfully Created ")
