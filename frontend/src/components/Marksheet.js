@@ -362,15 +362,13 @@ const Marksheet = ({user}) => {
                             <h6 className='centre clg'> {marksheet.college || 'Dummy College'}</h6>
                             <p className='centre dep'> Department Of {marksheet.department || 'Dummy Department'}</p>
                             <p className='centre rd3 '> {marksheet.testName || 'Dummy Test'} Progress Report : {marksheet.year || 'Dummy Year'}({marksheet.oddEven || 'Dummy'} SEMESTER)</p>
-                            <div className='dt'>
-                            <p className='date medi'>Date : {marksheet.date ? new Date(marksheet.date).toLocaleDateString() : 'Dummy Date'}</p>
-                            </div>
+                            
                             </div>
                             </div>
                            
                            <div className='lf_part_varr'> 
                             <span className='lf_part_var medi_only'>Roll No  </span>
-                               <span className='lf_part medi_only'>: {marksheet.rollno || 'Dummy Roll No'}</span>
+                               <span className='lf_part medi_only'>: {marksheet.rollno || 'Dummy Roll No'}</span> <span className='date medi dt'>Date : {marksheet.date ? new Date(marksheet.date).toLocaleDateString() : 'Dummy Date'}</span>
                                </div>
                                <div className='lf_part_varr'>
                             <span className='lf_part_var medi_only'>Student Name  </span>

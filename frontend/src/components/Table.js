@@ -83,6 +83,43 @@ const TableComponent = ({ user,setReload }) => {
         try {
             const data = await file.arrayBuffer();
             const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const rows = XLSX.utils.sheet_to_json(worksheet);
+
+            console.log('Parsed rows:', rows);
+
+            const response = await axios.put('http://localhost:5000/api/marksheets/upload-marks', {
+                t_nm,
+                userId: user._id,
+                marks: rows,
+            });
+
+            setSuccess(response.data.message);
+            fetchMarksheets();
+            setFile(null);
+        } catch (err) {
+            console.error('Error processing file:', err);
+            setError(err.response?.data?.message || 'Failed to process the file.');
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+   /* const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) {
+            setError('Please select a file.');
+            return;
+        }
+
+        setLoading(true);
+        setError('');
+        setSuccess('');
+
+        try {
+            const data = await file.arrayBuffer();
+            const workbook = XLSX.read(data, { type: 'array' });
 
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];
@@ -106,7 +143,7 @@ const TableComponent = ({ user,setReload }) => {
             setLoading(false);
         }
     };
-
+*/
     const handleInputChange = (templateId, field, value) => {
         setFormInput(prevInput =>
             prevInput.map(input =>
