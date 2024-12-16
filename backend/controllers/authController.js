@@ -52,6 +52,7 @@ exports.loginUser = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            isAdmin:user.isAdmin,
             token: generateToken(user._id),
         });
     } else {
@@ -64,7 +65,7 @@ exports.loginUser = async (req, res) => {
 exports.getAdvisorsByAdmin = async (req, res) => {
     try {
         const {userId }= req.params; // Assuming `req.user` contains authenticated user info
-        const advisors = await User.find({ userId });
+        const advisors = await User.find({ userId ,isAdmin:false});
         res.status(200).json(advisors)
     } catch (error) {
         res.status(500).json({ message: 'Error fetching advisors', error: error.message });

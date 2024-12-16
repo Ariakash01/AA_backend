@@ -35,8 +35,87 @@ router.delete('/mark/:user/mar', marksheetsController.deleteMarksheets);
 router.delete(`/:_id`, deleteMarksheet);
 
 
+router.put('/upload-marks', async (req, res) => {
+    console.log("Processing marks upload...");
+    const { t_nm, userId, marks } = req.body;
 
+    if (!t_nm || !userId || !Array.isArray(marks)) {
+        return res.status(400).json({ message: 'Invalid input data. Please provide test name, user ID, and marks as an array.' });
+    }
 
+    try {
+        for (const row of marks) {
+            const rollno = row['RollNumber'];
+            if (!rollno) {
+                console.log(`Skipping row without RollNumber:`, row);
+                continue;
+            }
+
+            const student = await Marksheet.findOne({ rollno, userId, testName: t_nm });
+            if (!student) {
+                console.log(`Student with Roll Number ${rollno} not found.`);
+                continue;
+            }
+
+            // Update attendance and attendanceRate
+            if (row.Attendances) {
+                student.attendanceRate = row.Attendances;
+                student.attendance = ((row.Attendances / student.total_class) * 100).toFixed(2);
+            }
+
+            // Update other direct fields
+            if (row.StudentName) student.stu_name = row.StudentName;
+            if (row.ToAddress) student.toAddress = row.ToAddress;
+            if (row.Remarks) student.remarks = row.Remarks;
+
+            // Update or add subjects and their scores
+            let passCount = 0;
+            let subjectCount = 0;
+            let sumTotalMarks = 0;
+            let sumScoredMarks = 0;
+
+            for (const [key, value] of Object.entries(row)) {
+                if (['RollNumber', 'Attendances', 'StudentName', 'ToAddress', 'Remarks'].includes(key)) continue;
+
+                const scoredMark = parseFloat(value || 0);
+                const subject = student.subjects.find(subj => subj.name === key);
+
+                if (subject) {
+                    subject.scoredMark = scoredMark;
+                } else {
+                    student.subjects.push({ name: key, scoredMark });
+                }
+
+                if (scoredMark >= 50) passCount++;
+                subjectCount++;
+                sumTotalMarks += subject?.totalMark || 100;
+                sumScoredMarks += scoredMark;
+            }
+
+            student.status = passCount === subjectCount ? 'Pass' : 'Fail';
+            student.sum_total_mark = sumTotalMarks;
+            student.sum_scored_mark = sumScoredMarks;
+
+            await student.save();
+        }
+
+        // Rank the students who passed
+        const passingMarksheets = await Marksheet.find({ userId, testName: t_nm, status: 'Pass' });
+        passingMarksheets.sort((a, b) => b.sum_scored_mark - a.sum_scored_mark);
+
+        for (let i = 0; i < passingMarksheets.length; i++) {
+            passingMarksheets[i].rank = i + 1;
+            await passingMarksheets[i].save();
+        }
+
+        res.status(200).json({ message: 'Marks updated successfully and ranks assigned.' });
+    } catch (error) {
+        console.error('Error updating marks:', error);
+        res.status(500).json({ message: 'Error updating marks.', error: error.message });
+    }
+});
+
+/*
 router.put('/upload-marks', async (req, res) => {
     console.log("hgfghfff")
     const { t_nm, userId, marks } = req.body;
@@ -60,16 +139,15 @@ console.log(t_nm);
                 console.log(`Student with Roll Number ${rollno} not found.`);
                 continue;
             }
-          /*  if (row.Attendances) {
+           if (row.Attendances) {
                 student.attendanceRate=row.Attendances;
                 student.attendance = ((row.Attendances /   student.total_class) * 100).toFixed(2);
             } 
-            if (row.studentName) student.stu_name = row.studentName;
+            if (row.StudentName){ student.stu_name = row.StudentName;}
             
                
-                if (row.ToAddress)  student.toAddress = row.ToAddress;
-            if (row.Remarks)  student.remarks =row.Remarks;
-    */
+                if (row.ToAddress) { student.toAddress = row.ToAddress;}
+            if (row.Remarks){  student.remarks =row.Remarks;}
             
             let passCount = 0;
             let subjectCount = 0;
@@ -115,7 +193,7 @@ console.log(t_nm);
         res.status(500).json({ message: 'Error updating marks.', error: error.message });
     }
 });
-
+*/
 
 
 router.post('/generate-pdf', async (req, res) => {
