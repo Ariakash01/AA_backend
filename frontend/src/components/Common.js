@@ -485,7 +485,7 @@ const Common = ({ user, setReload }) => {
                     </Form.Group>
                     </Col>
                     </Row>
-                        <Button variant="primary" className="mt-2 mb-2"; type="submit" disabled={loading}>Create Marksheet</Button>
+                        <Button variant="primary" className="mt-2 mb-2" type="submit" disabled={loading}>Create Marksheet</Button>
                 </Form>
             </>
             )}
