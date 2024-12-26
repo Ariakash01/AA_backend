@@ -89,7 +89,7 @@ const TableComponent = ({ user,setReload }) => {
 
             console.log('Parsed rows:', rows);
 
-            const response = await axios.put('http://localhost:5000/api/marksheets/upload-marks', {
+            const response = await axios.put('/marksheets/upload-marks', {
                 t_nm,
                 userId: user._id,
                 marks: rows,

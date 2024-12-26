@@ -53,7 +53,7 @@ const NavbarComponent = ({user,rel,fetchData,handleDelete,handleDelete_student,h
     const fetchTemplates = async () => {
         if (user) {
             try {
-                const res = await axios.get(`http://localhost:5000/api/marksheets/ms/${user._id}`);
+                const res = await axios.get(`/marksheets/ms/${user._id}`);
                 setTemplates(res.data);
 
                 const uniqueNames = new Set();

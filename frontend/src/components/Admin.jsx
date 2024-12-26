@@ -13,7 +13,7 @@ const Admin = () => {
 
     const fetchAdmins = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/auth/admins');
+            const response = await axios.get('/auth/admins');
             setAdmins(response.data);
         } catch (err) {
             setError('Failed to fetch admins.');

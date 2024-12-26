@@ -48,7 +48,7 @@ useEffect(()=>{
             if (user) {
                 try {
                     const res = await axios.get(
-                        `http://localhost:5000/api/marksheets/ms/${user._id}`
+                        `/marksheets/ms/${user._id}`
                     );
                     setTemplates(res.data);
 
@@ -210,7 +210,7 @@ useEffect(()=>{
     const fetchUniqueNamedMarksheets = async () => {
         try {
             const res = await axios.get(
-                `http://localhost:5000/api/marksheets/ms/${user._id}`
+                `/marksheets/ms/${user._id}`
             );
             const uniqueNames = new Set();
             res.data.forEach((marksheet) => uniqueNames.add(marksheet.testName));
@@ -232,7 +232,7 @@ useEffect(()=>{
                     uniqueClasses.map(async (className) => {
                         try {
                             const studentRes = await axios.get(
-                                `http://localhost:5000/api/students/stu_by_template/${className}/${user._id}`
+                                `/students/stu_by_template/${className}/${user._id}`
                             );
                            
                             return {
@@ -287,7 +287,7 @@ useEffect(()=>{
                 uniqueClasses.map(async (className) => {
                     try {
                         const studentRes = await axios.get(
-                            `http://localhost:5000/api/students/stu_by_template/${className}/${user._id}`
+                            `/students/stu_by_template/${className}/${user._id}`
                         );
                      
                         return {
@@ -329,7 +329,7 @@ useEffect(()=>{
     const handleDelete_student = async (template) => {
         try {
             console.log(`${template}`)
-            await axios.delete(`http://localhost:5000/api/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
+            await axios.delete(`/students/studs/${user._id}?templateName=${encodeURIComponent(template)}`);
             fetchData();
 
             console.log(template)
@@ -341,7 +341,7 @@ useEffect(()=>{
     const handleDelete = async (template) => {
         try {
             console.log(`11${template}`)
-            await axios.delete(`http://localhost:5000/api/marksheets/mark/${user._id}/mar?templateName=${encodeURIComponent(template)}`);
+            await axios.delete(`/marksheets/mark/${user._id}/mar?templateName=${encodeURIComponent(template)}`);
             fetchData();
             console.log(template)
           /*  setTemplates(templates.filter(templatee => templatee.templateName !== template));*/

@@ -36,7 +36,7 @@ const GenTemplate = ({ user }) => {
       if (isManualEntry) {
         // Manual Entry: Send individual details
         await axios.post(
-          `http://localhost:5000/api/students/create-students/${user._id}`,
+          `/students/create-students/${user._id}`,
           {
             temp_name,
             start_roll_no,
@@ -66,7 +66,7 @@ const GenTemplate = ({ user }) => {
         }
 
         await axios.post(
-          `http://localhost:5000/api/students/create-students/${user._id}`,
+          `/students/create-students/${user._id}`,
           {
             temp_name,
             students: rows,
