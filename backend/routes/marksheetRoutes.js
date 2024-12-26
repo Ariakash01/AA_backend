@@ -34,6 +34,72 @@ router.delete('/mark/:user/mar', marksheetsController.deleteMarksheets);
 
 router.delete(`/:_id`, deleteMarksheet);
 
+router.post('/excel/:userId', async (req, res) => {
+    const { commonData, studentData } = req.body;
+    const { userId } = req.params;
+
+    try {
+        // Process each student's data
+        for (const student of studentData) {
+            const { StudentName, RollNo, Attendance, Remarks, Address, ...otherFields } = student;
+
+            // Convert remaining fields into the subjects array
+            const subjects = Object.entries(otherFields).map(([key, value]) => {
+                const words = key.split(" ");
+                const code = words.pop(); // Get the last word as the subject code
+                const name = words.join(" "); // Remaining words as the subject name
+
+                return {
+                    name: name.trim(), // Subject name without trailing spaces
+                    code: code.trim(), // Subject code without trailing spaces
+                    scoredMark: Number(value) || 0, // Convert to number, default to 0
+                    totalMark: 100, // Assuming each subject has a total of 100 marks
+                };
+            });
+
+            // Calculate total and scored marks, and determine pass/fail status
+            const sumTotalMark = subjects.reduce((acc, subject) => acc + (subject.totalMark || 0), 0);
+            const sumScoredMark = subjects.reduce((acc, subject) => acc + (subject.scoredMark || 0), 0);
+            const passedSubjects = subjects.filter(subject => subject.scoredMark >= 50).length;
+
+            const marksheet = {
+                ...commonData,
+                userId,
+                testName: `${commonData.testName} (${commonData.templateName})`,
+                stu_name: StudentName,
+                rollno: RollNo,
+                attendance: Attendance,
+                remarks: Remarks,
+                toAddress: Address,
+                subjects,
+                sum_total_mark: sumTotalMark,
+                sum_scored_mark: sumScoredMark,
+                status: passedSubjects === subjects.length ? "Pass" : "Fail", // Pass if all subjects are passed
+            };
+
+            // Save the marksheet to the database
+            await Marksheet.create(marksheet);
+        }
+
+        // Update ranks after all marksheets are created
+        const passingMarksheets = await Marksheet.find({ userId, status: "Pass", testName: commonData.testName });
+
+        passingMarksheets.sort((a, b) => b.sum_scored_mark - a.sum_scored_mark); // Sort by scored marks in descending order
+
+        for (let i = 0; i < passingMarksheets.length; i++) {
+            passingMarksheets[i].rank = i + 1; // Assign ranks
+            await passingMarksheets[i].save();
+        }
+
+        console.log("Ranks updated successfully.");
+        res.status(200).send("Marksheets created successfully");
+    } catch (error) {
+        console.error("Error processing Excel data:", error);
+        res.status(500).send("Failed to create marksheets");
+    }
+});
+
+
 
 router.put('/upload-marks', async (req, res) => {
     console.log("Processing marks upload...");
