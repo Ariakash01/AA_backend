@@ -14,7 +14,7 @@ const AdvisorManagement = ({ user }) => {
 
     const fetchAdvisors = async () => {
         try {
-            const response = await axios.get(`/auth/advisors/${user._id}`);
+            const response = await axios.get(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/auth/advisors/${user._id}`);
             setAdvisors(response.data);
             const initialStates = response.data.reduce((acc, advisor) => {
                 acc[advisor._id] = { hasChanges: false, updatedFields: {} };
@@ -39,7 +39,7 @@ const AdvisorManagement = ({ user }) => {
     const handleSave = async (id) => {
         const { updatedFields } = editStates[id];
         try {
-            await axios.put(`/auth/advisors_upd/${id}`, updatedFields);
+            await axios.put(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/auth/advisors_upd/${id}`, updatedFields);
             setAdvisors((prev) =>
                 prev.map((advisor) =>
                     advisor._id === id ? { ...advisor, ...updatedFields } : advisor
@@ -57,7 +57,7 @@ const AdvisorManagement = ({ user }) => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`/auth/advisors_del/${id}`);
+            await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/auth/advisors_del/${id}`);
             setAdvisors((prev) => prev.filter((advisor) => advisor._id !== id));
             setEditStates((prev) => {
                 const newState = { ...prev };

@@ -13,7 +13,7 @@ const Admin = () => {
 
     const fetchAdmins = async () => {
         try {
-            const response = await axios.get('/auth/admins');
+            const response = await axios.get('https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/auth/admins');
             setAdmins(response.data);
         } catch (err) {
             setError('Failed to fetch admins.');

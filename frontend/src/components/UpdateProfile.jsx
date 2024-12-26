@@ -23,7 +23,7 @@ const UpdateProfile = ({ user,fetchUser }) => {
 
     const handleSave = async () => {
         try {
-            const response = await axios.put(`http://localhost:5000/api/auth/admin/update/profile/${user._id}`, profile);
+            const response = await axios.put(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/auth/admin/update/profile/${user._id}`, profile);
             setOriginalProfile(response.data);
             fetchUser()
             setSuccess('Profile updated successfully!');

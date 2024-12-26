@@ -117,11 +117,60 @@ const NavbarComponent = ({user,rel,fetchData,handleDelete,handleDelete_student,h
                         <>
                             <Nav  className=" me-auto my-2 my-lg-0 navv" >
                                 <Nav.Link   as={Link} to="/" className='mmove' id="na" onClick={fetchData}>Home</Nav.Link>
-                                <Nav.Link   as={Link} to="/analyze" className='mmove' id="na" onClick={rel}>Analyze</Nav.Link>
+
+                                <Nav.Link as={Link} to="/template" className='mmove' id="na">Create</Nav.Link>
+
+
+                                <NavDropdown title="View" id="marksheets-nav-dropdown na"  onClick={fetchTemplates} className='mmove na'>
+                                    <div className='scroll'>
+                                        {name.map(template => (
+                                             <p className="ss"> 
+                                            <NavDropdown.Item key={template} as={Link} to={`/marksheets/${template}`} className="nav_item">
+                                            <span className="nav_item"> {template}</span>
+
+                                                <Button variant="danger" size="sm" className="ms-2" onClick={(e) => { e.preventDefault(); handleDelete(template); }}>
+                                                    Delete
+                                                </Button>
+                                                <NavDropdown.Divider/>
+                                            </NavDropdown.Item>
+                                            </p>
+                                        ))}
+                                        </div>
+                                    </NavDropdown>
+
+
+                                <NavDropdown title="Update" id="marks-nav-dropdown na1" onClick={fetchTemplates} className='mmove na'>
+                                    <div className='scroll'>
+                                    {name.map(template => (
+
+
+
+
+                                    (    <p className="ss">  
+                                        <NavDropdown.Item key={template} as={Link} to={`/marks/${template}`} >
+                                            <span className="nav_item"> {template}</span>
+
+                                            <Button variant="danger" size="sm" className="ms-2" onClick={(e) => { e.preventDefault(); handleDelete(template); }}>
+                                                Delete
+                                            </Button>
+                                            <NavDropdown.Divider />
+                                        </NavDropdown.Item>
+                                        </p>
+
+                                    )
+
+
+                                   ) )}
+                                    </div>
+                                </NavDropdown>
+
+
+                                
+                                
+                               
 
                                 <Nav.Link   as={Link} to="/GenTemplate" className='mmove' id="na">Create Class</Nav.Link>
-                              
-                                <Nav.Link as={Link} to="/template" className='mmove' id="na">Template</Nav.Link>
+                         
 
                                 <NavDropdown responsive title="Class" id="marksheets-nav-dropdown na"  onClick={fetchStud} className='mmove na'>
                                 <div className='scroll'>
@@ -140,47 +189,9 @@ const NavbarComponent = ({user,rel,fetchData,handleDelete,handleDelete_student,h
                                     </div>
                                 </NavDropdown>
 
-                                <NavDropdown title="Update" id="marks-nav-dropdown na1" onClick={fetchTemplates} className='mmove na'>
-                                    <div className='scroll'>
-                                    {name.map(template => (
-                                   
-
-                        
-                          
-                                    (    <p className="ss">  
-                                        <NavDropdown.Item key={template} as={Link} to={`/marks/${template}`} >
-                                            <span className="nav_item"> {template}</span>
-                                           
-                                            <Button variant="danger" size="sm" className="ms-2" onClick={(e) => { e.preventDefault(); handleDelete(template); }}>
-                                                Delete
-                                            </Button>
-                                            <NavDropdown.Divider />
-                                        </NavDropdown.Item>
-                                        </p>
-                                     
-                                    )
-                                
-                            
-                                   ) )}
-                                    </div>
-                                </NavDropdown>
+                             
                               
-                                <NavDropdown title="Marksheets" id="marksheets-nav-dropdown na"  onClick={fetchTemplates} className='mmove na'>
-                                <div className='scroll'>
-                                    {name.map(template => (
-                                         <p className="ss"> 
-                                        <NavDropdown.Item key={template} as={Link} to={`/marksheets/${template}`} className="nav_item">
-                                        <span className="nav_item"> {template}</span>
-                                         
-                                            <Button variant="danger" size="sm" className="ms-2" onClick={(e) => { e.preventDefault(); handleDelete(template); }}>
-                                                Delete
-                                            </Button>
-                                            <NavDropdown.Divider/>
-                                        </NavDropdown.Item>
-                                        </p>
-                                    ))}
-                                    </div>
-                                </NavDropdown>
+                                 <Nav.Link   as={Link} to="/analyze" className='mmove' id="na" onClick={rel}>Analyze</Nav.Link>
 
 
                             {/*   <Nav.Link   as={Link} to="/signup" className='mmove' id="na">Create Advisor</Nav.Link>*/} 

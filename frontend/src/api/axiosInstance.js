@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'https://ee1ce6f8-38a4-4b71-9424-59fbc5a2a12e-00-pe8nemi0sp5c.pike.replit.dev/api',
+    baseURL: 'https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api',
 });
 
 /*Add a request interceptor to include the token -->  https://ariakashs-marksheet-management-backend-5yy1.onrender.com

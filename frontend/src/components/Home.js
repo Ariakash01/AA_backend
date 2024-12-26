@@ -10,11 +10,12 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
 
     return (
         <Container className="home-container">
-            {!user&& 
-             <Link to={'/login'}>
-             <h5 className="text-center rred mb-3">Login To Continue</h5>
-             </Link>
-            }
+            
+             <div >
+             <h3 className="text-center ">Excel To Pdf Converter</h3>
+                 <p className="text-center  mb-3">(Specialized Software for Report Card Generation)</p>
+             </div>
+           
             {/* Header Section */}
             <header className="home-header mb-4">
                 <Row>
@@ -52,9 +53,11 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
                     <section className="call-to-action text-center mb-4">
                         <h3>Start Managing Today!</h3>
                         <p>Create new templates, manage marksheets, and generate detailed reports with ease.</p>
-                        <Button variant="success" href="/template">
-                            Create Template
+                        <Link to={"/template"}>
+                        <Button variant="success">
+                            Create Quickly
                         </Button>
+                            </Link>
                     </section>
 
                     {/* Class Details Section */}

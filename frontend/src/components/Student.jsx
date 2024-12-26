@@ -23,7 +23,7 @@ const Student = ({user}) => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await axios.get(`/students/stu_by_template/${temp_name}/${user._id}`);
+        const res = await axios.get(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/stu_by_template/${temp_name}/${user._id}`);
         setStudents(res.data);
       } catch (error) {
         console.error('Error fetching students:', error);
@@ -37,7 +37,7 @@ const Student = ({user}) => {
   const handleUpdate = async (id, updatedData) => {
     try {
       console.log("send");
-      await axios.put(`/students/update-student/${id}`, updatedData);
+      await axios.put(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/update-student/${id}`, updatedData);
       console.log("received");
       setStudents((prev) =>
         prev.map((student) => (student._id === id ? { ...student, ...updatedData } : student))
@@ -49,7 +49,7 @@ const Student = ({user}) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/students/delete-student/${id}`);
+      await axios.delete(`https://ariakashs-marksheet-management-backend-5yy1.onrender.com/api/students/delete-student/${id}`);
       setStudents((prev) => prev.filter((student) => student._id !== id));
     } catch (error) {
       console.error('Error deleting student:', error);

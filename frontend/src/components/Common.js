@@ -7,19 +7,21 @@ import '../App.css'; // Add a new CSS file for styling
 const Common = ({ user, setReload }) => {
     const [mode, setMode] = useState('excel'); // 'manual' or 'excel'
     const [formData, setFormData] = useState({
+
         templateName: '',
-        college: 'Dr. Sivanthi Aditanar College of Engineering, Tiruchendur',
+        college: 'Dr. Sivanthi Aditanar College of Engineering , Tiruchendur',
         department: 'Information Technology',
         year: '',
         oddEven: '',
         sem: '',
         date: '',
         classSem: '',
+        subjects: [{ name: '', code: '' }],
         totalMark: 100,
         passingMark: 50,
         fromDate: '',
         toDate: '',
-        testName: '',
+        testName:'',
         remarks: 'Work Hard. Study well and can do better',
         total_class: '',
         advisorName: '',
@@ -156,15 +158,17 @@ const Common = ({ user, setReload }) => {
 
             {/* Mode Selection */}
             <div className="mb-4">
-                <Button variant={mode === 'manual' ? 'primary' : 'outline-primary'} onClick={() => handleModeChange('manual')}>
-                    Go with Manual
-                </Button>
-                <Button variant={mode === 'excel' ? 'primary' : 'outline-primary'} onClick={() => handleModeChange('excel')} className="ms-2">
+                <Button variant={mode === 'excel' ? 'primary' : 'outline-primary'} onClick={() => handleModeChange('excel')} className="ms-2 ">
                     Go with Excel
                 </Button>
+                <Button variant={mode === 'manual' ? 'primary' : 'outline-primary'} onClick={() => handleModeChange('manual')} className="ms-2 ">
+                    Go with Manual
+                </Button>
+               
             </div>
 
             {mode === 'manual' && (
+             <>
                 <Form onSubmit={handleManualSubmit}>
                     <Row>
                         <Col md={6}>
@@ -199,6 +203,8 @@ const Common = ({ user, setReload }) => {
                                         name="college"
                                         value={formData.college}
                                         onChange={handleChange}
+                                        required
+
                                     />
                                 </Form.Group>
                             </Col>
@@ -309,6 +315,7 @@ const Common = ({ user, setReload }) => {
                     onChange={handleChange}
                     required
                     >
+                   <option value="">Select</option>
                     <option value="Odd">Odd</option>
                     <option value="Even">Even</option>
                     </Form.Select>
@@ -329,7 +336,6 @@ const Common = ({ user, setReload }) => {
                     </Form.Group>
                     </Col>
                     </Row>
-
                     <h4>Subjects</h4>
                     {formData.subjects.map((subject, index) => (
                     <Row key={index} className="mb-3">
@@ -364,6 +370,7 @@ const Common = ({ user, setReload }) => {
                     ))}
                     <Button variant="primary" onClick={addSubject} className="mb-3">Add Subject</Button>
 
+                   
                     <Row>
                     <Col md={6}>
                     <Form.Group className="mb-3">
@@ -479,6 +486,7 @@ const Common = ({ user, setReload }) => {
                     </Col>
                     </Row>
                 </Form>
+            </>
             )}
 
             {mode === 'excel' && (
@@ -487,7 +495,8 @@ const Common = ({ user, setReload }) => {
                        
                         <Form.Group className="mb-3">
                             <Form.Label>Upload Excel File</Form.Label>
-                            <Form.Control type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
+                            <Form.Control type="file" accept=".xlsx, .xls" onChange={handleFileUpload}                     required
+/>
                         </Form.Group>
                         <Row>
                             <Col md={6}>
@@ -503,12 +512,16 @@ const Common = ({ user, setReload }) => {
                         >
 
 
-                        <option value="">Select Class</option>
-                                            {stuTempNames.map((name, index) => (
-                                                <option key={index} value={name}>{name}</option>
-                                            ))}
+                        
+
+                            <option value="">Select Class Name</option>
+                            <option value="First Year">First Year</option>
+
+                            <option value="Second Year">Second Year</option>
+                            <option value="Third Year">Third Year</option>
 
 
+                            <option value="Fourth Year">Fourth Year</option>
                         </Form.Select>
                         </Form.Group>
                         </Col>
@@ -522,6 +535,8 @@ const Common = ({ user, setReload }) => {
                                             name="college"
                                             value={formData.college}
                                             onChange={handleChange}
+                                            required
+
                                         />
                                     </Form.Group>
                                 </Col>
@@ -664,6 +679,7 @@ const Common = ({ user, setReload }) => {
                         name="totalMark"
                         value={formData.totalMark}
                         onChange={handleChange}
+                            required
                         />
                         </Form.Group>
                         </Col>
@@ -689,6 +705,8 @@ const Common = ({ user, setReload }) => {
                         name="fromDate"
                         value={formData.fromDate}
                         onChange={handleChange}
+                            required
+
                         />
                         </Form.Group>
                         </Col>
@@ -700,6 +718,8 @@ const Common = ({ user, setReload }) => {
                         name="toDate"
                         value={formData.toDate}
                         onChange={handleChange}
+                            required
+
                         />
                         </Form.Group>
                         </Col>
@@ -729,6 +749,8 @@ const Common = ({ user, setReload }) => {
                         name="advisorName"
                         value={formData.advisorName}
                         onChange={handleChange}
+                            required
+
                         />
                         </Form.Group>
                         </Col>
@@ -740,6 +762,8 @@ const Common = ({ user, setReload }) => {
                         name="hodName"
                         value={formData.hodName}
                         onChange={handleChange}
+                            required
+
                         />
                         </Form.Group>
                         </Col>
@@ -754,6 +778,8 @@ const Common = ({ user, setReload }) => {
                         name="fromAddress"
                         value={formData.fromAddress}
                         onChange={handleChange}
+                            required
+
                         />
                         </Form.Group>
                         </Col>
@@ -765,6 +791,8 @@ const Common = ({ user, setReload }) => {
                         name="total_class"
                         value={formData.total_class}
                         onChange={handleChange}
+                            required
+
                         />
                         </Form.Group>
                         </Col>
