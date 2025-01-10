@@ -10,7 +10,7 @@ const Common = ({ user, setReload }) => {
 
         templateName: '',
         college: 'Dr. Sivanthi Aditanar College of Engineering , Tiruchendur',
-        department: 'Information Technology',
+        department: '',
         year: '',
         oddEven: '',
         sem: '',
