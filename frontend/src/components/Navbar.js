@@ -167,7 +167,7 @@ const NavbarComponent = ({user,rel,fetchData,handleDelete,handleDelete_student,h
 
                                 
                                 
-                               
+                                           {/*
 
                                 <Nav.Link   as={Link} to="/GenTemplate" className='mmove' id="na">Create Class</Nav.Link>
                          
@@ -189,7 +189,7 @@ const NavbarComponent = ({user,rel,fetchData,handleDelete,handleDelete_student,h
                                     </div>
                                 </NavDropdown>
 
-                             
+                             */}
                               
                                  <Nav.Link   as={Link} to="/analyze" className='mmove' id="na" onClick={rel}>Analyze</Nav.Link>
 
