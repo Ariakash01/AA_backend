@@ -156,7 +156,9 @@ const Common = ({ user, setReload }) => {
 
             <h2 className="my-4">Create Template</h2>
 
-            {/* Mode Selection */}
+            {/*
+            
+              Mode Selection 
             <div className="mb-4">
                 <Button variant={mode === 'excel' ? 'primary' : 'outline-primary'} onClick={() => handleModeChange('excel')} className="ms-2 ">
                     Go with Excel
@@ -165,7 +167,9 @@ const Common = ({ user, setReload }) => {
                     Go with Manual
                 </Button>
                
-            </div>
+            </div> 
+            
+            */}
 
             {mode === 'manual' && (
              <>
