@@ -197,7 +197,7 @@ const NavbarComponent = ({user,rel,fetchData,handleDelete,handleDelete_student,h
                             {/*   <Nav.Link   as={Link} to="/signup" className='mmove' id="na">Create Advisor</Nav.Link>*/} 
 {/* */}
 {user.isAdmin &&
-<NavDropdown title="Advisor" id="marksheets-nav-dropdown na"   className='mmove na'>
+<NavDropdown title="Admin Panel" id="marksheets-nav-dropdown na"   className='mmove na'>
                                 <div className='scroll'>
                                     
                                          <p className="ss"> 
