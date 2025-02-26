@@ -708,7 +708,10 @@ padding: 0;
   color:black;
 }
 
-
+.call-to-action{
+border:px solid;
+  border-radius:0.5rem;
+}
 
 }
 
