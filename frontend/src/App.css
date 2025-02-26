@@ -15,7 +15,7 @@ body {
 }
 
 .bod{
-  background-color: #4db5ff;
+/*   background-color: #4db5ff; */
   
   border-radius: 1rem;
   padding-top: 0.3rem;
@@ -26,7 +26,7 @@ body {
 
 #root{
   font-family: 'Poppins', sans-serif;
-  background: hsl(240, 29%, 17%);
+/*   background: hsl(240, 29%, 17%); */
 
   line-height:1.7;
   margin: 0;
