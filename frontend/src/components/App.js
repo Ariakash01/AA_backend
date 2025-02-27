@@ -8,7 +8,7 @@ import Common from './Common';
 import Table from './Table';
 import Image_upd from './Image_upd';
 import  Analyze from './Analyze';
-
+import { useNavigate } from 'react-router-dom';
 import Marksheet from './Marksheet';
 
 import axios from '../api/axiosInstance';
