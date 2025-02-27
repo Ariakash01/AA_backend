@@ -169,7 +169,7 @@ useEffect(()=>{
     const handleLogout = () => {
         localStorage.removeItem('token');
         setUser(null);
-         navigate("/login"); 
+       
     };
 
 
