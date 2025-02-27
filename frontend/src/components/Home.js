@@ -15,8 +15,8 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
              <h3 className="text-center ">Excel To Pdf Converter</h3>
                  <p className="text-center  mb-3">(Specialized Software for Report Card Generation)</p>
              </div>
-           
-            {/* Header Section */}
+    
+    {user?(
             <header className="home-header mb-4">
                 <Row>
                     {/* Left: Welcome Text */}
@@ -42,7 +42,7 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
                     </Col>
                 </Row>
             </header>
-
+):<div></div>}
             {loading ? (
                 <div className="text-center">
                     <span className="spinner-border" role="status"></span>
