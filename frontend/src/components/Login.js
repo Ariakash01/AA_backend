@@ -45,7 +45,23 @@ const[loading,setLoading] = useState(false);
         <Container>
             <h2 className="my-4">Login</h2>
             {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
+
+                  
+             <div >
+             <h3 className="text-center ">Excel To Pdf Converter</h3>
+                 <p className="text-center  mb-3">(Specialized Software for Report Card Generation)</p>
+             </div>
+
+    <section className="call-to-action text-center mb-4">
+                        <h3>Start Managing Today!</h3>
+                        <p>Create new templates, manage marksheets, and generate detailed reports with ease.</p>
+                        <Link to={"/template"}>
+                        <Button variant="success">
+                            Create Quickly
+                        </Button>
+                            </Link>
+                    </section>
+            <Form onSubmit={handleSubmit} className="text-center ">
                 <Form.Group controlId="formBasicEmail" className="mb-3">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control
