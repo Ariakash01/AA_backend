@@ -8,9 +8,7 @@ import Common from './Common';
 import Table from './Table';
 import Image_upd from './Image_upd';
 import  Analyze from './Analyze';
-import { useNavigate } from 'react-router-dom';
 import Marksheet from './Marksheet';
-
 import axios from '../api/axiosInstance';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import  '../App.css'
@@ -25,19 +23,11 @@ import ProtectedRoute from './ProtectedRoute';
 const App = () => {
     const [user, setUser] = useState(null);
     const [reload, setReload] = useState(false);
-
-
-
-
-
     const [templates, setTemplates] = useState([]);
     const [name, setName] = useState([]);
     const [marksheetData, setMarksheetData] = useState({});
     const [loading, setLoading] = useState(true);
-   const navigate = useNavigate();
 
-
- 
 useEffect(()=>{
     rel();
 },[user])
@@ -363,7 +353,7 @@ useEffect(()=>{
     path="/"
     element={
         <>
-            <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} handleLogoutt={handleLogout} fetchUser={fetchUser} />
+            <NavbarComponent rel={rel} handleDelete_student={handleDelete_student} handleDelete={handleDelete} fetchData={fetchData} user={user} setUser={setUser} handleLogoutt={handleLogout} fetchUser={fetchUser} />
             <Home user={user} classStats={classStats} marksheetStats={marksheetStats} templates={templates} marksheetData={marksheetData} loading={loadingg} name={name} rel={rel} />
         </>
     }

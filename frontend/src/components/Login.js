@@ -42,12 +42,16 @@ const[loading,setLoading] = useState(false);
                     <Spinner animation="border" id='sspp' />
                 </div>
             )}
-        <Container>
+        <Container className='main_login'>
+        <div >
+             <h3 className="text-center ">Excel To Pdf Converter</h3>
+                 <p className="text-center  mb-3">(Specialized Software for Report Card Generation)</p>
+             </div>
             <h2 className="my-4">Login</h2>
             {error && <Alert variant="danger">{error}</Alert>}
 
                 
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className='form_login'>
                 <Form.Group controlId="formBasicEmail" className="mb-3">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control

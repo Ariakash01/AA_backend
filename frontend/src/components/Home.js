@@ -16,16 +16,15 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
                  <p className="text-center  mb-3">(Specialized Software for Report Card Generation)</p>
              </div>
     
- 
+ {user && 
             <header className="home-header mb-4">
                 <Row>
-                    {/* Left: Welcome Text */}
+                    
                     <Col md={6} className="header-left">
                         <h3>Welcome's You <strong>{user?.name || 'Guest'}</strong></h3>
                         <p>Efficiently manage your students, classes, and reports.</p>
                     </Col>
-                    
-                    {/* Right: Dynamic Stats */}
+                 
                     <Col md={6} className="header-right ">
                         <Card className="mb-2" id="lf_to">
                             <Card.Body>
@@ -42,7 +41,7 @@ const Home = ({ user, classStats, marksheetStats, loading }) => {
                     </Col>
                 </Row>
             </header>
-
+        }
             {loading ? (
                 <div className="text-center">
                     <span className="spinner-border" role="status"></span>

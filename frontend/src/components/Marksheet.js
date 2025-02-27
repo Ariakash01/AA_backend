@@ -321,7 +321,7 @@ const Marksheet = ({user}) => {
     }
 
     return (
-        <div className={loading ? 'loading' : ''}>
+        <div className={loading ? 'loading containerr' : 'containerr'}>
              {loading && (
                 <div className="overlay">
                     <Spinner animation="border" id='sspp' />
@@ -334,7 +334,7 @@ const Marksheet = ({user}) => {
          <div className='btnn'>
           {/*  <Button variant="primary" className="mb-3  " onClick={ handleUpdateRanks }>Rank</Button>  */} 
 
-            <Button variant="success" className="mb-3 ml-3" onClick={handleDownloadAll}>Download All as PDF</Button>
+            <Button variant="success" className="mb-3 ml-3 btnn_all" onClick={handleDownloadAll}>Download All as PDF</Button>
           </div>
 )}
         <Container ref={pdfRef} id="all_down" >
@@ -342,7 +342,7 @@ const Marksheet = ({user}) => {
             {
             marksheets.map(marksheet => (
               
-                <div className='cont_ner'>
+                <div className='cont_ner' id='containerr'>
                 <Card key={marksheet._id} id={`marksheet-${marksheet._id}`} className="mb-4 overr">
              
                 {!isDownloading && (
@@ -365,20 +365,25 @@ const Marksheet = ({user}) => {
                             
                             </div>
                             </div>
-                           
-                           <div className='lf_part_varr'> 
-                               <span>
-                            <span className='lf_part_var medi_only'>Roll No  </span>
-                               <span className='lf_part medi_only'>: {marksheet.rollno || 'Dummy Roll No'}</span> </span><span className='date medi dt'>Date : {marksheet.date ? new Date(marksheet.date).toLocaleDateString() : 'Dummy Date'}</span>
-                               </div>
-                               <div className='lf_part_varr'>
-                            <span className='lf_part_var medi_only'>Student Name  </span>
-                               <span className='lf_part medi_only'>: {marksheet.stu_name || 'Dummy Name'}</span>
-                               </div>
-                               <div className='lf_part_varr'>
-                            <span className='lf_part_var medi_only'>Class & Sem </span>
-                               <span className='lf_part medi_only'>: {marksheet.classSem} {user.dept}</span>
-                               </div>
+                      
+ 
+                            <div className='lf_partt_varr '> 
+                               <p className='mar_tto'>Roll No : {marksheet.rollno || 'Dummy Roll No'} </p>
+                                <p className=' mar_left'>Date : {marksheet.date ? new Date(marksheet.date).toLocaleDateString() : 'Dummy Date'}</p>
+                            </div> 
+
+
+                            <div className='lf_partt_varr'> 
+                                <p className='mar_tto'>Student Name  : {marksheet.stu_name || 'Dummy Name'} </p>
+                              
+                            </div> 
+
+                            <div className='lf_partt_varr'> 
+                                <p className='mar_tto'>Class & Sem  : {marksheet.classSem} {user.dept} </p>
+                              
+                            </div>
+                            
+                        
                         </Card.Text>
                         <table  bordered className='bdr tbl'>
                             <thead>

@@ -23,7 +23,6 @@ body {
   margin-bottom: 0.9rem;
 }
 
-
 #root{
   font-family: 'Poppins', sans-serif;
 /*   background: hsl(240, 29%, 17%); */
@@ -31,7 +30,7 @@ body {
   line-height:1.7;
   margin: 0;
   padding: 0;
-/*   background-color: #E0FFFF; */
+ background-color: white;
     min-height: 100vh;
 }
 
@@ -120,6 +119,19 @@ width: max-content;
   height: 3rem;
 
 }
+.main_login{
+  display: flex;
+  flex-direction: column;
+align-items: center;
+justify-content: center;
+min-height:92.4vh ;
+}
+.form_login{
+padding: 5%;
+  border: 1px solid;
+  width: 50%;
+  border-radius: 1rem;
+}
 .padd{
   padding-left: 0.3rem;
 }
@@ -205,12 +217,34 @@ margin-left: 100px;
 
 
 .lf_part_var{
-  display: inline-block;
-min-width: 17%;
-margin: 0;
-padding: 0;
+
+
+
+
 
 }
+.mar_tto{
+  margin-top: 1rem;
+}
+.lf_partt_varr{
+  height: 1.3rem;
+font-size: small;
+margin: 0;
+/* border: 1px solid; */
+  display: flex;
+
+  flex-direction: row;
+  align-items: center;
+}
+.mar_ttto{
+  margin-top: 0.5rem;
+}
+.mar_left{
+  margin: 0;
+ 
+  margin-left: auto;
+}
+
 .clg{
   font-weight: 900;
 
@@ -554,24 +588,38 @@ background-color: rgb(9, 115, 163);
 }
 .cont_ner{                  
   height: 1071px;
-
-  border: 1px solid;
  max-width: 800px;
  margin: 0;
+
+overflow: scroll;
+}
+.cont_ner::-webkit-scrollbar{
+  width: 1px;
+}
+.btnn_all{
+  position: fixed;
+  top: 20%;
+
 }
 .bord{
-    border: 8px solid;
+    border: 5px solid;
     padding: 0;
-    margin: 5%;
+    margin: 5% ;
+    margin-top: 1%;
     width: 700px;
  
 }
-.overr{
+.containerr{
+  border: 1px solid;
+  position: relative;
+}
+
+/* .overr{
  
   overflow: scroll;
   overflow-y: scroll
 }
-
+ */
 
 /*
 .cont_ner{                  
@@ -712,6 +760,7 @@ padding: 0;
 border:2px solid #c2bfbf;
   border-radius:0.5rem;
 }
+
 
 }
 
@@ -870,7 +919,10 @@ li{
   list-style: none;
 }
 footer{
-  background: rgb(86, 250, 236);
+  
+    background-color: #DCE6F1;
+
+  
   padding: 3rem 0;
   text-align: center;
   font-size: 0.9rem;
@@ -1083,4 +1135,8 @@ margin-left: 3.6rem;
     width: 100%;
   }
 }*/
+
+.footer{
+  background-color: #1A237E;
+}
 

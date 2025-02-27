@@ -106,7 +106,7 @@ const Common = ({ user, setReload }) => {
                 alert(`${excelData.length} marksheets created successfully`);
             } catch (error) {
                 console.error('Error creating marksheets from Excel:', error);
-                alert('Failed to create marksheets from Excel');
+                alert(error);
             } finally {
                 setLoading(false);
             }

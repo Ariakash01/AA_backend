@@ -5,20 +5,23 @@ import axios from '../api/axiosInstance';
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import  '../App.css'
 import logoo from '../logoo.png'
-const NavbarComponent = ({user,rel,fetchData,handleDelete,handleDelete_student,handleLogoutt}) => {
-
-   
-
-
-    
-
-   
+const NavbarComponent = ({user,rel,fetchData,handleDelete,setUser}) => {
 
     const [templates, setTemplates] = useState([]);
     const [name,setName]=useState([])
     const [studs, setStudents] = useState([]);
     const [temp_name,setStu_Temp_Name]=useState([])
     const navigate = useNavigate();
+
+
+    const handleLogoutt = () => {
+        localStorage.removeItem('token');
+        setUser(null);
+        navigate("/login")
+       
+    };
+
+
 
 /* const [user, setUser] = useState(userr);
     useEffect(() => {
