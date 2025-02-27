@@ -34,7 +34,7 @@ const App = () => {
     const [name, setName] = useState([]);
     const [marksheetData, setMarksheetData] = useState({});
     const [loading, setLoading] = useState(true);
-
+   const navigate = useNavigate();
 
 
  
