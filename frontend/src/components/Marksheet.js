@@ -19,7 +19,7 @@ const Marksheet = ({user}) => {
     const pdfRef = useRef(null); 
     const [loading, setLoading] = useState(false);
   
-    const chunkSize = 30; // Maximum marksheets per PDF
+    const chunkSize = 30; 
     useEffect(() => {
         const fetchMarksheets = async () => {
             try {
@@ -93,20 +93,17 @@ const Marksheet = ({user}) => {
             chunkContainer.style.height = `${maxHeight}px`;
             chunkContainer.style.overflow = 'hidden';
 
-            // Clone the content and adjust for the current chunk
             const clonedElement = element.cloneNode(true);
             clonedElement.style.position = 'relative';
-            clonedElement.style.top = `-${i * maxHeight}px`; // Offset content for the current chunk
-            clonedElement.style.height = `${contentHeight}px`; // Set full height for accurate clipping
+            clonedElement.style.top = `-${i * maxHeight}px`; 
+            clonedElement.style.height = `${contentHeight}px`; 
             clonedElement.style.overflow = 'hidden';
 
-            // Append the visible part of the cloned content to the chunk container
             chunkContainer.appendChild(clonedElement);
 
-            // Append the chunk container to the DOM (temporarily)
+          
             document.body.appendChild(chunkContainer);
 
-            // Generate the PDF for the current chunk
             const options = {
                 filename: `Marksheets_Part_${i + 1}.pdf`,
                 jsPDF: { unit: 'pt', format: 'a4' },
@@ -116,7 +113,6 @@ const Marksheet = ({user}) => {
 
             await html2pdf().set(options).from(chunkContainer).save();
 
-            // Remove the temporary chunk container
             document.body.removeChild(chunkContainer);
         }
     } catch (err) {
@@ -124,7 +120,7 @@ const Marksheet = ({user}) => {
         console.error('Error generating PDFs:', err);
         alert('Failed to generate PDFs. Please try again.');
     } finally {
-        // Restore visibility and styles
+    
        
 
         setLoading(false);
@@ -327,10 +323,10 @@ const Marksheet = ({user}) => {
                     <Spinner animation="border" id='sspp' />
                 </div>
             )}
-<h2 className="my-4">Marksheets</h2>
-<h4 className="my-4 ctre">{t_nm}</h4>
-<p className="my-4 ctre">{marksheets.length} Marksheet(s) Found</p>
-{!isDownloading && (
+            <h2 className="my-4">Marksheets</h2>
+            <h4 className="my-4 ctre">{t_nm}</h4>
+            <p className="my-4 ctre">{marksheets.length} Marksheet(s) Found</p>
+            {!isDownloading && (
          <div className='btnn'>
           {/*  <Button variant="primary" className="mb-3  " onClick={ handleUpdateRanks }>Rank</Button>  */} 
 
